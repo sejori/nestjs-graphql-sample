@@ -1,25 +1,19 @@
-import { Directive, Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { User as UserDB } from '@prisma/client';
 
 @ObjectType({ description: 'user ' })
 export class User {
-  @Field(type => ID)
-  id: string;
+  @Field(() => ID)
+  id: UserDB["id"];
 
-  @Field()
-  firstName: string;
+  @Field(() => String)
+  firstName: UserDB["firstName"];
 
-  @Field()
-  lastName: string;
+  @Field(() => String)
+  lastName: UserDB["lastName"];
 
-  @Field() // TODO: <- make unique with directive
-  email: string;
-} // TODO: check if createdAt and updatedAt need to be in schema
+  @Field(() => String)
+  email: UserDB["email"];
+}
 
-// TODO: should fields have descriptions?
-
-// - `id` (auto-generated UUID)
-// - `firstName`
-// - `lastName`
-// - `email` (unique)
-// - `createdAt` (timestamp, auto-generated)
-// - `updatedAt` (timestamp, auto-generated)
+// uniqueness and createdAt & updatedAt fields managed by Prisma schema :)

@@ -3,10 +3,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserController } from './user/controller/user.controller';
-import { UserService } from './user/service/user.service';
-import { AuthService } from './auth/service/auth.service';
-import { UserResolver } from './user/models/user.resolver';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -14,8 +11,9 @@ import { UserResolver } from './user/models/user.resolver';
       driver: ApolloDriver,
       autoSchemaFile: true
     }),
+    UserModule
   ],
-  controllers: [AppController, UserController],
-  providers: [AppService, AuthService, UserService, UserResolver],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

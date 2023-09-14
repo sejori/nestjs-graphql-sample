@@ -1,4 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
+import { IsEmail } from 'class-validator';
 
 @InputType()
 export class UpdateUserInput {
@@ -6,11 +7,12 @@ export class UpdateUserInput {
   id: string;
 
   @Field()
-  firstName: string;
+  firstName?: string;
 
   @Field()
-  lastName: string;
+  lastName?: string;
 
   @Field()
-  email: string;
+  @IsEmail()
+  email?: string;
 }

@@ -16,7 +16,7 @@ import {
 } from '@nestjs/common'
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger'
 import { RateLimit } from 'nestjs-rate-limiter'
-import { AuthService } from '../../auth/service/auth.service'
+import { AuthService } from './auth.service'
 
 // TODO: use AuthGuard example from docs or @nestjs/passport?
 import { AuthGuard } from '@nestjs/passport'

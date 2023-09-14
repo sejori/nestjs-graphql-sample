@@ -1,17 +1,51 @@
-import { Resolver, Query, Args, Parent } from '@nestjs/graphql';
+import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 import { User } from './models/user.model';
-import { UserService } from './service/user.service';
+import { UserService } from './user.service';
 
-@Resolver(of => User)
+import { GetUserArgs } from './dto/args/get-user.args';
+import { GetUsersArgs } from './dto/args/get-users.args';
+import { CreateUserInput } from './dto/input/create-user.input';
+import { UpdateUserInput } from './dto/input/update-user.input';
+import { DeleteUserInput } from './dto/input/delete-user.input';
+
+@Resolver(() => User)
 export class UserResolver {
   constructor(
     private userService: UserService,
   ) {}
 
-  @Query(returns => User)
-  async user(@Args('id') id: string) {
-    return this.userService.findOneById(id);
+  @Query(() => User, { name: 'user', nullable: false })
+  async getUser(@Args() getUserArgs: GetUserArgs): Promise<User> {
+    return this.userService.getUser(getUserArgs);
   }
+
+  @Query(() => [User], { name: 'users', nullable: false })
+  async getUsers(@Args() getUsersArgs: GetUsersArgs): Promise<User[]> {
+    return this.userService.getUsers(getUsersArgs);
+  }
+
+  @Mutation(() => User)
+  async createUser(
+    @Args('createUserData') createUserData: CreateUserInput,
+  ): Promise<User> {
+    return this.userService.createUser(createUserData);
+  }
+
+  @Mutation(() => User)
+  async updateUser(
+    @Args('updateUserData') updateUserData: UpdateUserInput,
+  ): Promise<User> {
+    return this.userService.updateUser(updateUserData);
+  }
+
+  @Mutation(() => User)
+  async deleteUser(
+    @Args('deleteUserData') deleteUserData: DeleteUserInput,
+  ): Promise<User> {
+    return this.userService.deleteUser(deleteUserData);
+  }
+
+  
 
   // TODO: Gonna do a badass gravatar integration here
   // https://gravatar.com/avatar/7cf997d80f172b5e026b2ac67a1482da

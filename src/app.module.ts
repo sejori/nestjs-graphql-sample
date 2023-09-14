@@ -1,6 +1,7 @@
-import { Module } from '@nestjs/common';
-import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { GraphQLModule } from '@nestjs/graphql';
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
@@ -11,7 +12,8 @@ import { UserModule } from './user/user.module';
       driver: ApolloDriver,
       autoSchemaFile: true
     }),
-    UserModule
+    UserModule,
+    ConfigModule.forRoot()
   ],
   controllers: [AppController],
   providers: [AppService],

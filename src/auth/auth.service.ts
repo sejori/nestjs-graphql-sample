@@ -20,7 +20,9 @@ export class AuthService {
       id: 'hello',
       firstName: 'Mylena',
       lastName: 'Vendramini',
-      email: 'i_smile@live.co.uk'
+      email: 'i_smile@live.co.uk',
+      createdAt: new Date(),
+      updatedAt: new Date()
     } // TODO: return created user obj from gql
   }
 
@@ -29,7 +31,9 @@ export class AuthService {
       id: 'hello',
       firstName: 'Mylena',
       lastName: 'Vendramini',
-      email: 'i_smile@live.co.uk'
+      email: 'i_smile@live.co.uk',
+      createdAt: new Date(),
+      updatedAt: new Date()
     }
   }
 

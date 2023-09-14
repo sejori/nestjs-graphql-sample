@@ -14,13 +14,13 @@ export class UserResolver {
     private userService: UserService,
   ) {}
 
-  @Query(() => User, { name: 'user', nullable: false })
+  @Query(() => User, { nullable: false })
   async getUser(@Args() getUserArgs: GetUserArgs): Promise<User> {
     return this.userService.getUser(getUserArgs);
   }
 
-  @Query(() => [User], { name: 'users', nullable: false })
-  async getUsers(@Args() getUsersArgs: GetUsersArgs): Promise<User[]> {
+  @Query(() => [User], { nullable: false })
+  async listUsers(@Args() getUsersArgs: GetUsersArgs): Promise<User[]> {
     return this.userService.getUsers(getUsersArgs);
   }
 
@@ -38,6 +38,7 @@ export class UserResolver {
     return this.userService.updateUser(updateUserData);
   }
 
+  // this mutation is not in the spec but seemed appropriate for CRUD.
   @Mutation(() => User)
   async deleteUser(
     @Args('deleteUserData') deleteUserData: DeleteUserInput,

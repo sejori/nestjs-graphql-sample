@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { createHash } from 'crypto';
 import { Gravatar } from './models/gravatar.model';
 
@@ -7,8 +7,12 @@ export class GravatarService {
   constructor() {}
 
   async getUrl(email: string): Promise<Gravatar> {
-    return {
-      url: `https://gravatar.com/avatar/${createHash('md5').update(email).digest('hex')}`
+    try {
+      return {
+        url: `https://gravatar.com/avatar/${createHash('md5').update(email).digest('hex')}`
+      }
+    } catch(e) {
+      throw new HttpException('Failed to generate Gravatar link', HttpStatus.SERVICE_UNAVAILABLE);
     }
   }
 }

@@ -1,19 +1,21 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
+import { UserService } from './user/user.service';
 import { GravatarModule } from './gravatar/gravatar.module';
 import { AuthModule } from './auth/auth.module';
+import { PrismaService } from './_database/prisma.service';
 
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: true,
+      autoSchemaFile: 'src/schema.graphql',
       context: ({ req }) => ({ req })
     }),
     UserModule,
@@ -26,6 +28,6 @@ import { AuthModule } from './auth/auth.module';
     ConfigModule.forRoot()
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, UserService, PrismaService, Logger],
 })
 export class AppModule {}

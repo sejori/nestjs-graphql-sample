@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -12,68 +12,96 @@ import { DeleteUserInput } from './dto/input/delete-user.input';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private logger: Logger
+  ) {}
 
   public async getUser(getUserArgs: GetUserArgs): Promise<User> {
-    return await this.prisma.user.findUnique({ 
-      where: { 
-        id: getUserArgs.id 
-      } 
-    });
+    try {
+      return await this.prisma.user.findUnique({ 
+        where: { 
+          id: getUserArgs.id 
+        } 
+      });
+    } catch(e) {
+      // this.logger.error(e);
+      throw new HttpException('Failed to get user', HttpStatus.SERVICE_UNAVAILABLE);
+    }
   }
 
   public async listUsers(listUsersArgs: ListUsersArgs): Promise<User[]> {
-    return await this.prisma.user.findMany({
-      where: {
-        OR: [
-          { id: { in: listUsersArgs.ids } },
-          { firstName: { in: listUsersArgs.firstNames } },
-          { lastName: { in: listUsersArgs.lastNames } },
-          { email: { in: listUsersArgs.emails } },
-        ],
-      },
-      orderBy: listUsersArgs.sortBy
-        ? [
-          {
-            [listUsersArgs.sortBy]: listUsersArgs.order || 'asc'
-          }
-        ]
-        : []
-    });
+    try {
+      return await this.prisma.user.findMany({
+        where: {
+          OR: [
+            { id: { in: listUsersArgs.ids } },
+            { firstName: { in: listUsersArgs.firstNames } },
+            { lastName: { in: listUsersArgs.lastNames } },
+            { email: { in: listUsersArgs.emails } },
+          ],
+        },
+        orderBy: listUsersArgs.sortBy
+          ? [
+            {
+              [listUsersArgs.sortBy]: listUsersArgs.order || 'asc'
+            }
+          ]
+          : []
+      });
+    } catch(e) {
+      // this.logger.error(e);
+      throw new HttpException('Failed to get users', HttpStatus.SERVICE_UNAVAILABLE);
+    }
   }
 
   public async createUser(
     createUserData: CreateUserInput,
-  ): Promise<User> {
-    const user = await this.prisma.user.create({
-      data: {
-        id: uuidv4(),
-        ...createUserData,
-      },
-    });
-    return user;
+  ): Promise<User | Error> {
+    try {
+      const user = await this.prisma.user.create({
+        data: {
+          id: uuidv4(),
+          ...createUserData,
+        },
+      });
+      return user;
+    } catch(e) {
+      // this.logger.error(e);
+      throw new HttpException('Failed to create user - does it already exist?', HttpStatus.BAD_REQUEST);
+    }
   }
 
   public async updateUser(
     updateUserData: UpdateUserInput,
-  ): Promise<User> {
-    const user = await this.prisma.user.update({
-      where: { id: updateUserData.id },
-      data: updateUserData,
-    });
-
-    return user;
+  ): Promise<User| Error> {
+    try {
+      const user = await this.prisma.user.update({
+        where: { id: updateUserData.id },
+        data: updateUserData,
+      });
+  
+      return user;
+    } catch(e) {
+      // this.logger.error(e);
+      throw new HttpException('Failed to update user - does it exist?', HttpStatus.BAD_REQUEST);
+    }
   }
 
   public async deleteUser(
     deleteUserData: DeleteUserInput,
-  ): Promise<User> {
-    const user = await this.prisma.user.delete({
-      where: {
-        id: deleteUserData.id,
-      },
-    });
-
-    return user;
+  ): Promise<User| Error> {
+    try {
+      const user = await this.prisma.user.delete({
+        where: {
+          id: deleteUserData.id,
+        },
+      });
+  
+      return user;
+    } catch(e) {
+      // this.logger.error(e);
+      throw new HttpException('Failed to delete user - does it already exist?', HttpStatus.BAD_REQUEST);
+    }
   }
 }

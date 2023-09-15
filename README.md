@@ -45,6 +45,8 @@ The `/auth/check-token` route and most user GraphQL queries require basic author
 
 ## Overview - GraphQL
 
+For schema details see `src/schema.graphql` 🤓
+
 The GraphQL queries and mutations are accessed by making an HTTP request with the POST method to `/graphql`.
 
 The request body should contain a query object, for example: 

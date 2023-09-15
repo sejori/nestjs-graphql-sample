@@ -1,6 +1,6 @@
 
 import { ApiTags } from '@nestjs/swagger';
-import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
+import { Resolver, Query, Args, Mutation, createUnionType } from '@nestjs/graphql';
 import { User } from './models/user.model';
 import { UserService } from './user.service';
 
@@ -13,6 +13,11 @@ import { DeleteUserInput } from './dto/input/delete-user.input';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../auth/auth.guard';
 
+// export const UserResultUnion = createUnionType({
+//   name: 'UserResultUnion',
+//   types: () => [User, Error] as const,
+// });
+
 @ApiTags('v1/user')
 @Resolver(() => User)
 export class UserResolver {
@@ -23,7 +28,7 @@ export class UserResolver {
   @Query(() => User)
   async getUser(
     @Args() getUserArgs: GetUserArgs
-  ): Promise<User> {
+  ): Promise<User | Error> {
     return this.userService.getUser(getUserArgs);
   }
 
@@ -31,7 +36,7 @@ export class UserResolver {
   @Query(() => [User])
   async listUsers(
     @Args() listUsersArgs: ListUsersArgs
-  ): Promise<User[]> {
+  ): Promise<User[] | Error> {
     return this.userService.listUsers(listUsersArgs);
   }
 
@@ -39,7 +44,7 @@ export class UserResolver {
   @Mutation(() => User)
   async createUser(
     @Args('createUserData') createUserData: CreateUserInput,
-  ): Promise<User> {
+  ): Promise<User | Error> {
     return this.userService.createUser(createUserData);
   }
 
@@ -47,7 +52,7 @@ export class UserResolver {
   @Mutation(() => User)
   async updateUser(
     @Args('updateUserData') updateUserData: UpdateUserInput,
-  ): Promise<User> {
+  ): Promise<User | Error> {
     return this.userService.updateUser(updateUserData);
   }
 
@@ -56,7 +61,7 @@ export class UserResolver {
   @Mutation(() => User)
   async deleteUser(
     @Args('deleteUserData') deleteUserData: DeleteUserInput,
-  ): Promise<User> {
+  ): Promise<User | Error> {
     return this.userService.deleteUser(deleteUserData);
   }
 }

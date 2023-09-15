@@ -6,15 +6,18 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { GravatarModule } from './gravatar/gravatar.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: true
+      autoSchemaFile: true,
+      context: ({ req }) => ({ req })
     }),
     UserModule,
     GravatarModule,
+    AuthModule,
     ConfigModule.forRoot()
   ],
   controllers: [AppController],

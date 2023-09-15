@@ -1,4 +1,7 @@
+
+import { ApiTags } from '@nestjs/swagger';
 import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
+import { RateLimit } from 'nestjs-rate-limiter'
 import { User } from './models/user.model';
 import { UserService } from './user.service';
 
@@ -8,12 +11,21 @@ import { CreateUserInput } from './dto/input/create-user.input';
 import { UpdateUserInput } from './dto/input/update-user.input';
 import { DeleteUserInput } from './dto/input/delete-user.input';
 
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from '../auth/auth.guard';
+
+@ApiTags('v1/user')
 @Resolver(() => User)
 export class UserResolver {
   constructor(
     private userService: UserService
   ) {}
-
+  
+  @RateLimit({
+    points: 5,
+    duration: 300,
+    errorMessage: 'Request rate limit exceeded.'
+  })
   @Query(() => User)
   async getUser(
     @Args() getUserArgs: GetUserArgs
@@ -21,6 +33,12 @@ export class UserResolver {
     return this.userService.getUser(getUserArgs);
   }
 
+  @UseGuards(AuthGuard)
+  @RateLimit({
+    points: 5,
+    duration: 300,
+    errorMessage: 'Request rate limit exceeded.'
+  })
   @Query(() => [User])
   async listUsers(
     @Args() listUsersArgs: ListUsersArgs
@@ -28,6 +46,12 @@ export class UserResolver {
     return this.userService.listUsers(listUsersArgs);
   }
 
+  @UseGuards(AuthGuard)
+  @RateLimit({
+    points: 5,
+    duration: 300,
+    errorMessage: 'Request rate limit exceeded.'
+  })
   @Mutation(() => User)
   async createUser(
     @Args('createUserData') createUserData: CreateUserInput,
@@ -35,6 +59,12 @@ export class UserResolver {
     return this.userService.createUser(createUserData);
   }
 
+  @UseGuards(AuthGuard)
+  @RateLimit({
+    points: 5,
+    duration: 300,
+    errorMessage: 'Request rate limit exceeded.'
+  })
   @Mutation(() => User)
   async updateUser(
     @Args('updateUserData') updateUserData: UpdateUserInput,
@@ -43,6 +73,12 @@ export class UserResolver {
   }
 
   // this mutation is not in the spec but seemed appropriate for CRUD.
+  @UseGuards(AuthGuard)
+  @RateLimit({
+    points: 5,
+    duration: 300,
+    errorMessage: 'Request rate limit exceeded.'
+  })
   @Mutation(() => User)
   async deleteUser(
     @Args('deleteUserData') deleteUserData: DeleteUserInput,

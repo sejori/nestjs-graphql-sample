@@ -5,18 +5,22 @@ import {
 } from '@nestjs/platform-fastify';
 import * as request from 'supertest';
 
-import { AppModule } from './../src/app.module';
-import { mockUsers } from './mock.data';
 import { User } from '@prisma/client';
+import { AppModule } from './../src/app.module';
+import { AuthGuard } from './../src/auth/auth.guard';
+import { mockUsers } from './mock.data';
 
 describe('App (e2e)', () => {
   let app: INestApplication;
   let users: User[] = []
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
+      imports: [AppModule]
+    })
+      .overrideGuard(AuthGuard)
+      .useValue({ canActivate: () => true }) // Mocking AuthGuard for testing
+      .compile();
 
     app = moduleFixture.createNestApplication(new FastifyAdapter());
     app.useGlobalPipes(new ValidationPipe());
@@ -24,15 +28,34 @@ describe('App (e2e)', () => {
     await app.listen(7777);
   });
 
-  afterEach(() => {
+  afterAll(() => {
     app.close();
-  })
+  });
 
   it('/ (GET)', () => {
     return request(app.getHttpServer())
       .get('/')
       .expect(200)
       .expect('Hello World!');
+  });
+
+  it('/auth/login (POST)', () => {
+    return request(app.getHttpServer())
+      .post('/auth/login')
+      .send({ email: mockUsers[0].email })
+      .expect(401)
+      .expect({
+        message: 'Unauthorized',
+        statusCode: 401
+      });
+  });
+
+  it('/auth/check-token (GET)', () => {
+    return request(app.getHttpServer())
+      .get('/auth/check-token')
+      .send({ email: mockUsers[0].email })
+      .expect(200)
+      .expect({ status: 'ok', message: 'Token is valid' });
   });
 
   describe('/graphql', () => {

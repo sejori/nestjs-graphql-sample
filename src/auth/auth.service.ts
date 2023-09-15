@@ -1,55 +1,29 @@
-import { Injectable } from '@nestjs/common';
-import { User } from 'src/user/models/user.model';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from "@nestjs/jwt"
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {
-  validateRequest(request: Request) {
-    // well, would you look at that, ur authed
-    // 3d party auth service incoming
-    return true;
-  }
+  constructor(
+    private userService: UserService,
+    private jwtService: JwtService
+    ) {}
 
-  validateUser(user: any) {
-    // TODO: merge this and above method
-    // TODO: define user type / infer from graphQL
-    return true;
-  }
+  async login(email: string) {
+    const users = await this.userService.listUsers({
+      emails: [email]
+    });
+    const user = users[0];
 
-  signUp(body: any): User {
+    // TODO: implement magic link, passwords or OAuth
+    if (!user) throw new UnauthorizedException();
+
+    const payload = { sub: user.id, email: user.email };
+
     return {
-      id: 'hello',
-      firstName: 'Mylena',
-      lastName: 'Vendramini',
-      email: 'i_smile@live.co.uk',
-      createdAt: new Date(),
-      updatedAt: new Date()
-    } // TODO: return created user obj from gql
-  }
-
-  signIn(user: any): User {
-    return {
-      id: 'hello',
-      firstName: 'Mylena',
-      lastName: 'Vendramini',
-      email: 'i_smile@live.co.uk',
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }
-  }
-
-  refreshToken(token: string) {
-    return 'new token'
-  }
-
-  // stateless sign out: manually expire JWT
-  // TODO: replace this with 3rd party integation
-  async signOut(bearer: string) {
-    // const decodedToken: any = jwtManipulationService.decodeJwtToken(bearer, 'all')
-    // await this.usersRepository.triggerRefreshToken(decodedToken.username)
-    // const expireDate: number = decodedToken.exp
-    // const remainingSeconds: number = Math.round(expireDate - Date.now() / 1000)
-
-    // await this.redisService.setOnlyKey(bearer.split(' ')[1], remainingSeconds)
-    return { status: 'ok', message: 'Token is killed' }
+      access_token: this.jwtService.sign(payload, {
+        secret: process.env.AUTH_SECRET
+      })
+    };
   }
 }

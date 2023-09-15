@@ -14,12 +14,12 @@ export class UserResolver {
     private userService: UserService,
   ) {}
 
-  @Query(() => User, { nullable: false })
+  @Query(() => User)
   async getUser(@Args() getUserArgs: GetUserArgs): Promise<User> {
     return this.userService.getUser(getUserArgs);
   }
 
-  @Query(() => [User], { nullable: false })
+  @Query(() => [User])
   async listUsers(@Args() getUsersArgs: GetUsersArgs): Promise<User[]> {
     return this.userService.getUsers(getUsersArgs);
   }

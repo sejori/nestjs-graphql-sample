@@ -1,0 +1,33 @@
+# fly.toml app configuration file generated for seb-pynea-graphql on 2023-09-15T18:54:56+01:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "seb-pynea-graphql"
+primary_region = "lhr"
+kill_signal = "SIGINT"
+kill_timeout = "5s"
+
+[build]
+
+[env]
+  PORT = 3000
+  HOST = "0.0.0.0"
+
+[[services]]
+  protocol = "tcp"
+  internal_port = 3000
+  processes = ["app"]
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+    force_https = true
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+  [services.concurrency]
+    type = "connections"
+    hard_limit = 25
+    soft_limit = 20

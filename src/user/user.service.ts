@@ -35,7 +35,7 @@ export class UserService {
       orderBy: listUsersArgs.sortBy
         ? [
           {
-            [listUsersArgs.sortBy]: listUsersArgs.order || "asc"
+            [listUsersArgs.sortBy]: listUsersArgs.order || 'asc'
           }
         ]
         : []

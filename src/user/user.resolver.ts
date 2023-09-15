@@ -1,7 +1,6 @@
 
 import { ApiTags } from '@nestjs/swagger';
 import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
-import { RateLimit } from 'nestjs-rate-limiter'
 import { User } from './models/user.model';
 import { UserService } from './user.service';
 

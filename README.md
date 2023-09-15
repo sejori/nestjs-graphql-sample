@@ -6,21 +6,44 @@ Stack: NestJS (Node.js), GraphQL, Prisma
 The following repos and resources were used in this project's development: 
 - https://github.com/onur-ozkan/feednext/
 - https://github.com/shkim04/find-your-wc.git
-- https://github.com/jmcdo29/fastify-jwt
+- https://docs.nestjs.com/security/authentication
 
 Source code is written to follow patterns from official documentation as much as possible.
 
 ## Setup
 
-You should have a `.env` with the correct db url. With this you can simply run `yarn start` (with the `.env` file in the root directory of the project).
+### Database
 
-If you don't have a `.env` file, setup a postgres db on [https://railway.app](https://railway.app) (or your platform of choice) and run:
+You should have a `.env` file with the correct db url. With this you can simply run `yarn start` (with the `.env` file in the root directory of the project).
+
+If you don't have a `.env` file, setup a postgres db on [https://railway.app](https://railway.app) (or your platform of choice) and run the following command BEFORE `yarn start`:
 
 `$ npx prisma migrate dev --name pynea-challenge`
 
-## Overview
+### Login
 
-### GraphQL
+Once the application is running you will need a user in order to sign in and acquire a token for subsequent requests/queries. Either head to your database and add a row or use an exisiting user from my railway db.
+
+The email authentication available via `/auth/login` serves as a basic stateless (JWT) auth system. However it is clearly insecure, to make this production-ready local authentication (passwords), magic email links or OAuth2.0 would need to be implemented, see `/src/auth/auth.service.ts`. 
+
+The reason I didn't build simple local auth with hashed passwords is because passwords were not on the user entity in the spec. My chosen solution would be to do magic email links. If you want to see that implemented let me know.
+
+```js
+const response = await fetch('http://localhost:3000/auth/login', {
+  method: 'POST',
+  body: JSON.stringify({
+    email: 'seb2@thesebsite.com'
+  })
+});
+
+const { access_token } = await response.json();
+```
+
+The access token is a JWT, designed to be used as a bearer token. Once you have one I recommend you head to the `/graphql` endpoint in a browser to play with the query explorer interface. Remember to set the 'Authorization' header of your requests to 'Bearer {acces_token}'
+
+The `/auth/check-token` route and most user GraphQL queries require basic authorization via the custom AuthGuard built on NestJS's JWT service.
+
+## Overview - GraphQL
 
 The GraphQL queries and mutations are accessed by making an HTTP request with the POST method to `/graphql`.
 
@@ -29,6 +52,9 @@ The request body should contain a query object, for example:
 ```js
 const response = await fetch('http://localhost:3000/graphql', {
   method: 'POST',
+  headers: {
+    Authorization: 'Bearer {access_token}'
+  }
   body: JSON.stringify({
     query: `
       query users($lastNames: [String!]!, $sortBy: String, $order: String) {
@@ -90,24 +116,18 @@ The following queries and mutations are available:
 
 (see source code for query args and mutation inputs)
 
+## Bonus tasks and beyond
 
-### REST
+As you can see I took some creative liberties and added a Gravatar service to the application. I wanted to demonstrate the usefulness of graphQL for custom content queries, such as loading user data along with a gravatar in a single query, something I expect will be commonplace in the PYNEA application.
 
-#### Auth
+As for the bonus tasks of auth, sorting and dockerizing: you will see they have been implemented.
 
-Basic email authentication is available via `/auth/login`, example:
+To take the project one step further I also added a GitHub action script for running all Unit and E2E tests in continuous integration. The tests are quite comprehensive, you can run `$ yarn test:cov` for deeper insights, with more time I would likely flesh them out a little more.
 
-```js
-const response = await fetch('http://localhost:3000/auth/login', {
-  method: 'POST',
-  body: JSON.stringify({
-    email: 'i_am_the_greatest@live.com'
-  })
-});
+I was also quite tempted to build a small frontend to render the app's data and make requests but I decided it probably wouldn't add much value. Let me know if this is something you want to see.
 
-const jwt = await response.text();
-```
+Finally, a live deployment would of course be the next step, so I went ahead and deployed the container to fly.io. I also added another GitHub action script for continuous delivery! 🏄
 
-This is of course insecure but serves as a basic stateless (JWT) auth system. To make this production-ready local authentication (passwords), magic email links or OAuth2.0 would need to be implemented, see `/src/auth/auth.service.ts`. 
+View it live: [https://seb-pynea-graphql.fly.dev/graphql](https://seb-pynea-graphql.fly.dev/graphql)
 
-The `/auth/check-token` route and most user GraphQL queries require basic authorization via the JWTGuard.
+And finally finally, this app currently has very limited monitoring. We would want to use services such as Sentry and AWS X-ray in a production setting 😌

@@ -3,7 +3,6 @@ import { Resolver, Query, Args } from '@nestjs/graphql';
 import { GravatarService } from './gravatar.service';
 import { Gravatar } from './models/gravatar.model';
 import { GetGravatarArgs } from './dto/args/get-gravatar.args';
-import { RateLimit } from 'nestjs-rate-limiter'
 
 @ApiTags('v1/gravatar')
 @Resolver(() => Gravatar)

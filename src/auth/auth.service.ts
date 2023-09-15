@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from "@nestjs/jwt"
+import { JwtService } from '@nestjs/jwt'
 import { UserService } from '../user/user.service';
 
 @Injectable()
@@ -16,6 +16,7 @@ export class AuthService {
     const user = users[0];
 
     // TODO: implement magic link, passwords or OAuth
+
     if (!user) throw new UnauthorizedException();
 
     const payload = { sub: user.id, email: user.email };

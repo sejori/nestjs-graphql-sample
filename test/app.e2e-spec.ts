@@ -78,7 +78,7 @@ describe('App (e2e)', () => {
             }
           }
         })
-        .expect((res) => res.body.errors[0].extensions.code === "BAD_USER_INPUT");
+        .expect((res) => res.body.errors[0].extensions.code === 'BAD_USER_INPUT');
     });
 
     it('null-field validation', () => {
@@ -99,7 +99,7 @@ describe('App (e2e)', () => {
             }
           }
         })
-        .expect((res) => res.body.errors[0].extensions.code === "BAD_USER_INPUT");
+        .expect((res) => res.body.errors[0].extensions.code === 'BAD_USER_INPUT');
     });
 
     it('createUser', () => {

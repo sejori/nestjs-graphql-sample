@@ -11,7 +11,7 @@ import { User } from '@prisma/client';
 
 describe('App (e2e)', () => {
   let app: INestApplication;
-  let user: User
+  let users: User[] = []
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -80,39 +80,41 @@ describe('App (e2e)', () => {
     });
 
     it('createUser', () => {
-      return request(app.getHttpServer())
-        .post('/graphql')
-        .send({
-          query: `
-            mutation create_user($createUserData: CreateUserInput!) {
-              createUser(createUserData: $createUserData) {
-                firstName
-                lastName
-                email
+      return Promise.all(mockUsers.map(mockUser => {
+        return request(app.getHttpServer())
+          .post('/graphql')
+          .send({
+            query: `
+              mutation create_user($createUserData: CreateUserInput!) {
+                createUser(createUserData: $createUserData) {
+                  firstName
+                  lastName
+                  email
+                }
+              }
+            `,
+            variables: {
+              createUserData: {
+                firstName: mockUser.firstName,
+                lastName: mockUser.lastName,
+                email: mockUser.email
               }
             }
-          `,
-          variables: {
-            createUserData: {
-              firstName: mockUsers[1].firstName,
-              lastName: mockUsers[1].lastName,
-              email: mockUsers[1].email
+          })
+          .expect(200)
+          .expect({ 
+            data: {
+              createUser: {
+                firstName: mockUser.firstName,
+                lastName: mockUser.lastName,
+                email: mockUser.email
+              }
             }
-          }
-        })
-        .expect(200)
-        .expect({ 
-          data: {
-            createUser: {
-              firstName: mockUsers[1].firstName,
-              lastName: mockUsers[1].lastName,
-              email: mockUsers[1].email
-            }
-          }
-        });
+          });
+      }));
     });
 
-    it('listUsers', () => {
+    it('listUsers - with sorting', () => {
       return request(app.getHttpServer())
         .post('/graphql')
         .send({
@@ -130,17 +132,19 @@ describe('App (e2e)', () => {
           `,
           variables: {
             ids: [''],
-            firstNames: [mockUsers[1].firstName],
+            firstNames: mockUsers.map(x => x.firstName),
             lastNames: [''],
-            emails: ['']
+            emails: [''],
+            sortBy: 'lastName',
+            order: 'desc'
           }
         })
         .expect(200)
         .expect((res) => {
-          user = res.body.data.listUsers[0];
-          return user.firstName === mockUsers[1].firstName
-              && user.lastName === mockUsers[1].lastName
-              && user.email === mockUsers[1].email            
+          users = res.body.data.listUsers;
+          return users[0].firstName === mockUsers[1].firstName
+              && users[0].lastName === mockUsers[1].lastName
+              && users[0].email === mockUsers[1].email            
         });
     });
 
@@ -161,11 +165,11 @@ describe('App (e2e)', () => {
             }
           `,
           variables: {
-            'id': user.id
+            'id': users[0].id
           }
         })
         .expect(200)
-        .expect((res) => res.body.data.getUser === user);
+        .expect((res) => res.body.data.getUser === users[0]);
     });
 
     it('updateUser', () => {
@@ -184,9 +188,7 @@ describe('App (e2e)', () => {
           `,
           variables: {
             updateUserData: {
-              id: user.id,
-              firstName: user.firstName,
-              lastName: user.lastName,
+              id: users[0].id,
               email: newEmail,
             }
           }
@@ -195,7 +197,7 @@ describe('App (e2e)', () => {
         .expect({ 
           data: {
             updateUser: {
-              id: user.id,
+              id: users[0].id,
               email: newEmail
             }
           }
@@ -203,30 +205,32 @@ describe('App (e2e)', () => {
     });
   
     it('deleteUser', () => {
-      return request(app.getHttpServer())
-        .post('/graphql')
-        .send({
-          query: `
-            mutation delete_user($deleteUserData: DeleteUserInput!) {
-              deleteUser(deleteUserData: $deleteUserData) {
-                id
+      return Promise.all(users.map(user => {
+        return request(app.getHttpServer())
+          .post('/graphql')
+          .send({
+            query: `
+              mutation delete_user($deleteUserData: DeleteUserInput!) {
+                deleteUser(deleteUserData: $deleteUserData) {
+                  id
+                }
+              }
+            `,
+            variables: {
+              deleteUserData: {
+                id: user.id
               }
             }
-          `,
-          variables: {
-            deleteUserData: {
-              id: user.id
+          })
+          .expect(200)
+          .expect({ 
+            data: {
+              deleteUser: {
+                id: user.id
+              }
             }
-          }
-        })
-        .expect(200)
-        .expect({ 
-          data: {
-            deleteUser: {
-              id: user.id
-            }
-          }
-        });
+          });
+      }));
     });
   });
 });

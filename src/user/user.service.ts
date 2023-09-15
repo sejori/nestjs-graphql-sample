@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
-import { createHash } from 'crypto';
 
 import { PrismaService } from '../_database/prisma.service';
 
@@ -33,6 +32,13 @@ export class UserService {
           { email: { in: listUsersArgs.emails } },
         ],
       },
+      orderBy: listUsersArgs.sortBy
+        ? [
+          {
+            [listUsersArgs.sortBy]: listUsersArgs.order || "asc"
+          }
+        ]
+        : []
     });
   }
 

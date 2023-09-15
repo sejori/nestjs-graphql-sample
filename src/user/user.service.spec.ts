@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from './user.service';
 import { PrismaService } from '../_database/prisma.service';
-import { v4 as uuidv4 } from 'uuid';
 import { mockUsers, updateUserInput, updatedUser } from '../../test/mock.data';
 
 describe('UserService', () => {
@@ -38,7 +37,7 @@ describe('UserService', () => {
   });
 
   describe('listUsers', () => {
-    it('should return a list of users', async () => {
+    it('should return a list of users matching filter options', async () => {
       const listUsersArgs = { lastNames: ["Los"] };
 
       const result = await userService.listUsers(listUsersArgs);

@@ -3,16 +3,16 @@ import { IsEmail } from 'class-validator';
 
 @InputType()
 export class UpdateUserInput {
-  @Field()
+  @Field(() => String)
   id: string;
 
-  @Field()
+  @Field(() => String, { nullable: true })
   firstName?: string;
 
-  @Field()
+  @Field(() => String, { nullable: true })
   lastName?: string;
 
-  @Field()
+  @Field(() => String, { nullable: true })
   @IsEmail()
   email?: string;
 }

@@ -28,8 +28,8 @@ const response = await fetch('http://localhost:3000/graphql', {
   method: 'POST',
   body: JSON.stringify({
     query: `
-      query user($id: String!) {
-        getUser(id: $id) {
+      query users($lastNames: [String!]!, $sortBy: String, $order: String) {
+        listUsers(lastNames: $lastNames, sortBy: $sortBy, order: $order) {
           id
           firstName
           lastName
@@ -40,7 +40,9 @@ const response = await fetch('http://localhost:3000/graphql', {
       }
     `,
     variables: {
-      'id': user.id
+      lastNames: ['vrai'],
+      sortBy: 'firstName',
+      order: 'desc'
     }
   })
 })

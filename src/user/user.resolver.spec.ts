@@ -4,6 +4,7 @@ import { UserResolver } from './user.resolver';
 import { UserService } from './user.service';
 import { PrismaService } from '../_database/prisma.service';
 import { mockUsers, updateUserInput, updatedUser } from '../../test/mock.data';
+import { Logger } from '@nestjs/common';
 
 describe('UserResolver', () => {
   let userResolver: UserResolver;
@@ -15,7 +16,8 @@ describe('UserResolver', () => {
         UserResolver, 
         UserService, 
         PrismaService,
-        JwtService
+        JwtService,
+        Logger
       ],
     }).compile();
 

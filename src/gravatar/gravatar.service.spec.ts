@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { GravatarService } from './gravatar.service';
+import { Logger } from '@nestjs/common';
 
 describe('UserService', () => {
   let gravatarService: GravatarService;
@@ -7,7 +8,8 @@ describe('UserService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        GravatarService
+        GravatarService,
+        Logger
       ],
     }).compile();
 

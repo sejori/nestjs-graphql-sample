@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { UserService } from '../user/user.service';
 import { PrismaService } from '../_database/prisma.service';
+import { Logger } from '@nestjs/common';
 
 describe('AuthController', () => {
   let authController: AuthController;
@@ -13,7 +14,13 @@ describe('AuthController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
-      providers: [AuthService, UserService, JwtService, PrismaService]
+      providers: [
+        AuthService, 
+        UserService, 
+        JwtService, 
+        PrismaService,
+        Logger
+      ]
     })
       .overrideGuard(AuthGuard)
       .useValue({ canActivate: () => true }) // Mocking AuthGuard for testing

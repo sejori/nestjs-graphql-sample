@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UserService } from './user.service';
 import { PrismaService } from '../_database/prisma.service';
 import { mockUsers, updateUserInput, updatedUser } from '../../test/mock.data';
+import { Logger } from '@nestjs/common';
 
 describe('UserService', () => {
   let userService: UserService;
@@ -23,7 +24,8 @@ describe('UserService', () => {
               delete: jest.fn().mockResolvedValue(mockUsers[0]),
             }
           }
-        }
+        },
+        Logger
       ],
     }).compile();
 

@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
 import { mockUsers } from '../../test/mock.data';
 import { PrismaService } from '../_database/prisma.service';
+import { Logger } from '@nestjs/common';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -21,7 +22,8 @@ describe('AuthService', () => {
               findMany: jest.fn().mockResolvedValue([mockUsers[0]])
             }
           }
-        }
+        },
+        Logger
       ]
     }).compile();
 

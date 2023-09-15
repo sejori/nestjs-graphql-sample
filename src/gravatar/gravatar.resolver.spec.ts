@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { GravatarResolver } from './gravatar.resolver';
 import { GravatarService } from './gravatar.service';
+import { Logger } from '@nestjs/common';
 
 describe('GravatarResolver', () => {
   let gravatarResolver: GravatarResolver;
@@ -8,7 +9,11 @@ describe('GravatarResolver', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [GravatarResolver, GravatarService],
+      providers: [
+        GravatarResolver, 
+        GravatarService,
+        Logger
+      ],
     }).compile();
 
     gravatarResolver = module.get<GravatarResolver>(GravatarResolver);

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { mockUsers } from 'test/mock.data';
+import { mockUsers } from '../test/mock.data';
 import { UserService } from './user/user.service';
 
 @Injectable()

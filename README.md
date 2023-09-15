@@ -53,7 +53,7 @@ const response = await fetch('http://localhost:3000/graphql', {
 const users = await response.json();
 ```
 
-And to request a specific user and their picture from Gravatar we can do two queries in one request like so:
+To request a specific user and their picture from Gravatar we can do two queries in one request like so:
 
 ```js
 const response = await fetch('http://localhost:3000/graphql', {

@@ -12,11 +12,6 @@ export class GravatarResolver {
     private gravatarService: GravatarService
   ) {}
 
-  @RateLimit({
-    points: 5,
-    duration: 300,
-    errorMessage: 'Request rate limit exceeded.'
-  })
   @Query(() => Gravatar)
   async getGravatar(@Args() getGravatarArgs: GetGravatarArgs): Promise<Gravatar> {
     return this.gravatarService.getUrl(getGravatarArgs.email);

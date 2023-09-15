@@ -21,11 +21,6 @@ export class UserResolver {
     private userService: UserService
   ) {}
   
-  @RateLimit({
-    points: 5,
-    duration: 300,
-    errorMessage: 'Request rate limit exceeded.'
-  })
   @Query(() => User)
   async getUser(
     @Args() getUserArgs: GetUserArgs
@@ -34,11 +29,6 @@ export class UserResolver {
   }
 
   @UseGuards(AuthGuard)
-  @RateLimit({
-    points: 5,
-    duration: 300,
-    errorMessage: 'Request rate limit exceeded.'
-  })
   @Query(() => [User])
   async listUsers(
     @Args() listUsersArgs: ListUsersArgs
@@ -47,11 +37,6 @@ export class UserResolver {
   }
 
   @UseGuards(AuthGuard)
-  @RateLimit({
-    points: 5,
-    duration: 300,
-    errorMessage: 'Request rate limit exceeded.'
-  })
   @Mutation(() => User)
   async createUser(
     @Args('createUserData') createUserData: CreateUserInput,
@@ -60,11 +45,6 @@ export class UserResolver {
   }
 
   @UseGuards(AuthGuard)
-  @RateLimit({
-    points: 5,
-    duration: 300,
-    errorMessage: 'Request rate limit exceeded.'
-  })
   @Mutation(() => User)
   async updateUser(
     @Args('updateUserData') updateUserData: UpdateUserInput,
@@ -74,11 +54,6 @@ export class UserResolver {
 
   // this mutation is not in the spec but seemed appropriate for CRUD.
   @UseGuards(AuthGuard)
-  @RateLimit({
-    points: 5,
-    duration: 300,
-    errorMessage: 'Request rate limit exceeded.'
-  })
   @Mutation(() => User)
   async deleteUser(
     @Args('deleteUserData') deleteUserData: DeleteUserInput,

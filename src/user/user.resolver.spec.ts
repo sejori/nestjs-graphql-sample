@@ -30,11 +30,11 @@ describe('UserResolver', () => {
 
   describe('listUsers', () => {
     it('should return a list of users', async () => {
-      const getUsersArgs = { lastNames: ["Los"] };
+      const listUsersArgs = { lastNames: ["Los"] };
 
-      jest.spyOn(userService, 'getUsers').mockResolvedValue([mockUsers[1]]);
+      jest.spyOn(userService, 'listUsers').mockResolvedValue([mockUsers[1]]);
 
-      const result = await userResolver.listUsers(getUsersArgs);
+      const result = await userResolver.listUsers(listUsersArgs);
 
       expect(result).toEqual([ mockUsers[1] ]);
     });

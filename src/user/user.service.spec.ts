@@ -39,9 +39,9 @@ describe('UserService', () => {
 
   describe('listUsers', () => {
     it('should return a list of users', async () => {
-      const getUsersArgs = { lastNames: ["Los"] };
+      const listUsersArgs = { lastNames: ["Los"] };
 
-      const result = await userService.getUsers(getUsersArgs);
+      const result = await userService.listUsers(listUsersArgs);
 
       expect(result).toEqual([mockUsers[1]]);
     });

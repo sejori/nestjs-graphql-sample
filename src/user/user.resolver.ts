@@ -3,7 +3,7 @@ import { User } from './models/user.model';
 import { UserService } from './user.service';
 
 import { GetUserArgs } from './dto/args/get-user.args';
-import { GetUsersArgs } from './dto/args/get-users.args';
+import { ListUsersArgs } from './dto/args/list-users.args';
 import { CreateUserInput } from './dto/input/create-user.input';
 import { UpdateUserInput } from './dto/input/update-user.input';
 import { DeleteUserInput } from './dto/input/delete-user.input';
@@ -11,7 +11,7 @@ import { DeleteUserInput } from './dto/input/delete-user.input';
 @Resolver(() => User)
 export class UserResolver {
   constructor(
-    private userService: UserService,
+    private userService: UserService
   ) {}
 
   @Query(() => User)
@@ -20,8 +20,8 @@ export class UserResolver {
   }
 
   @Query(() => [User])
-  async listUsers(@Args() getUsersArgs: GetUsersArgs): Promise<User[]> {
-    return this.userService.getUsers(getUsersArgs);
+  async listUsers(@Args() listUsersArgs: ListUsersArgs): Promise<User[]> {
+    return this.userService.listUsers(listUsersArgs);
   }
 
   @Mutation(() => User)
@@ -45,10 +45,4 @@ export class UserResolver {
   ): Promise<User> {
     return this.userService.deleteUser(deleteUserData);
   }
-
-  
-
-  // TODO: Gonna do a badass gravatar integration here
-  // https://gravatar.com/avatar/7cf997d80f172b5e026b2ac67a1482da
-  // need to MD5 hash email for image url (^ sebringrose@gmail.com)
 }

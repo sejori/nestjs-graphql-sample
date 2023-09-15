@@ -1,18 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import {
   FastifyAdapter
 } from '@nestjs/platform-fastify';
 import * as request from 'supertest';
 
 import { AppModule } from './../src/app.module';
-import { PrismaService } from '../src/_database/prisma.service';
 import { mockUsers } from './mock.data';
 import { User } from '@prisma/client';
 
 describe('App (e2e)', () => {
   let app: INestApplication;
-  let prismaService: PrismaService
   let user: User
 
   beforeEach(async () => {
@@ -21,8 +19,8 @@ describe('App (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication(new FastifyAdapter());
+    app.useGlobalPipes(new ValidationPipe());
 
-    prismaService = moduleFixture.get<PrismaService>(PrismaService);
     await app.listen(7777);
   });
 
@@ -37,66 +35,49 @@ describe('App (e2e)', () => {
       .expect('Hello World!');
   });
 
-  describe("/graphql", () => {
-    // // TODO
-    // it('email validation', () => {
-    //   return request(app.getHttpServer())
-    //     .post('/graphql')
-    //     .send({
-    //       query: `
-    //         mutation create_user($createUserData: CreateUserInput!) {
-    //           createUser(createUserData: $createUserData) {
-    //             firstName
-    //             lastName
-    //             email
-    //           }
-    //         }
-    //       `,
-    //       variables: {
-    //         createUserData: {
-    //           firstName: mockUsers[1].firstName,
-    //           lastName: mockUsers[1].lastName,
-    //           email: mockUsers[1].email
-    //         }
-    //       }
-    //     })
-    //     .expect(200)
-    //     .expect({ 
-    //       firstName: mockUsers[1].firstName,
-    //       lastName: mockUsers[1].lastName,
-    //       email: mockUsers[1].email
-    //     });
-    // });
+  describe('/graphql', () => {
+    it('email validation', () => {
+      return request(app.getHttpServer())
+        .post('/graphql')
+        .send({
+          query: `
+            mutation create_user($createUserData: CreateUserInput!) {
+              createUser(createUserData: $createUserData) {
+                id
+              }
+            }
+          `,
+          variables: {
+            createUserData: {
+              firstName: mockUsers[1].firstName,
+              lastName: mockUsers[1].lastName,
+              email: 'i_am_not_an_email'
+            }
+          }
+        })
+        .expect((res) => res.body.errors[0].extensions.code === "BAD_USER_INPUT");
+    });
 
-    // // TODO
-    // it('null-field validation', () => {
-    //   return request(app.getHttpServer())
-    //     .post('/graphql')
-    //     .send({
-    //       query: `
-    //         mutation create_user($createUserData: CreateUserInput!) {
-    //           createUser(createUserData: $createUserData) {
-    //             firstName
-    //             lastName
-    //             email
-    //           }
-    //         }
-    //       `,
-    //       variables: {
-    //         createUserData: {
-    //           firstName: mockUsers[1].firstName,
-    //           lastName: mockUsers[1].lastName,
-    //           email: mockUsers[1].email
-    //         }
-    //       }
-    //     })
-    //     .expect(200)
-    //     .expect({ 
-    //       firstName: mockUsers[1].firstName,
-    //       lastName: mockUsers[1].lastName,
-    //       email: mockUsers[1].email
-    //     });
-    // });
+    it('null-field validation', () => {
+      return request(app.getHttpServer())
+        .post('/graphql')
+        .send({
+          query: `
+            mutation create_user($createUserData: CreateUserInput!) {
+              createUser(createUserData: $createUserData) {
+                id
+              }
+            }
+          `,
+          variables: {
+            createUserData: {
+              firstName: mockUsers[1].firstName,
+              email: mockUsers[1].email
+            }
+          }
+        })
+        .expect((res) => res.body.errors[0].extensions.code === "BAD_USER_INPUT");
+    });
 
     it('createUser', () => {
       return request(app.getHttpServer())

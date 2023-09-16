@@ -10,25 +10,23 @@ The following repos and resources were used in this project's development:
 
 Source code is written to follow patterns from official documentation as much as possible.
 
-View it live: [https://seb-pynea-graphql.fly.dev/](https://seb-pynea-graphql.fly.dev/)
+**View it live: [https://seb-pynea-graphql.fly.dev/](https://seb-pynea-graphql.fly.dev/)**
 
 ## Setup
 
 ### Database
 
-You should have a `.env` file with the correct db url. With this you can simply run `yarn start` (with the `.env` file in the root directory of the project).
-
-If you don't have a `.env` file, setup a postgres db on [https://railway.app](https://railway.app) (or your platform of choice) and run the following command BEFORE `yarn start`:
+Create a `.env` file from `.env.example`, setup a postgres db on [https://railway.app](https://railway.app) (or your platform of choice), add the db url to `.env` and then run the following command BEFORE starting the application:
 
 `$ npx prisma migrate dev --name pynea-challenge`
 
+Then run `yarn start:dev` and head to [http://localhost:3000/](http://localhost:3000/) for instructions.
+
 ### Login
 
-Once the application is running you will need a user in order to sign in and acquire a token for subsequent requests/queries. Either head to your database and add a row or use an exisiting user from my railway db.
+You will need to acquire a token for making requests/queries.
 
-The email authentication available via `/auth/login` serves as a basic stateless (JWT) auth system. However it is clearly insecure, to make this production-ready local authentication (passwords), magic email links or OAuth2.0 would need to be implemented, see `/src/auth/auth.service.ts`. 
-
-The reason I didn't build simple local auth with hashed passwords is because passwords were not on the user entity in the spec. My chosen solution would be to do magic email links. If you want to see that implemented let me know.
+The email authentication available via `/auth/login` serves as a basic stateless (JWT) auth system. However it is clearly insecure, local auth with hashed passwords was not implemented because passwords were not on the user entity in the spec. 
 
 ```js
 const response = await fetch('http://localhost:3000/auth/login', {
@@ -41,7 +39,9 @@ const response = await fetch('http://localhost:3000/auth/login', {
 const { access_token } = await response.json();
 ```
 
-The access token is a JWT, designed to be used as a bearer token. Once you have one I recommend you head to the `/graphql` endpoint in a browser to play with the query explorer interface. Remember to set the 'Authorization' header of your requests to 'Bearer {acces_token}'
+To make this application production-ready, local authentication (passwords), magic email links or OAuth2.0 would need to be implemented, see `/src/auth/auth.service.ts`. 
+
+The access token is a JWT, designed to be used as a bearer token. Once acquired head to the `/graphql` endpoint in a browser to play with the query explorer interface. Remember to set the 'Authorization' header of your requests to 'Bearer {acces_token}'
 
 The `/auth/check-token` route and most user GraphQL queries require basic authorization via the custom AuthGuard built on NestJS's JWT service.
 
@@ -86,7 +86,7 @@ The following queries and mutations are available:
 - updateUser
 - deleteUser
 
-Note: Mercurius graphql driver was implemented but it doesn't provide a playground interface like Apollo so was reverted. In a live application I would suggest an app module config such as:
+**Note:** Mercurius graphql driver was left out as it doesn't provide a playground interface like Apollo. In a live application I would suggest an app module config such as:
 
 ```js
 @Module({

@@ -10,6 +10,8 @@ The following repos and resources were used in this project's development:
 
 Source code is written to follow patterns from official documentation as much as possible.
 
+View it live: [https://seb-pynea-graphql.fly.dev/](https://seb-pynea-graphql.fly.dev/)
+
 ## Setup
 
 ### Database
@@ -54,38 +56,6 @@ The request body should contain a query object, for example:
 ```js
 const response = await fetch('http://localhost:3000/graphql', {
   method: 'POST',
-  headers: {
-    Authorization: 'Bearer {access_token}'
-  }
-  body: JSON.stringify({
-    query: `
-      query users($lastNames: [String!]!, $sortBy: String, $order: String) {
-        listUsers(lastNames: $lastNames, sortBy: $sortBy, order: $order) {
-          id
-          firstName
-          lastName
-          email
-          createdAt
-          updatedAt
-        }
-      }
-    `,
-    variables: {
-      lastNames: ['vrai'],
-      sortBy: 'firstName',
-      order: 'desc'
-    }
-  })
-});
-
-const users = await response.json();
-```
-
-To request a specific user and their picture from Gravatar we can do two queries in one request like so:
-
-```js
-const response = await fetch('http://localhost:3000/graphql', {
-  method: 'POST',
   body: JSON.stringify({
     query: `
       query user($id: String!, $email: String!) {
@@ -124,12 +94,6 @@ As you can see I took some creative liberties and added a Gravatar service to th
 
 As for the bonus tasks of auth, sorting and dockerizing: you will see they have been implemented.
 
-To take the project one step further I also added a GitHub action script for running all Unit and E2E tests in continuous integration. The tests are quite comprehensive, you can run `$ yarn test:cov` for deeper insights, with more time I would likely flesh them out a little more.
+To take the project one step further I also added GitHub action scripts to run all Unit and E2E tests in CI, then CD to fly.io. The tests are quite comprehensive, you can run `$ yarn test:cov` for deeper insights, with more time I would likely flesh them out a little more.
 
-I was also quite tempted to build a small frontend to render the app's data and make requests but I decided it probably wouldn't add much value. Let me know if this is something you want to see.
-
-Finally, a live deployment would of course be the next step, so I went ahead and deployed the container to fly.io. I also added another GitHub action script for continuous delivery! 🏄
-
-View it live: [https://seb-pynea-graphql.fly.dev/graphql](https://seb-pynea-graphql.fly.dev/graphql)
-
-And finally finally, this app currently has very limited monitoring. We would want to use services such as Sentry and AWS X-ray in a production setting 😌
+Finally, this app currently has very limited monitoring. We would want to use services such as Sentry and AWS X-ray in a production setting 😌

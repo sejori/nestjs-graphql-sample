@@ -21,8 +21,8 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+    it('should return HTML content', () => {
+      expect(appController.getHello()).toMatch(/<([A-Za-z][A-Za-z0-9]*)\b[^>]*>(. *?)/g)
     });
   });
 });

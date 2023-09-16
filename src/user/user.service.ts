@@ -31,15 +31,20 @@ export class UserService {
 
   public async listUsers(listUsersArgs: ListUsersArgs): Promise<User[]> {
     try {
-      return await this.prisma.user.findMany({
-        where: {
+      const { ids, firstNames, lastNames, emails } = listUsersArgs
+      const filters = ids || firstNames || lastNames || emails 
+        ? {
           OR: [
             { id: { in: listUsersArgs.ids } },
             { firstName: { in: listUsersArgs.firstNames } },
             { lastName: { in: listUsersArgs.lastNames } },
             { email: { in: listUsersArgs.emails } },
           ],
-        },
+        }
+        : {}
+
+      return await this.prisma.user.findMany({
+        where: filters,
         orderBy: listUsersArgs.sortBy
           ? [
             {
@@ -55,7 +60,7 @@ export class UserService {
 
   public async createUser(
     createUserData: CreateUserInput,
-  ): Promise<User | Error> {
+  ): Promise<User> {
     try {
       const user = await this.prisma.user.create({
         data: {
@@ -71,7 +76,7 @@ export class UserService {
 
   public async updateUser(
     updateUserData: UpdateUserInput,
-  ): Promise<User| Error> {
+  ): Promise<User> {
     try {
       const user = await this.prisma.user.update({
         where: { id: updateUserData.id },
@@ -86,7 +91,7 @@ export class UserService {
 
   public async deleteUser(
     deleteUserData: DeleteUserInput,
-  ): Promise<User| Error> {
+  ): Promise<User> {
     try {
       const user = await this.prisma.user.delete({
         where: {

@@ -39,6 +39,16 @@ describe('UserService', () => {
   });
 
   describe('listUsers', () => {
+    it('should return a list of users', async () => {
+      const listUsersArgs = {};
+
+      jest.spyOn(userService, 'listUsers').mockResolvedValue(mockUsers);
+
+      const result = await userService.listUsers(listUsersArgs);
+
+      expect(result).toEqual(mockUsers);
+    });
+
     it('should return a list of users matching filter options', async () => {
       const listUsersArgs = { lastNames: ["Los"] };
 

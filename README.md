@@ -86,7 +86,27 @@ The following queries and mutations are available:
 - updateUser
 - deleteUser
 
-(see source code for query args and mutation inputs)
+Note: Mercurius graphql driver was implemented but it doesn't provide a playground interface like Apollo so was reverted. In a live application I would suggest an app module config such as:
+
+```js
+@Module({
+  imports: [
+    process.env.ENVIRONMENT === 'prod'
+      ? GraphQLModule.forRoot<MercuriusDriverConfig>({
+        driver: MercuriusDriver,
+        autoSchemaFile: 'src/schema.graphql',
+        context: ({ req }) => ({ req })
+      })
+      : GraphQLModule.forRoot<ApolloDriverConfig>({
+        driver: ApolloDriver,
+        autoSchemaFile: 'src/schema.graphql',
+        context: ({ req }) => ({ req })
+      }),
+    ...
+  ],
+  ...
+})
+```
 
 ## Bonus tasks and beyond
 

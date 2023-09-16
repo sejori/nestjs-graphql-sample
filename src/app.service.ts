@@ -19,7 +19,7 @@ export class AppService {
         <body>
           <h1>PYNEA GraphQL Users</h1>
           <ol>
-            <li>GET <code>/seed-db</code></li>
+            <li>GET <a href='/seed-db'><code>/seed-db</code></a></li>
             <li>
               POST email to <code>/auth/login</code> for a token
               <form method='POST' action='/auth/login'>
@@ -30,7 +30,7 @@ export class AppService {
                 <input type='submit' value='Login'>
               </form>
             </li>
-            <li>GET <code>/graphql</code> to enter playground</li>
+            <li>GET <a href='/graphql'><code>/graphql</code></a> to enter playground</li>
             <li>Set Authorization header to 'Bearer [token]'</li>
             <li>Read <code>/src/schema.graphql</code></li>
             <li>Happy mutating :^)</li>

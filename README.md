@@ -86,7 +86,7 @@ The following queries and mutations are available:
 - updateUser
 - deleteUser
 
-**Note:** Mercurius graphql driver was left out as it doesn't provide a playground interface like Apollo. In a live application I would suggest an app module config such as:
+**Note:** Mercurius graphql driver was not implemented as it doesn't provide a playground interface like Apollo. In a live application I would suggest an app module config such as:
 
 ```js
 @Module({
@@ -114,6 +114,6 @@ As you can see I took some creative liberties and added a Gravatar service to th
 
 As for the bonus tasks of auth, sorting and dockerizing: you will see they have been implemented.
 
-To take the project one step further I also added GitHub action scripts to run all Unit and E2E tests in CI, then CD to fly.io. The tests are quite comprehensive, you can run `$ yarn test:cov` for deeper insights, with more time I would likely flesh them out a little more.
+To take the project one step further I also added GitHub action scripts to run all Unit and E2E tests in CI, then deploy to fly.io for CD. The tests are quite comprehensive, you can run `$ yarn test:cov` for deeper insights, with more time I would flesh them out more.
 
-Finally, this app currently has very limited monitoring. We would want to use services such as Sentry and AWS X-ray in a production setting 😌
+Finally, in prod we would want to use monitoring & profiling services such as Sentry and AWS X-ray 😌

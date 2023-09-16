@@ -9,7 +9,6 @@ import { User } from '@prisma/client';
 import { AppModule } from './../src/app.module';
 import { AuthGuard } from './../src/auth/auth.guard';
 import { mockUsers } from './mock.data';
-import { UserService } from './../src/user/user.service';
 
 describe('App (e2e)', () => {
   let app: INestApplication;
@@ -20,22 +19,13 @@ describe('App (e2e)', () => {
       imports: [AppModule]
     })
       .overrideGuard(AuthGuard)
-      .useValue({ canActivate: () => true }) // Mocking AuthGuard for testing
+      .useValue({ canActivate: () => true }) // Mock AuthGuard in testing
       .compile();
 
     app = moduleFixture.createNestApplication(new FastifyAdapter());
     app.useGlobalPipes(new ValidationPipe());
 
     await app.listen(7777);
-
-    // debating whether below is necessary or not. 
-    // better to just have a teset sandbox db for each ci test cycle
-    //
-    // // clean DB of mock users just in case
-    // const userService = moduleFixture.get<UserService>(UserService);
-    // await Promise.all(mockUsers.map(async user => {
-    //   return await userService.deleteUser({ id: user.id })
-    // }))
   });
 
   afterAll(() => {
@@ -46,7 +36,9 @@ describe('App (e2e)', () => {
     return request(app.getHttpServer())
       .get('/')
       .expect(200)
-      .expect('Hello World!');
+      .expect(async (res) => {
+        /<([A-Za-z][A-Za-z0-9]*)\b[^>]*>(. *?)/g.test(res.body);
+      });
   });
 
   it('/auth/login (POST)', () => {

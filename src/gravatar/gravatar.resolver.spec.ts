@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { GravatarResolver } from './gravatar.resolver';
 import { GravatarService } from './gravatar.service';
-import { Logger } from '@nestjs/common';
 
 describe('GravatarResolver', () => {
   let gravatarResolver: GravatarResolver;
@@ -11,8 +10,7 @@ describe('GravatarResolver', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         GravatarResolver, 
-        GravatarService,
-        Logger
+        GravatarService
       ],
     }).compile();
 

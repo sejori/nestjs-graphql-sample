@@ -1,6 +1,6 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
-import { Logger, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { AppController } from './app.controller';
@@ -28,6 +28,6 @@ import { PrismaService } from './_database/prisma.service';
     ConfigModule.forRoot()
   ],
   controllers: [AppController],
-  providers: [AppService, UserService, PrismaService, Logger],
+  providers: [AppService, UserService, PrismaService],
 })
 export class AppModule {}

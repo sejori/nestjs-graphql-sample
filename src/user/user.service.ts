@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -14,7 +14,6 @@ import { DeleteUserInput } from './dto/input/delete-user.input';
 export class UserService {
   constructor(
     private prisma: PrismaService,
-    private logger: Logger
   ) {}
 
   public async getUser(getUserArgs: GetUserArgs): Promise<User> {
@@ -25,7 +24,7 @@ export class UserService {
         } 
       });
     } catch(e) {
-      // this.logger.error(e);
+      // Logger service can be used here for cloud logs if needed - skipped for now
       throw new HttpException('Failed to get user', HttpStatus.SERVICE_UNAVAILABLE);
     }
   }
@@ -50,7 +49,6 @@ export class UserService {
           : []
       });
     } catch(e) {
-      // this.logger.error(e);
       throw new HttpException('Failed to get users', HttpStatus.SERVICE_UNAVAILABLE);
     }
   }
@@ -67,7 +65,6 @@ export class UserService {
       });
       return user;
     } catch(e) {
-      // this.logger.error(e);
       throw new HttpException('Failed to create user - does it already exist?', HttpStatus.BAD_REQUEST);
     }
   }
@@ -83,7 +80,6 @@ export class UserService {
   
       return user;
     } catch(e) {
-      // this.logger.error(e);
       throw new HttpException('Failed to update user - does it exist?', HttpStatus.BAD_REQUEST);
     }
   }
@@ -100,7 +96,6 @@ export class UserService {
   
       return user;
     } catch(e) {
-      // this.logger.error(e);
       throw new HttpException('Failed to delete user - does it already exist?', HttpStatus.BAD_REQUEST);
     }
   }

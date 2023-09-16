@@ -5,7 +5,6 @@ import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { UserService } from '../user/user.service';
 import { PrismaService } from '../_database/prisma.service';
-import { Logger } from '@nestjs/common';
 
 describe('AuthController', () => {
   let authController: AuthController;
@@ -18,8 +17,7 @@ describe('AuthController', () => {
         AuthService, 
         UserService, 
         JwtService, 
-        PrismaService,
-        Logger
+        PrismaService
       ]
     })
       .overrideGuard(AuthGuard)

@@ -1,4 +1,4 @@
-import { Logger, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserResolver } from './user.resolver';
 import { PrismaService } from '../_database/prisma.service';
@@ -11,8 +11,7 @@ import { JwtService } from '@nestjs/jwt';
     UserResolver, 
     PrismaService, 
     AuthService, 
-    JwtService,
-    Logger
+    JwtService
   ]
 })
 export class UserModule {}

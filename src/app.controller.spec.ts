@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { Logger } from '@nestjs/common';
 import { UserService } from './user/user.service';
 import { PrismaService } from './_database/prisma.service';
 
@@ -14,8 +13,7 @@ describe('AppController', () => {
       providers: [
         AppService, 
         UserService,
-        PrismaService,
-        Logger
+        PrismaService
       ],
     }).compile();
 

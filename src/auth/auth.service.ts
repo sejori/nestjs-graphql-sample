@@ -1,4 +1,4 @@
-import { Injectable, Logger, HttpException, UnauthorizedException, HttpStatus } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt'
 import { UserService } from '../user/user.service';
 
@@ -7,7 +7,6 @@ export class AuthService {
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
-    // private logger: Logger
     ) {}
 
   async login(email: string) {
@@ -29,8 +28,7 @@ export class AuthService {
         })
       };
     } catch (e) {
-      // this.logger.error(e);
-      throw new HttpException('Failed to loginr', HttpStatus.SERVICE_UNAVAILABLE);
+      throw new UnauthorizedException();
     }
   }
 }

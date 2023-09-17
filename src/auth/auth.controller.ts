@@ -4,12 +4,13 @@ import {
   Body,
   UseGuards,
   Get,
+  UnauthorizedException,
 } from '@nestjs/common'
-import { ApiTags, ApiBearerAuth } from '@nestjs/swagger'
+import { ApiTags, ApiHeader, ApiBody } from '@nestjs/swagger'
 import { AuthService } from './auth.service'
 import { AuthGuard } from './auth.guard'
 
-@ApiTags('v1/auth')
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -17,11 +18,27 @@ export class AuthController {
   ) {}
 
   @Post('login')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        email: {
+          description: `Email of user to authenticate.`,
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    }
+  })
   async login(@Body() body: { email: string }) {
+    if (!body || !body.email) throw new UnauthorizedException()
     return await this.authService.login(body.email);
   }
 
-  @ApiBearerAuth()
+  @ApiHeader({
+    name: 'Authoroization',
+    description: 'Bearer [token]',
+  })
   @UseGuards(AuthGuard)
   @Get('check-token')
   async checkJwtToken() {

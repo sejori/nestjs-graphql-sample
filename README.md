@@ -7,6 +7,7 @@ The following repos and resources were used in this project's development:
 - https://github.com/onur-ozkan/feednext/
 - https://github.com/shkim04/find-your-wc.git
 - https://docs.nestjs.com/security/authentication
+- https://blog.logrocket.com/implementing-pagination-graphql-nestjs/
 
 Source code is written to follow patterns from official documentation as much as possible.
 
@@ -18,7 +19,9 @@ Source code is written to follow patterns from official documentation as much as
 2. setup a postgres db on [https://railway.app](https://railway.app) (or your platform of choice)
 3. add the db url to `.env`
 4. run the following command BEFORE starting the application:
+
 `$ npx prisma migrate dev --name pynea-challenge`
+
 5. Finally, run `yarn start:dev` and head to [http://localhost:3000/](http://localhost:3000/) for auth and query instructions.
 
 ## Overview
@@ -29,26 +32,28 @@ You will need to acquire a token for making requests/queries/mutations.
 
 The email authentication available via `/auth/login` serves as a basic stateless (JWT) auth system, however it is clearly insecure. Local auth with hashed passwords was not implemented because passwords were not on the user entity in the spec. 
 
+More information can be found in the auto-generated OpenAPI swagger docs at `/api`.
+
 **Note:** to make this application production-ready, local authentication (passwords), magic email links or OAuth2.0 would need to be implemented, see `/src/auth/auth.service.ts`. 
 
 ```js
 const response = await fetch('http://localhost:3000/auth/login', {
   method: 'POST',
   body: JSON.stringify({
-    email: 'seb2@thesebsite.com'
+    email: 'diana.marquez@example.com'
   })
 });
 
 const { access_token } = await response.json();
 ```
 
-The access token is a JWT, designed to be used as a bearer token. Once acquired head to the `/graphql` endpoint in a browser to play with the query explorer interface. Remember to set the 'Authorization' header of your requests to 'Bearer {acces_token}'
+The access token is a JWT, designed to be used as a bearer token. Once acquired head to the `/graphql` endpoint in a browser to play with the query explorer interface. Remember to set the 'Authorization' header of your requests to 'Bearer {access_token}'
 
 Most REST routes and GraphQL queries/mutations implement an AuthGuard built on NestJS's JWT service.
 
 ### GraphQL
 
-For schema details see `src/schema.graphql` 🤓
+For schema details see `src/schema.graphql` (**note:** don't edit this file as this project utilises the beautiful code-fist schema approach) 🤓
 
 The GraphQL queries and mutations are accessed by making an HTTP request with the POST method to `/graphql`.
 
@@ -119,4 +124,10 @@ As for the bonus tasks of auth, sorting and dockerizing: you will see they have 
 
 To take the project one step further I also added GitHub action scripts to run all Unit and E2E tests in CI, then deploy to fly.io for CD. The tests are quite comprehensive, you can run `$ yarn test:cov` for deeper insights, with more time I would flesh them out more.
 
-Finally, in prod we would want to use monitoring & profiling services such as Sentry and AWS X-ray 😌
+## Future features 😌
+
+- Integration with auth platform / email service
+- Monitoring & profiling with services such as Sentry and AWS X-ray
+- Optimisation of docker image size
+- Flesh out tests
+- Expand OpenAPI docs to cover GraphQL queries & mutations

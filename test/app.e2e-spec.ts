@@ -139,13 +139,13 @@ describe('App (e2e)', () => {
       }));
     });
 
-    it('listUsers - with sorting', () => {
+    it('listUsers - with sorting and pagination', () => {
       return request(app.getHttpServer())
         .post('/graphql')
         .send({
           query: `
             query users($ids: [String!]!, $firstNames: [String!]!, $lastNames: [String!]!, $emails: [String!]!) {
-              listUsers(ids: $ids, firstNames: $firstNames, lastNames: $lastNames, emails: $emails) {
+              listUsers(ids: $ids, firstNames: $firstNames, lastNames: $lastNames, emails: $emails, skip: 1, limit: 1) {
                 id
                 firstName
                 lastName
@@ -161,13 +161,14 @@ describe('App (e2e)', () => {
             lastNames: [''],
             emails: [''],
             sortBy: 'lastName',
-            order: 'desc'
+            order: 'desc',
           }
         })
         .expect(200)
         .expect((res) => {
           users = res.body.data.listUsers;
-          return users[0].firstName === mockUsers[1].firstName
+          return users.length === 1
+              && users[0].firstName === mockUsers[1].firstName
               && users[0].lastName === mockUsers[1].lastName
               && users[0].email === mockUsers[1].email            
         });

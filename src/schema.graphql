@@ -19,7 +19,7 @@ type Gravatar {
 
 type Query {
   getUser(id: String!): User!
-  listUsers(ids: [String!], firstNames: [String!], lastNames: [String!], emails: [String!], sortBy: String, order: String): [User!]!
+  listUsers(ids: [String!], firstNames: [String!], lastNames: [String!], emails: [String!], sortBy: String, order: String, skip: Int! = 0, limit: Int! = 20): [User!]!
   getGravatar(email: String!): Gravatar!
 }
 

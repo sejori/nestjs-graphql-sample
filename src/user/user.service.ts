@@ -51,7 +51,9 @@ export class UserService {
               [listUsersArgs.sortBy]: listUsersArgs.order || 'asc'
             }
           ]
-          : []
+          : [],
+        skip: listUsersArgs.skip,
+        take: listUsersArgs.limit
       });
     } catch(e) {
       throw new HttpException('Failed to get users', HttpStatus.SERVICE_UNAVAILABLE);

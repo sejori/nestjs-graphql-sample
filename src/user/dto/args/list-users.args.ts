@@ -1,22 +1,18 @@
-import { ArgsType, Field } from '@nestjs/graphql';
-import { IsArray } from 'class-validator';
+import { ArgsType, Int, Field } from '@nestjs/graphql';
+import { Max, Min } from 'class-validator'
 
 @ArgsType()
 export class ListUsersArgs {
   @Field(() => [String], { nullable: true })
-  // @IsArray() - removed array validator to fascilitate optional arg
   ids?: string[];
 
   @Field(() => [String], { nullable: true })
-  // @IsArray()
   firstNames?: string[];
 
   @Field(() => [String], { nullable: true })
-  // @IsArray()
   lastNames?: string[];
 
   @Field(() => [String], { nullable: true })
-  // @IsArray()
   emails?: string[];
 
   @Field(() => String, { nullable: true })
@@ -24,4 +20,13 @@ export class ListUsersArgs {
 
   @Field(() => String, { nullable: true })
   order?: 'asc' | 'desc'
+
+  @Field(() => Int)
+  @Min(0)
+  skip? = 0
+
+  @Field(() => Int)
+  @Min(1)
+  @Max(100)
+  limit? = 20
 }

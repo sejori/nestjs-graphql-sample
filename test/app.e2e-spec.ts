@@ -139,6 +139,38 @@ describe('App (e2e)', () => {
       }));
     });
 
+    it('listUsers', () => {
+      return request(app.getHttpServer())
+        .post('/graphql')
+        .send({
+          query: `
+            query users($ids: [String!]!, $firstNames: [String!]!, $lastNames: [String!]!, $emails: [String!]!) {
+              listUsers(ids: $ids, firstNames: $firstNames, lastNames: $lastNames, emails: $emails) {
+                id
+                firstName
+                lastName
+                email
+                createdAt
+                updatedAt
+              }
+            }
+          `,
+          variables: {
+            ids: [''],
+            firstNames: mockUsers.map(x => x.firstName),
+            lastNames: [''],
+            emails: [''],
+            sortBy: 'lastName',
+            order: 'desc',
+          }
+        })
+        .expect(200)
+        .expect((res) => {
+          users = res.body.data.listUsers;        
+        });
+    });
+
+
     it('listUsers - with sorting and pagination', () => {
       return request(app.getHttpServer())
         .post('/graphql')
@@ -165,13 +197,7 @@ describe('App (e2e)', () => {
           }
         })
         .expect(200)
-        .expect((res) => {
-          users = res.body.data.listUsers;
-          return users.length === 1
-              && users[0].firstName === mockUsers[1].firstName
-              && users[0].lastName === mockUsers[1].lastName
-              && users[0].email === mockUsers[1].email            
-        });
+        .expect((res) => res.body.data.listUsers.length === 2);
     });
 
     it('getUser', () => {

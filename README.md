@@ -15,10 +15,9 @@ Source code is written to follow patterns from official documentation as much as
 
 ## Setup
 
-1. create a `.env` file from `.env.example`
-2. setup a postgres db on [https://railway.app](https://railway.app) (or your platform of choice)
-3. add the db url to `.env`
-4. run the following command BEFORE starting the application:
+1. setup a postgres db on [https://railway.app](https://railway.app) (or your platform of choice)
+2. add the db url to `.env.local`
+3. run the following command BEFORE starting the application:
 
 `$ npx prisma migrate dev --name pynea-challenge`
 

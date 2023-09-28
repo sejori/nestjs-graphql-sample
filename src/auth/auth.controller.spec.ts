@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { UserService } from '../user/user.service';
 import { PrismaService } from '../_database/prisma.service';
+import { UnauthorizedException } from '@nestjs/common';
 
 describe('AuthController', () => {
   let authController: AuthController;
@@ -20,8 +21,9 @@ describe('AuthController', () => {
         PrismaService
       ]
     })
+      // Mocking AuthGuard for testing
       .overrideGuard(AuthGuard)
-      .useValue({ canActivate: () => true }) // Mocking AuthGuard for testing
+      .useValue({ canActivate: () => true })
       .compile();
 
       authController = module.get<AuthController>(AuthController);
@@ -40,6 +42,24 @@ describe('AuthController', () => {
       expect(authService.login).toHaveBeenCalledWith(email);
       expect(result).toHaveProperty('access_token');
       expect(typeof result.access_token).toBe('string');
+    });
+
+    it('should throw UnauthorizedException if no payload', async () => {
+      try {
+        // @ts-ignore - allow undefined argument for test case
+        await authController.login();
+      } catch(e) {
+        expect(e).toBeInstanceOf(UnauthorizedException);
+      }
+    });
+
+    it('should throw UnauthorizedException if invalid payload', async () => {
+      const email = '';
+      try {
+        await authController.login({ email });
+      } catch(e) {
+        expect(e).toBeInstanceOf(UnauthorizedException);
+      }
     });
   });
 

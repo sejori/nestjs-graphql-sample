@@ -40,6 +40,9 @@ jobs:
       - name: Set up db container
         run: docker compose -f ./test/docker-compose.yml up -d
 
+      - name: Install dependencies
+        run: yarn
+
       - name: Run e2e tests
         run: yarn test:ci-e2e
         env:

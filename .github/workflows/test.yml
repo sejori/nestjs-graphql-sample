@@ -38,7 +38,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up db container
-        run: docker compose -f ./test/docker-compose.ts up -d
+        run: docker compose -f ./test/docker-compose.yml up -d
 
       - name: Run e2e tests
         run: yarn test:ci-e2e

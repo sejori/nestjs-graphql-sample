@@ -29,7 +29,7 @@ describe('App auth (e2e)', () => {
     userService = module.get<UserService>(UserService);
 
     await app.listen(7778);
-  }, 7000);
+  });
 
   afterAll(() => {
     app.close();

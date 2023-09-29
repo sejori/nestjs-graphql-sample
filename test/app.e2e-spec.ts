@@ -26,7 +26,7 @@ describe('App graphql (e2e)', () => {
     app.useGlobalPipes(new ValidationPipe());
 
     await app.listen(7777);
-  }, 7000);
+  });
 
   afterAll(() => {
     app.close();

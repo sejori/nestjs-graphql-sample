@@ -43,6 +43,9 @@ jobs:
       - name: Install dependencies
         run: yarn
 
+      - name: Configure db
+        run: yarn prisma generate
+
       - name: Run e2e tests
         run: yarn test:ci-e2e
         env:

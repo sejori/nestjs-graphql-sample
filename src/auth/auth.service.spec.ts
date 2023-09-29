@@ -12,16 +12,14 @@ describe('AuthService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AuthService, 
-        UserService, 
-        JwtService, 
         {
-          provide: PrismaService,
+          provide: UserService,
           useValue: {
-            user: {
-              findMany: jest.fn().mockResolvedValue([mockUsers[0]])
-            }
+            listUsers: jest.fn().mockResolvedValue([mockUsers[0]])
           }
-        }
+        },
+        JwtService, 
+        PrismaService
       ]
     }).compile();
 

@@ -16,8 +16,8 @@ Source code is written to follow patterns from official documentation as much as
 
 ### Docker
 
-1. Run `$ docker compose up`
-2. Head to [http://localhost:3001/](http://localhost:3001/).
+1. run `$ docker compose up`
+2. head to [http://localhost:3001/](http://localhost:3001/)
 
 ### Native process
 
@@ -25,7 +25,9 @@ Source code is written to follow patterns from official documentation as much as
 2. setup a postgres db ([https://railway.app](https://railway.app) or platform of choice)
 3. add `.env.local` to `.gitignore`
 4. replace the db url in `.env.local` with your db
-5. Finally, run `yarn start:dev` then head to [http://localhost:3000/](http://localhost:3000/).
+5. run `yarn start:dev` then head to [http://localhost:3000/](http://localhost:3000/)
+
+(**note**: don't commmit your db credentials!)
 
 ## Overview
 

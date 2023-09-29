@@ -11,6 +11,8 @@ COPY . .
 
 RUN yarn prisma generate
 
+RUN yarn build
+
 # Dev image
 FROM base as dev
 
@@ -23,7 +25,5 @@ FROM base as prod
 
 # TODO: You can add a step to prune dependencies here if necessary
 RUN yarn install --production && yarn cache clean
-
-RUN yarn build
 
 CMD [ "yarn", "start:prod" ]

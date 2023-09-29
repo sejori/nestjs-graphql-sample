@@ -18,6 +18,8 @@ jobs:
 
       - name: Migrate database
         run: yarn prisma:migrate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Deploy
         uses: superfly/flyctl-actions/setup-flyctl@master

@@ -29,7 +29,7 @@ jobs:
       run: yarn
 
     - name: Unit tests
-      run: yarn test
+      run: yarn test:ci
 
     - name: E2E tests
-      run: yarn test:e2e
+      run: yarn test:ci-e2e

@@ -9,7 +9,7 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "yarn prisma:migrate-dev && nest start --watch",
+    "start:dev": "yarn prisma:migrate-dev && dotenv -e .env.local -- nest start --watch",
     "start:debug": "yarn prisma:migrate-dev && dotenv -e .env.local -- nest start --debug --watch",
     "start:prod": "node dist/src/main",
     "prisma:migrate-dev": "dotenv -e .env.local -- prisma migrate dev --name nestjs-gql-sample",
@@ -18,9 +18,7 @@
     "test:watch": "dotenv -e .env.local -- jest --watch",
     "test:cov": "dotenv -e .env.local -- jest --coverage",
     "test:debug": "dotenv -e .env.local -- node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "dotenv -e .env.local -- jest --config ./test/jest-e2e.json",
-    "test:ci": "jest -i",
-    "test:ci-e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "dotenv -e .env.local -- jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
     "@apollo/server": "^4.9.3",
@@ -38,6 +36,8 @@
     "@prisma/client": "^5.3.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "dotenv-cli": "^7.3.0",
+    "global": "^4.4.0",
     "graphql": "^16.8.0",
     "nestjs-rate-limiter": "^3.1.0",
     "reflect-metadata": "^0.1.13",

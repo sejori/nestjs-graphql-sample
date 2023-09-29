@@ -7,22 +7,29 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=pass
-    container_name: nestjs-gql-postgres
+    container_name: nestjs-graphql-postgres
     volumes:
       - ./pgdata:/var/lib/postgresql/data
     ports:
       - '5432:5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER}']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
 
   app:
+    image: nestjs-graphql-app
     build:
       context: .
       dockerfile: Dockerfile
       target: "dev"
-    container_name: nestjs-gql-app
+    container_name: nestjs-graphql-app
     ports:
-      - '3000:3000'
+      - '3001:3000'
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     volumes:
       - ./src:/app/src
-    command: ['yarn', 'start:dev']

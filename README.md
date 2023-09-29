@@ -17,12 +17,12 @@ Source code is written to follow patterns from official documentation as much as
 ### Docker
 
 1. Run `$ docker compose up`
-2. Head to [http://localhost:3000/](http://localhost:3000/).
+2. Head to [http://localhost:3001/](http://localhost:3001/).
 
 ### Native process
 
 1. install dotenv-cli `$ yarn global add dotenv-cli`
-2. setup a postgres db on [https://railway.app](https://railway.app) (or your platform of choice)
+2. setup a postgres db ([https://railway.app](https://railway.app) or platform of choice)
 3. add `.env.local` to `.gitignore`
 4. replace the db url in `.env.local` with your db
 5. Finally, run `yarn start:dev` then head to [http://localhost:3000/](http://localhost:3000/).

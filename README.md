@@ -12,6 +12,23 @@ Source code is written to follow patterns from official documentation as much as
 
 **View it live: [https://seb-nestjs-graphql.fly.dev/](https://seb-nestjs-graphql.fly.dev/)**
 
+## Features
+
+ - Gravatar graphql query
+ - authentication (kinda - just searches for email)
+ - listUser sorting
+ - docker
+ - GitHub action CI/CD - run unit and E2E tests
+
+## Future features 😌
+
+- Integration with auth platform / email service
+- Monitoring & profiling with services such as Sentry and AWS X-ray
+- Optimisation of docker image size
+- Flesh out tests
+- Expand OpenAPI docs to cover GraphQL queries & mutations
+- Implement user-user relations, friends etc
+
 ## Local setup
 
 ### Docker
@@ -176,20 +193,3 @@ Mercurius graphql driver was implemented but subsequently reverted as it doesn't
 ```
 
 This is debatable because it does add dependency bloat to the project. However, this could be circumvented by adding Apollo deps to `devDependencies` in `package.json`.
-
-## Bonus tasks and beyond
-
-As you can see I took some creative liberties and added a Gravatar service to the application. I wanted to demonstrate the usefulness of graphQL for custom content queries, such as loading user data along with a gravatar in a single query, something I expect will be commonplace in the PYNEA application.
-
-As for the bonus tasks of auth, sorting and dockerizing: you will see they have been implemented.
-
-To take the project one step further I also added GitHub action scripts to run all Unit and E2E tests in CI, then deploy to fly.io for CD. The tests are quite comprehensive, you can run `$ yarn test:cov` for deeper insights, with more time I would flesh them out more.
-
-## Future features 😌
-
-- Integration with auth platform / email service
-- Monitoring & profiling with services such as Sentry and AWS X-ray
-- Optimisation of docker image size
-- Flesh out tests
-- Expand OpenAPI docs to cover GraphQL queries & mutations
-- Implement user-user relations, friends etc

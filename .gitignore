@@ -1,4 +1,5 @@
-.env.local
+# local db
+pgdata
 
 # compiled output
 /dist

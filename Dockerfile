@@ -1,17 +1,28 @@
-FROM node:18
+# base image
+FROM node:18 as base
 
 WORKDIR /app
 
 COPY package*.json ./
 
-RUN yarn
+RUN yarn 
+
+RUN yarn global add dotenv-cli
+
+RUN yarn prisma generate
 
 COPY . .
 
-RUN yarn run prisma generate
+EXPOSE 3000
+
+# dev image
+FROM base as dev
+
+CMD [ "yarn", "start:dev" ]
+
+# prod image
+FROM base as prod
 
 RUN yarn build
-
-EXPOSE 3000
 
 CMD [ "yarn", "start:prod" ]

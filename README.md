@@ -1,7 +1,6 @@
-# Seb's PYNEA coding challenge
+# NestJS GraphQL sample user application
 
 Stack: NestJS (Node.js), GraphQL, Prisma
-(package versions checked against latest to ensure stability)
 
 The following repos and resources were used in this project's development: 
 - https://github.com/onur-ozkan/feednext/
@@ -11,17 +10,22 @@ The following repos and resources were used in this project's development:
 
 Source code is written to follow patterns from official documentation as much as possible.
 
-**View it live: [https://seb-pynea-graphql.fly.dev/](https://seb-pynea-graphql.fly.dev/)**
+**View it live: [https://seb-nestjs-graphql.fly.dev/](https://seb-nestjs-graphql.fly.dev/)**
 
-## Setup
+## Local setup
 
-1. setup a postgres db on [https://railway.app](https://railway.app) (or your platform of choice)
-2. add the db url to `.env.local`
-3. run the following command BEFORE starting the application:
+### Docker
 
-`$ npx prisma migrate dev --name pynea-challenge`
+1. Run `$ docker compose up`
+2. Head to [http://localhost:3000/](http://localhost:3000/).
 
-5. Finally, run `yarn start:dev` and head to [http://localhost:3000/](http://localhost:3000/) for auth and query instructions.
+### Native process
+
+1. install dotenv-cli `$ yarn global add dotenv-cli`
+2. setup a postgres db on [https://railway.app](https://railway.app) (or your platform of choice)
+3. add `.env.local` to `.gitignore`
+4. replace the db url in `.env.local` with your db
+5. Finally, run `yarn start:dev` then head to [http://localhost:3000/](http://localhost:3000/).
 
 ## Overview
 

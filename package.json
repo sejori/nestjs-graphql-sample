@@ -19,7 +19,7 @@
     "test:debug": "dotenv -e .env.local -- node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "dotenv -e .env.local -- jest --config ./test/jest-e2e.json",
     "test:ci": "jest -i",
-    "test:e2e-ci": "jest --config ./test/jest-e2e.json"
+    "test:ci-e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
     "@apollo/server": "^4.9.3",

@@ -44,7 +44,7 @@ jobs:
         run: yarn
 
       - name: Configure db
-        run: yarn prisma:migrate-dev
+        run: yarn prisma:migrate
 
       - name: Run e2e tests
         run: yarn test:ci-e2e

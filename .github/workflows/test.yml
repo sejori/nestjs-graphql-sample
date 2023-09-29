@@ -27,18 +27,21 @@ jobs:
       run: yarn
 
     - name: Unit tests
-      run: yarn test
+      run: yarn test:ci
 
   e2e_test:
     name: E2E tests
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Docker Compose
-        uses: adambirds/docker-compose-action@v1.3.0
-        with:
-          compose-file: "./docker-compose.yml"
-          down-flags: "--volumes"
-          test-command: "yarn test:e2e"
+      - name: Set up db container
+        run: docker compose -f ./test/docker-compose.ts up -d
+
+      - name: Run e2e tests
+        run: yarn test:ci-e2e
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}

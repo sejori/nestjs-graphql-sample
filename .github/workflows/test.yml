@@ -32,9 +32,9 @@ jobs:
   e2e_test:
     name: E2E tests
     runs-on: ubuntu-latest
-      env:
-        DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
 
     steps:
       - name: Checkout code

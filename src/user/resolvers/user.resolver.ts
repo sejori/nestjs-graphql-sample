@@ -1,17 +1,16 @@
 
-import { ApiTags } from '@nestjs/swagger';
-import { Resolver, Query, Args, Mutation, createUnionType } from '@nestjs/graphql';
-import { User } from './models/user.model';
-import { UserService } from './user.service';
-
-import { GetUserArgs } from './dto/args/get-user.args';
-import { ListUsersArgs } from './dto/args/list-users.args';
-import { CreateUserInput } from './dto/input/create-user.input';
-import { UpdateUserInput } from './dto/input/update-user.input';
-import { DeleteUserInput } from './dto/input/delete-user.input';
-
+import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { AuthGuard } from '../auth/auth.guard';
+import { ApiTags } from '@nestjs/swagger';
+import { User } from 'src/user/models/user.model';
+import { UserService } from 'src/user/services/user.service';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
+
+import { GetUserArgs } from 'src/user/dto/args/get-user.args';
+import { ListUsersArgs } from 'src/user/dto/args/list-users.args';
+import { CreateUserInput } from 'src/user/dto/input/create-user.input';
+import { UpdateUserInput } from 'src/user/dto/input/update-user.input';
+import { DeleteUserInput } from 'src/user/dto/input/delete-user.input';
 
 @ApiTags('v1/user')
 @Resolver(() => User)

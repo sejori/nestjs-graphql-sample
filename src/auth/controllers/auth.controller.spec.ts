@@ -1,11 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { JwtService } from '@nestjs/jwt';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
-import { AuthGuard } from './auth.guard';
-import { UserService } from '../user/user.service';
-import { PrismaService } from '../_database/prisma.service';
+import { AuthService } from 'src/auth/services/auth.service';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { UserService } from 'src/user/services/user.service';
+import { PrismaService } from 'src/prisma/services/prisma.service';
 import { UnauthorizedException } from '@nestjs/common';
+
+import { AuthController } from './auth.controller';
 
 describe('AuthController', () => {
   let authController: AuthController;

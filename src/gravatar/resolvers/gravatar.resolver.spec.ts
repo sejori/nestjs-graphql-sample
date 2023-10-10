@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { GravatarService } from 'src/gravatar/services/gravatar.service';
 import { GravatarResolver } from './gravatar.resolver';
-import { GravatarService } from './gravatar.service';
 
 describe('GravatarResolver', () => {
   let gravatarResolver: GravatarResolver;

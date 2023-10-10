@@ -3,10 +3,11 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import {
   FastifyAdapter
 } from '@nestjs/platform-fastify';
-import * as request from 'supertest';
-import { AppModule } from '../src/app.module';
-import { UserService } from '../src/user/user.service';
 import { User } from '@prisma/client';
+import * as request from 'supertest';
+
+import { AppModule } from 'src/app/app.module';
+import { UserService } from 'src/user/services/user.service';
 
 describe('App auth (e2e)', () => {
   let app: INestApplication;

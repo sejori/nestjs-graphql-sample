@@ -3,12 +3,12 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import {
   FastifyAdapter
 } from '@nestjs/platform-fastify';
+import { User } from '@prisma/client';
 import * as request from 'supertest';
 
-import { User } from '@prisma/client';
-import { AppModule } from './../src/app.module';
-import { AuthGuard } from './../src/auth/auth.guard';
-import { mockUsers } from './mock.data';
+import { AppModule } from 'src/app/app.module';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { mockUsers } from 'test/mock.data';
 
 describe('App graphql (e2e)', () => {
   let app: INestApplication;

@@ -2,13 +2,13 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 
-import { PrismaService } from '../_database/prisma.service';
+import { PrismaService } from 'src/prisma/services/prisma.service';
 
-import { GetUserArgs } from './dto/args/get-user.args';
-import { ListUsersArgs } from './dto/args/list-users.args';
-import { CreateUserInput } from './dto/input/create-user.input';
-import { UpdateUserInput } from './dto/input/update-user.input';
-import { DeleteUserInput } from './dto/input/delete-user.input';
+import { GetUserArgs } from 'src/user/dto/args/get-user.args';
+import { ListUsersArgs } from 'src/user/dto/args/list-users.args';
+import { CreateUserInput } from 'src/user/dto/input/create-user.input';
+import { UpdateUserInput } from 'src/user/dto/input/update-user.input';
+import { DeleteUserInput } from 'src/user/dto/input/delete-user.input';
 
 @Injectable()
 export class UserService {

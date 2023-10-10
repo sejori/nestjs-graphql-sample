@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { UserService } from './user.service';
-import { UserResolver } from './user.resolver';
-import { PrismaService } from '../_database/prisma.service';
-import { AuthService } from '../auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
+import { PrismaService } from 'src/prisma/services/prisma.service';
+import { AuthService } from 'src/auth/services/auth.service';
+
+import { UserResolver } from './resolvers/user.resolver';
+import { UserService } from './services/user.service';
 
 @Module({
   providers: [
@@ -12,6 +13,7 @@ import { JwtService } from '@nestjs/jwt';
     PrismaService, 
     AuthService, 
     JwtService
-  ]
+  ],
+  exports: [UserService]
 })
 export class UserModule {}

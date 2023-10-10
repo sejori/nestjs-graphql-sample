@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { JwtService } from '@nestjs/jwt';
+import { PrismaService } from 'src/prisma/services/prisma.service';
+import { mockUsers, updateUserInput, updatedUser } from 'test/mock.data';
 import { UserService } from './user.service';
-import { PrismaService } from '../_database/prisma.service';
-import { mockUsers, updateUserInput, updatedUser } from '../../test/mock.data';
 
 describe('UserService', () => {
   let userService: UserService;

@@ -1,9 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { JwtService } from '@nestjs/jwt';
+import { UserService } from 'src/user/services/user.service';
+import { PrismaService } from 'src/prisma/services/prisma.service';
+import { mockUsers } from 'test/mock.data';
+
 import { AuthService } from './auth.service';
-import { UserService } from '../user/user.service';
-import { mockUsers } from '../../test/mock.data';
-import { PrismaService } from '../_database/prisma.service';
 
 describe('AuthService', () => {
   let authService: AuthService;

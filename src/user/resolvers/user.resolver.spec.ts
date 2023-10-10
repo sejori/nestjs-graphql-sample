@@ -1,9 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { JwtService } from '@nestjs/jwt';
+import { UserService } from 'src/user/services/user.service';
+import { PrismaService } from 'src/prisma/services/prisma.service';
+import { mockUsers, updateUserInput, updatedUser } from 'test/mock.data';
+
 import { UserResolver } from './user.resolver';
-import { UserService } from './user.service';
-import { PrismaService } from '../_database/prisma.service';
-import { mockUsers, updateUserInput, updatedUser } from '../../test/mock.data';
 
 describe('UserResolver', () => {
   let userResolver: UserResolver;

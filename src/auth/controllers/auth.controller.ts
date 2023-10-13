@@ -41,7 +41,7 @@ export class AuthController {
   })
   @UseGuards(AuthGuard)
   @Get('check-token')
-  async checkJwtToken() {
+  checkJwtToken() {
     return { status: 'ok', message: 'Token is valid' }
   }
 }

@@ -1,36 +1,26 @@
-import { Module } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing';
 import { JwtModule } from '@nestjs/jwt';
-import { mockExports } from 'test/test.utils';
 
+import { AuthModule } from './auth.module';
 import { AuthService } from './services/auth.service';
 import { AuthController } from './controllers/auth.controller';
-import { AuthModule } from './auth.module';
 
-// mock NestJS
-jest.mock('@nestjs/common', async () => (mockExports(await import('@nestjs/common'))));
-jest.mock('@nestjs/graphql', async () => (mockExports(await import('@nestjs/graphql'))));
-jest.mock('@nestjs/config', async () => (mockExports(await import('@nestjs/config'))));
-jest.mock('@nestjs/jwt', async () => (mockExports(await import('@nestjs/jwt'))));
-
-// mock custom modules/providers
-jest.mock('./services/auth.service', () => ({ AuthService: jest.fn() }));
-jest.mock('./controllers/auth.controller', () => ({ AuthController: jest.fn() }));
+import { UserModule } from 'src/user/user.module';
 
 describe('AuthModule', () => {
-  let mockModule = Module as jest.MockedFunction<typeof Module>;
-  let authModule: AuthModule;
+  let authModule: TestingModule;
 
-  beforeEach(() => {
-    mockModule.mockImplementationOnce(jest.fn());
-    authModule = new AuthModule();
+  beforeEach(async () => {
+    authModule = await Test.createTestingModule({
+      imports: [AuthModule]
+    }).compile(); 
   });
 
   it('should have been defined correctly with the correct imports, providers and exports', () => {
     expect(authModule).toBeDefined();
-    expect(mockModule).toHaveBeenCalledTimes(1);
-    expect(mockModule).toHaveBeenCalledWith({
-      imports: [AuthModule, JwtModule],
-      providers: [AuthService, AuthController],
-    });
+    expect(authModule.get<AuthService>(AuthService)).toBeDefined();
+    expect(authModule.get<AuthController>(AuthController)).toBeDefined();
+    expect(authModule.get<JwtModule>(JwtModule)).toBeDefined();
+    expect(authModule.get<UserModule>(UserModule)).toBeDefined();
   });
 });

@@ -44,10 +44,11 @@ export class AppService {
   public async seedDB() {
     try {
       await Promise.all(seedUsers.map(async user => {
-        return await this.userService.createUser(user)
+        await this.userService.createUser(user);
       }))
     } catch(e) {
-      return `DB seeded with mock users. Try logging in with ${seedUsers[0].email}.`
+      console.log(e);
     }
+    return `DB seeded with mock users. Try logging in with ${seedUsers[0].email}.`
   }
 }

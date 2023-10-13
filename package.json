@@ -42,6 +42,7 @@
     "class-validator": "^0.14.0",
     "global": "^4.4.0",
     "graphql": "^16.8.0",
+    "jest-mock-extended": "^3.0.5",
     "nestjs-rate-limiter": "^3.1.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
@@ -78,7 +79,9 @@
       "ts"
     ],
     "rootDir": "./",
-    "modulePaths": ["<rootDir>"],
+    "modulePaths": [
+      "<rootDir>"
+    ],
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"

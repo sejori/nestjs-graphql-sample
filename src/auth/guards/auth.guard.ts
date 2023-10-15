@@ -27,7 +27,7 @@ export class AuthGuard implements CanActivate {
   }
 
   private extractTokenFromContext(context: ExecutionContext): string | undefined {
-    let request: any;
+    let request: Request;
 
     if (context.getType() === 'http') {
       request = context.switchToHttp().getRequest();
@@ -36,7 +36,7 @@ export class AuthGuard implements CanActivate {
       request = gqlContext.getContext().req;
     }
 
-    const [type, token] = request.headers.authorization?.split(' ') ?? [];
+    const [type, token] = request.headers['Authorization']?.split(' ') ?? [];
     return type === 'Bearer' ? token : undefined;
   }
 }

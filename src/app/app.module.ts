@@ -30,6 +30,7 @@ import { AppService } from './services/app.service';
     }]),
     UserModule
   ],
-  providers: [AppService, AppController],
+  controllers: [AppController],
+  providers: [AppService]
 })
 export class AppModule {}

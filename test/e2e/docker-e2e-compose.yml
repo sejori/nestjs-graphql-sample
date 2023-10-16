@@ -8,8 +8,6 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=pass
     container_name: nestjs-graphql-postgres
-    volumes:
-      - ./pgdata:/var/lib/postgresql/data
     ports:
       - '5432:5432'
     healthcheck:

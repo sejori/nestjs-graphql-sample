@@ -40,7 +40,6 @@ export class AppService {
     `;
   }
 
-  // not tested - should be removed in prod deployment
   public async seedDB() {
     try {
       await Promise.all(seedUsers.map(async user => {

@@ -13,9 +13,7 @@ import { AuthController } from 'src/auth/controllers/auth.controller';
       signOptions: { expiresIn: '60m' }
     })
   ],
-  providers: [
-    AuthController,
-    AuthService
-  ]
+  controllers: [AuthController],
+  providers: [AuthService]
 })
 export class AuthModule {}

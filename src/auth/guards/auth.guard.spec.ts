@@ -45,7 +45,8 @@ describe('AuthGuard', () => {
 
     gqlExecutionContext = createMock<ExecutionContext>({
       getType: () => 'graphql',
-      getArgs: () => [{}, {}, httpExecutionContext]
+      // not ideal as test has become quite coupled to unit implementation...
+      getArgs: () => [{}, {}, { req: httpExecutionContext.switchToHttp().getRequest() }]
     });
   });
 

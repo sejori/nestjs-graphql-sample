@@ -39,9 +39,8 @@ describe('App auth (e2e)', () => {
   beforeEach(async () => {
     try {
       testUser = await userService.createUser(testUserData);
-    } catch {
-      const users = await userService.listUsers({ emails: [testUserData.email] })
-      testUser = users[0]
+    } catch(e) {
+      console.error(e);
     }
   })
 
@@ -77,6 +76,7 @@ describe('App auth (e2e)', () => {
   });
 
   it('/auth/check-token (GET) - 200', async () => {
+    console.log(token)
     await request(app.getHttpServer())
       .get('/auth/check-token')
       .set('Authorization', 'Bearer ' + token)

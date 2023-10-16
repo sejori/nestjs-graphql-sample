@@ -39,13 +39,13 @@ describe('App auth (e2e)', () => {
   beforeEach(async () => {
     try {
       testUser = await userService.createUser(testUserData);
-    } catch(e) {
-      console.error(e);
-    }
+    } catch {}
   })
 
   afterEach(async () => {
-    await userService.deleteUser({ id: testUser.id });
+    try {
+      await userService.deleteUser({ id: testUser.id });
+    } catch {}
   })
 
   it('/auth/login (POST) - 401', () => {
@@ -76,7 +76,6 @@ describe('App auth (e2e)', () => {
   });
 
   it('/auth/check-token (GET) - 200', async () => {
-    console.log(token)
     await request(app.getHttpServer())
       .get('/auth/check-token')
       .set('Authorization', 'Bearer ' + token)

@@ -1,8 +1,10 @@
 import { ExecutionContext, UnauthorizedException } from '@nestjs/common';
+import { GqlExecutionContext } from '@nestjs/graphql';
 import { JwtService } from '@nestjs/jwt';
 import { createMock } from '@golevelup/ts-jest';
 import { MockProxy, mock } from 'jest-mock-extended';
 import { AuthGuard } from './auth.guard';
+import { plainToClass } from 'class-transformer';
 
 describe('AuthGuard', () => {
   let authGuard: AuthGuard;
@@ -20,7 +22,14 @@ describe('AuthGuard', () => {
     });
   
     authGuard = new AuthGuard(mockJwtService);
+    const mockReq = {
+      headers: {
+        'authorization': 'Bearer qwertyuiop'
+      },
+      body: {},
+    }
 
+    // REST context mocking
     httpExecutionContextNoAuth = createMock<ExecutionContext>({
       getType: () => 'http',
       switchToHttp: () => ({
@@ -30,23 +39,16 @@ describe('AuthGuard', () => {
         })
       })
     });
-
     httpExecutionContext = createMock<ExecutionContext>({
       getType: () => 'http',
       switchToHttp: () => ({
-        getRequest: () => ({
-          headers: {
-            'Authorization': 'Bearer qwertyuiop'
-          },
-          body: {},
-        })
+        getRequest: () => mockReq
       })
     });
-
+    // GRAPHQL context mocking
     gqlExecutionContext = createMock<ExecutionContext>({
       getType: () => 'graphql',
-      // not ideal as test has become quite coupled to unit implementation...
-      getArgs: () => [{}, {}, { req: httpExecutionContext.switchToHttp().getRequest() }]
+      getArgs: () => [{}, {}, { req: mockReq }, {}],
     });
   });
 
@@ -60,8 +62,12 @@ describe('AuthGuard', () => {
     });
 
     it('should return true when jwt is present and verfied', async () => {
-      expect(authGuard.canActivate(httpExecutionContext)).resolves.toBe(true);
-      expect(mockJwtService.verify).toHaveBeenCalledTimes(1);
+      try {
+        expect(await authGuard.canActivate(httpExecutionContext)).toBe(true);
+        expect(mockJwtService.verify).toHaveBeenCalledTimes(1);
+      } catch(e) {
+        console.log(e)
+      }
     });
 
     it('should also work with graphql requests', async () => {

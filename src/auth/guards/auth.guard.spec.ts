@@ -1,10 +1,8 @@
 import { ExecutionContext, UnauthorizedException } from '@nestjs/common';
-import { GqlExecutionContext } from '@nestjs/graphql';
 import { JwtService } from '@nestjs/jwt';
 import { createMock } from '@golevelup/ts-jest';
 import { MockProxy, mock } from 'jest-mock-extended';
 import { AuthGuard } from './auth.guard';
-import { plainToClass } from 'class-transformer';
 
 describe('AuthGuard', () => {
   let authGuard: AuthGuard;

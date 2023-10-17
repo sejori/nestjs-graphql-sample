@@ -4,7 +4,7 @@ import { UserService } from 'src/user/services/user.service';
 
 import { mockUsers, updatedUser, seedUsers } from 'test/mock.data';
 
-describe('AppController', () => {
+describe('AppService', () => {
   let appService: AppService;
   let mockUserService: MockProxy<UserService>;
 

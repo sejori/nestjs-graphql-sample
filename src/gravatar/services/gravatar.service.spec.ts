@@ -1,12 +1,12 @@
 import { createHash } from 'crypto';
 import { GravatarService } from './gravatar.service';
 
-describe('UserService', () => {
+describe('GravatarService', () => {
   let gravatarService: GravatarService;
-  const testEmail = 'bob@burgers.biz'
+  const testEmail = 'bob@burgers.biz';
 
   beforeEach(async () => {
-    gravatarService = new GravatarService()
+    gravatarService = new GravatarService();
   });
 
   describe('getGravatar', () => {

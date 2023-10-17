@@ -1,12 +1,15 @@
 # NestJS GraphQL sample user application
 
-Stack: NestJS (Node.js), GraphQL, Prisma
+![kitten](https://img.freepik.com/premium-photo/memes-with-kitten-that-roars-like-lion_999671-3099.jpg)
+
+**Stack:** NestJS (Node.js), GraphQL, Prisma
 
 The following repos and resources were used in this project's development: 
 - https://github.com/onur-ozkan/feednext/
 - https://github.com/shkim04/find-your-wc.git
 - https://docs.nestjs.com/security/authentication
 - https://blog.logrocket.com/implementing-pagination-graphql-nestjs/
+- https://github.com/nestjs/nest/issues/11602
 
 Source code is written to follow patterns from official documentation as much as possible.
 
@@ -16,16 +19,16 @@ Source code is written to follow patterns from official documentation as much as
 
  - Gravatar graphql query
  - authentication (kinda - just searches for email)
- - listUser sorting
- - docker
- - GitHub action CI/CD - run unit and E2E tests
+ - listUsers sorting and filtering
+ - docker for deployments + testing
+ - ~100% code coverage with unit, integration and E2E tests
+ - GitHub actions for CI/CD
 
 ## Future features 😌
 
 - Integration with auth platform / email service
 - Monitoring & profiling with services such as Sentry and AWS X-ray
 - Optimisation of docker image size
-- Flesh out tests
 - Expand OpenAPI docs to cover GraphQL queries & mutations
 - Implement user-user relations, friends etc
 
@@ -39,10 +42,9 @@ Source code is written to follow patterns from official documentation as much as
 ### Native process
 
 1. install dotenv-cli `$ yarn global add dotenv-cli`
-2. setup a postgres db ([https://railway.app](https://railway.app) or platform of choice)
-3. add `.env.local` to `.gitignore`
-4. replace the db url in `.env.local` with your db
-5. run `yarn start:dev` then head to [http://localhost:3000/](http://localhost:3000/)
+2. setup a postgres db ([https://railway.app](https://railway.app) or tool of choice)
+3. replace the db url in `.env.local` with your db
+4. run `yarn start:dev` then head to [http://localhost:3000/](http://localhost:3000/)
 
 (**note**: don't commmit your db credentials!)
 

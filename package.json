@@ -22,7 +22,7 @@
     "test:debug": "dotenv -e .env.local -- node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "yarn prisma:migrate-dev && dotenv -e .env.local -- jest --config ./test/e2e/jest-e2e.json",
     "test:ci": "jest -i",
-    "test:ci-e2e": "DATABASE_URL=postgresql://postgres:pass@localhost:5432/nestjs-gql-sample yarn prisma:migrate-dev && jest --config ./test/e2e/jest-e2e.json"
+    "test:ci-e2e": "jest --config ./test/e2e/jest-e2e.json"
   },
   "dependencies": {
     "@apollo/server": "^4.9.3",

@@ -10,14 +10,14 @@ export class AppService {
     return `<!DOCTYPE html>
       <html>
         <head>
-          <title>PYNEA GraphQL</title>
+          <title>NestJS GraphQL Users</title>
           <style>
             html, body, input { font-family: sans-serif; font-size: 24px; }
             li { margin: 20px; }
           </style>
         </head>
         <body>
-          <h1>PYNEA GraphQL Users</h1>
+          <h1>NestJS GraphQL Users</h1>
           <ol>
             <li>GET <a href='/seed-db'><code>/seed-db</code></a></li>
             <li>

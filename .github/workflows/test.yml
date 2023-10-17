@@ -51,6 +51,9 @@ jobs:
       - name: Install dependencies
         run: yarn
 
+      - name: Generate Prisma schema
+        run: yarn prisma generate
+
       - name: Configure db
         run: yarn prisma migrate deploy --schema ./src/prisma/schema.prisma
 

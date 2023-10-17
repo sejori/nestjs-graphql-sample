@@ -1,25 +1,21 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { createHash } from 'crypto';
 import { GravatarService } from './gravatar.service';
 
 describe('UserService', () => {
   let gravatarService: GravatarService;
+  const testEmail = 'bob@burgers.biz'
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        GravatarService
-      ],
-    }).compile();
-
-    gravatarService = module.get<GravatarService>(GravatarService);
+    gravatarService = new GravatarService()
   });
 
   describe('getGravatar', () => {
-    it('should hash email into gravatar API and return as object', async () => {
-      const result = await gravatarService.getUrl('sebringrose@gmail.com');
+    it('should MD5 hash email into gravatar API and return as object', async () => {
+      const testHash = createHash('md5').update(testEmail).digest('hex');
+      const result = await gravatarService.getUrl(testEmail);
 
       expect(result).toStrictEqual({ 
-        url: 'https://gravatar.com/avatar/7cf997d80f172b5e026b2ac67a1482da' 
+        url: `https://gravatar.com/avatar/${testHash}` 
       })
     });
   });

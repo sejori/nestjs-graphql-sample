@@ -1,30 +1,25 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { mock, MockProxy } from 'jest-mock-extended';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from 'src/user/services/user.service';
-import { PrismaService } from 'src/prisma/services/prisma.service';
 import { mockUsers } from 'test/mock.data';
 
+import { UserService } from 'src/user/services/user.service';
 import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
   let authService: AuthService;
+  let mockUserService: MockProxy<UserService>;
+  let mockJwtService: MockProxy<JwtService>;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        AuthService, 
-        {
-          provide: UserService,
-          useValue: {
-            listUsers: jest.fn().mockResolvedValue([mockUsers[0]])
-          }
-        },
-        JwtService, 
-        PrismaService
-      ]
-    }).compile();
+    mockUserService = mock<UserService>({
+      listUsers: jest.fn(() => new Promise(res => res([mockUsers[0]])))
+    });
 
-    authService = module.get<AuthService>(AuthService);
+    mockJwtService = mock<JwtService>({
+      sign: jest.fn(() => 'i_am_a_donut')
+    });
+  
+    authService = new AuthService(mockUserService, mockJwtService);
   });
 
   describe('login', () => {
@@ -33,6 +28,7 @@ describe('AuthService', () => {
 
       expect(result).toHaveProperty('access_token');
       expect(typeof result.access_token).toBe('string');
+      expect(mockJwtService.sign).toHaveBeenCalledTimes(1);
     });
   });
 });

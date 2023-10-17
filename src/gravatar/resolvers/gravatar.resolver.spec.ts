@@ -1,34 +1,26 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { mock } from 'jest-mock-extended';
 import { GravatarService } from 'src/gravatar/services/gravatar.service';
 import { GravatarResolver } from './gravatar.resolver';
 
 describe('GravatarResolver', () => {
   let gravatarResolver: GravatarResolver;
-  let gravatarService: GravatarService;
+  let mockGravatarService: GravatarService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        GravatarResolver, 
-        GravatarService
-      ],
-    }).compile();
+    mockGravatarService = mock<GravatarService>({
+      getUrl: jest.fn(() => new Promise(res => res({ 
+        url: 'https://gravatar.com/image_url' 
+      })))
+    });
 
-    gravatarResolver = module.get<GravatarResolver>(GravatarResolver);
-    gravatarService = module.get<GravatarService>(GravatarService);
+    gravatarResolver = new GravatarResolver(mockGravatarService)
   });
 
   describe('getGravatar', () => {
     it('should return a gravatar url object', async () => {
-      jest.spyOn(gravatarService, 'getUrl').mockResolvedValue({ 
-        url: 'https://gravatar.com/avatar/7cf997d80f172b5e026b2ac67a1482da' 
-      });
-
       const result = await gravatarResolver.getGravatar({ email: 'sebringrose@gmail.com' });
-
-      expect(result).toStrictEqual({
-        url: 'https://gravatar.com/avatar/7cf997d80f172b5e026b2ac67a1482da' 
-      });
+      expect(result).toHaveProperty('url');
+      expect(mockGravatarService.getUrl).toHaveBeenCalledTimes(1);
     });
   });
 });

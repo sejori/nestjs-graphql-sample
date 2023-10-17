@@ -4,16 +4,16 @@ import { User as UserDB } from '@prisma/client';
 @ObjectType({ description: 'user' })
 export class User {
   @Field(() => ID)
-  id: UserDB['id'];
+  id: UserDB['id'] = '';
 
   @Field(() => String)
-  firstName: UserDB['firstName'];
+  firstName: UserDB['firstName'] = '';
 
   @Field(() => String)
-  lastName: UserDB['lastName'];
+  lastName: UserDB['lastName'] = '';
 
   @Field(() => String)
-  email: UserDB['email'];
+  email: UserDB['email'] = '';
 
   @Field(() => String)
   createdAt: UserDB['createdAt'];

@@ -1,33 +1,25 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { JwtService } from '@nestjs/jwt';
-import { PrismaService } from 'src/prisma/services/prisma.service';
 import { mockUsers, updateUserInput, updatedUser } from 'test/mock.data';
+import { PrismaService } from 'src/prisma/services/prisma.service';
 import { UserService } from './user.service';
+import { createMock } from '@golevelup/ts-jest';
+import { ListUsersArgs } from '../dto/args/list-users.args';
 
 describe('UserService', () => {
+  let mockPrismaService: PrismaService;
   let userService: UserService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        UserService, 
-        JwtService,
-        {
-          provide: PrismaService,
-          useValue: {
-            user: {
-              findUnique: jest.fn().mockResolvedValue(mockUsers[0]),
-              findMany: jest.fn().mockResolvedValue([mockUsers[1]]),
-              create: jest.fn().mockResolvedValue(mockUsers[0]),
-              update: jest.fn().mockResolvedValue(updatedUser),
-              delete: jest.fn().mockResolvedValue(mockUsers[0]),
-            }
-          }
-        }
-      ],
-    }).compile();
+    mockPrismaService = createMock<PrismaService>({
+      user: {
+        findUnique: jest.fn(() => new Promise(res => res(mockUsers[0]))),
+        findMany: jest.fn(() => new Promise(res => res(mockUsers))),
+        create: jest.fn(() => new Promise(res => res(mockUsers[0]))),
+        update: jest.fn(() => new Promise(res => res(updatedUser))),
+        delete: jest.fn(() => new Promise(res => res(mockUsers[0]))),
+      }
+    });
 
-    userService = module.get<UserService>(UserService);
+    userService = new UserService(mockPrismaService);
   });
 
   describe('getUser', () => {
@@ -42,19 +34,42 @@ describe('UserService', () => {
     it('should return a list of users', async () => {
       const listUsersArgs = {};
 
-      jest.spyOn(userService, 'listUsers').mockResolvedValue(mockUsers);
-
       const result = await userService.listUsers(listUsersArgs);
 
       expect(result).toEqual(mockUsers);
     });
 
-    it('should return a list of users matching filter options', async () => {
-      const listUsersArgs = { lastNames: ["Los"] };
+    it('should apply filter options', async () => {
+      const listUsersArgs = { 
+        ids: [],
+        firstNames: ['Thiago'],
+        lastNames: ['Los'],
+        emails: ['test@live.net'],
+        sortBy: 'email',
+        order: 'desc',
+        skip: 5,
+        limit: 5
+      };
 
-      const result = await userService.listUsers(listUsersArgs);
+      await userService.listUsers(listUsersArgs as ListUsersArgs);
 
-      expect(result).toEqual([mockUsers[1]]);
+      expect(mockPrismaService.user.findMany).toBeCalledWith({
+        orderBy: [
+          {
+            email: 'desc'
+          }
+        ],
+        skip: 5,
+        take: 5,
+        where: {
+          OR: [
+            { id: { in: [] } },
+            { firstName: { in: listUsersArgs.firstNames } },
+            { lastName: { in: listUsersArgs.lastNames } },
+            { email: { in: listUsersArgs.emails } }
+          ],
+        }
+      });
     });
   });
 

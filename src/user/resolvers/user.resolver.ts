@@ -51,7 +51,6 @@ export class UserResolver {
     return this.userService.updateUser(updateUserData);
   }
 
-  // this mutation is not in the spec but seemed appropriate for CRUD.
   @UseGuards(AuthGuard)
   @Mutation(() => User)
   async deleteUser(

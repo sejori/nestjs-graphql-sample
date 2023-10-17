@@ -13,7 +13,7 @@
     "start:debug": "yarn prisma:migrate-dev && dotenv -e .env.local -- nest start --debug --watch",
     "start:prod": "node dist/src/main",
     "prisma:generate": "prisma generate --schema ./src/prisma/schema.prisma",
-    "prisma:migrate": "prisma migrate deploy --schema ./src/prisma/schema.prisma --name nestjs-gql-sample",
+    "prisma:migrate": "prisma migrate deploy --schema ./src/prisma/schema.prisma",
     "prisma:migrate-dev": "dotenv -e .env.local -- prisma migrate dev --schema ./src/prisma/schema.prisma --name nestjs-gql-sample",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "dotenv -e .env.local -- jest -i",

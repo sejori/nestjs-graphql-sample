@@ -44,7 +44,8 @@ Source code is written to follow patterns from official documentation as much as
 1. install dotenv-cli `$ yarn global add dotenv-cli`
 2. setup a postgres db ([https://railway.app](https://railway.app) or tool of choice)
 3. replace the db url in `.env.local` with your db
-4. run `yarn start:dev` then head to [http://localhost:3000/](http://localhost:3000/)
+4. run `yarn prisma:migrate-dev`
+5. run `yarn start:dev`, then head to [http://localhost:3000/](http://localhost:3000/)
 
 (**note**: don't commmit your db credentials!)
 

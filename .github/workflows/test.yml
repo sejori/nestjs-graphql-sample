@@ -38,7 +38,7 @@ jobs:
     name: E2E tests
     runs-on: ubuntu-latest
     env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DATABASE_URL: postgresql://postgres:pass@localhost:5432/nestjs-gql-sample
       AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
 
     steps:
@@ -51,8 +51,11 @@ jobs:
       - name: Install dependencies
         run: yarn
 
+      - name: Generate Prisma schema
+        run: yarn prisma generate --schema ./src/prisma/schema.prisma
+
       - name: Configure db
-        run: yarn prisma:migrate
+        run: yarn prisma migrate deploy --schema ./src/prisma/schema.prisma
 
       - name: Run e2e tests
         run: yarn test:ci-e2e

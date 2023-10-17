@@ -13,7 +13,7 @@
     "start:debug": "yarn prisma:migrate-dev && dotenv -e .env.local -- nest start --debug --watch",
     "start:prod": "node dist/src/main",
     "prisma:generate": "prisma generate --schema ./src/prisma/schema.prisma",
-    "prisma:migrate": "prisma migrate dev --schema ./src/prisma/schema.prisma --name nestjs-gql-sample",
+    "prisma:migrate": "prisma migrate deploy --schema ./src/prisma/schema.prisma",
     "prisma:migrate-dev": "dotenv -e .env.local -- prisma migrate dev --schema ./src/prisma/schema.prisma --name nestjs-gql-sample",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "dotenv -e .env.local -- jest -i",
@@ -22,7 +22,7 @@
     "test:debug": "dotenv -e .env.local -- node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "yarn prisma:migrate-dev && dotenv -e .env.local -- jest --config ./test/e2e/jest-e2e.json",
     "test:ci": "jest -i",
-    "test:ci-e2e": "yarn prisma:migrate && jest --config ./test/e2e/jest-e2e.json"
+    "test:ci-e2e": "jest --config ./test/e2e/jest-e2e.json"
   },
   "dependencies": {
     "@apollo/server": "^4.9.3",

@@ -52,7 +52,7 @@ jobs:
         run: yarn
 
       - name: Configure db
-        run: yarn prisma:migrate-dev
+        run: yarn prisma migrate deploy --schema ./src/prisma/schema.prisma
 
       - name: Run e2e tests
         run: yarn test:ci-e2e

@@ -8,6 +8,8 @@ describe('UserModel', () => {
     expect(Reflect.has(test, 'firstName')).toBe(true);
     expect(Reflect.has(test, 'lastName')).toBe(true);
     expect(Reflect.has(test, 'email')).toBe(true);
+    expect(Reflect.has(test, 'followedBy')).toBe(true);
+    expect(Reflect.has(test, 'follows')).toBe(true);
   });
 });
 

@@ -4,6 +4,8 @@ export const mockUsers = [
     firstName: 'Mylena',
     lastName: 'Vendramini',
     email: 'i_smile@live.co.uk',
+    follows: [],
+    followedBy: [],
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -12,6 +14,8 @@ export const mockUsers = [
     firstName: 'Thiago',
     lastName: 'Los',
     email: 'cruisin@gmail.com',
+    follows: [],
+    followedBy: [],
     createdAt: new Date(),
     updatedAt: new Date()
   }
@@ -19,13 +23,14 @@ export const mockUsers = [
 
 export const updateUserInput = {
   id: mockUsers[0].id,
-  firstName: mockUsers[1].firstName,
-  lastName: mockUsers[1].lastName,
-  email: mockUsers[1].email
+  firstName: 'Mechi',
+  lastName: 'Nova',
+  email: 'i_am_a_new@email.com'
 }
 
 export const updatedUser = {
   ...updateUserInput,
+  follows: [ mockUsers[1] ],
   createdAt: mockUsers[0].createdAt,
   updatedAt: new Date()
 }
@@ -36,6 +41,8 @@ export const seedUsers = [
     firstName: 'Diana',
     lastName: 'Marquez',
     email: 'diana.marquez@example.com',
+    follows: [],
+    followedBy: [],
     createdAt: new Date('2023-09-16T08:00:00Z'),
     updatedAt: new Date('2023-09-16T08:30:00Z')
   },
@@ -44,6 +51,8 @@ export const seedUsers = [
     firstName: 'Carlos',
     lastName: 'Santana',
     email: 'carlos.santana@example.com',
+    follows: [],
+    followedBy: [],
     createdAt: new Date('2023-09-15T14:45:00Z'),
     updatedAt: new Date('2023-09-15T15:15:00Z')
   },
@@ -52,6 +61,8 @@ export const seedUsers = [
     firstName: 'Alejandro',
     lastName: 'Valentino',
     email: 'alejandro.valentino@example.com',
+    follows: [],
+    followedBy: [],
     createdAt: new Date('2023-09-14T12:30:00Z'),
     updatedAt: new Date('2023-09-14T13:00:00Z')
   },
@@ -60,6 +71,8 @@ export const seedUsers = [
     firstName: 'Eva',
     lastName: 'Gonzalez',
     email: 'eva.gonzalez@example.com',
+    follows: [],
+    followedBy: [],
     createdAt: new Date('2023-09-13T18:15:00Z'),
     updatedAt: new Date('2023-09-13T18:45:00Z')
   },
@@ -68,6 +81,8 @@ export const seedUsers = [
     firstName: 'Diego',
     lastName: 'Rodriguez',
     email: 'diego.rodriguez@example.com',
+    follows: [],
+    followedBy: [],
     createdAt: new Date('2023-09-12T09:30:00Z'),
     updatedAt: new Date('2023-09-12T10:00:00Z')
   },
@@ -76,6 +91,8 @@ export const seedUsers = [
     firstName: 'Sophia',
     lastName: 'Johnson',
     email: 'sophia.johnson@example.com',
+    follows: [],
+    followedBy: [],
     createdAt: new Date('2023-09-11T14:30:00Z'),
     updatedAt: new Date('2023-09-11T15:00:00Z')
   },
@@ -84,6 +101,8 @@ export const seedUsers = [
     firstName: 'Liam',
     lastName: 'Martinez',
     email: 'liam.martinez@example.com',
+    follows: [],
+    followedBy: [],
     createdAt: new Date('2023-09-10T11:45:00Z'),
     updatedAt: new Date('2023-09-10T12:15:00Z')
   },
@@ -92,6 +111,8 @@ export const seedUsers = [
     firstName: 'Olivia',
     lastName: 'Taylor',
     email: 'olivia.taylor@example.com',
+    follows: [],
+    followedBy: [],
     createdAt: new Date('2023-09-09T17:20:00Z'),
     updatedAt: new Date('2023-09-09T17:50:00Z')
   },
@@ -100,6 +121,8 @@ export const seedUsers = [
     firstName: 'Mason',
     lastName: 'Garcia',
     email: 'mason.garcia@example.com',
+    follows: [],
+    followedBy: [],
     createdAt: new Date('2023-09-08T10:10:00Z'),
     updatedAt: new Date('2023-09-08T10:40:00Z')
   },
@@ -108,6 +131,8 @@ export const seedUsers = [
     firstName: 'Ava',
     lastName: 'Miller',
     email: 'ava.miller@example.com',
+    follows: [],
+    followedBy: [],
     createdAt: new Date('2023-09-07T16:55:00Z'),
     updatedAt: new Date('2023-09-07T17:25:00Z')
   },
@@ -116,6 +141,8 @@ export const seedUsers = [
     firstName: 'Noah',
     lastName: 'Thomas',
     email: 'noah.thomas@example.com',
+    follows: [],
+    followedBy: [],
     createdAt: new Date('2023-09-06T12:20:00Z'),
     updatedAt: new Date('2023-09-06T12:50:00Z')
   },
@@ -124,6 +151,8 @@ export const seedUsers = [
     firstName: 'Isabella',
     lastName: 'Brown',
     email: 'isabella.brown@example.com',
+    follows: [],
+    followedBy: [],
     createdAt: new Date('2023-09-05T09:45:00Z'),
     updatedAt: new Date('2023-09-05T10:15:00Z')
   },
@@ -132,6 +161,8 @@ export const seedUsers = [
     firstName: 'Liam',
     lastName: 'Clark',
     email: 'liam.clark@example.com',
+    follows: [],
+    followedBy: [],
     createdAt: new Date('2023-09-04T14:30:00Z'),
     updatedAt: new Date('2023-09-04T15:00:00Z')
   },
@@ -140,6 +171,8 @@ export const seedUsers = [
     firstName: 'Mia',
     lastName: 'Wilson',
     email: 'mia.wilson@example.com',
+    follows: [],
+    followedBy: [],
     createdAt: new Date('2023-09-03T18:45:00Z'),
     updatedAt: new Date('2023-09-03T19:15:00Z')
   }

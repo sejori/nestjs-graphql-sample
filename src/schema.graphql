@@ -8,6 +8,8 @@ type User {
   firstName: String!
   lastName: String!
   email: String!
+  followedBy: [User!]!
+  follows: [User!]!
   createdAt: String!
   updatedAt: String!
 }

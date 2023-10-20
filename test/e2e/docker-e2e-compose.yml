@@ -7,7 +7,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=pass
-    container_name: nestjs-graphql-postgres
+    container_name: nestjs-graphql-postgres-e2e
     ports:
       - '5432:5432'
     healthcheck:

@@ -9,6 +9,8 @@ import { ListUsersArgs } from 'src/user/dto/args/list-users.args';
 import { CreateUserInput } from 'src/user/dto/input/create-user.input';
 import { UpdateUserInput } from 'src/user/dto/input/update-user.input';
 import { DeleteUserInput } from 'src/user/dto/input/delete-user.input';
+import { FollowUserInput } from '../dto/input/follow-user.input';
+import { UnfollowUserInput } from '../dto/input/unfollow-user.input';
 
 @Injectable()
 export class UserService {
@@ -21,7 +23,11 @@ export class UserService {
       return await this.prisma.user.findUnique({ 
         where: { 
           id: getUserArgs.id 
-        } 
+        },
+        include: {
+          follows: true,
+          followedBy: true
+        }
       });
     } catch(e) {
       // Logger service can be used here for cloud logs if needed - skipped for now
@@ -45,13 +51,17 @@ export class UserService {
 
       return await this.prisma.user.findMany({
         where: filters,
+        include: {
+          follows: true,
+          followedBy: true
+        },
         orderBy: listUsersArgs.sortBy
-          ? [
-            {
-              [listUsersArgs.sortBy]: listUsersArgs.order || 'asc'
-            }
-          ]
-          : [],
+        ? [
+          {
+            [listUsersArgs.sortBy]: listUsersArgs.order || 'asc'
+          }
+        ]
+        : [],
         skip: listUsersArgs.skip,
         take: listUsersArgs.limit
       });
@@ -69,6 +79,10 @@ export class UserService {
           id: uuidv4(),
           ...createUserData,
         },
+        include: {
+          follows: true,
+          followedBy: true
+        },
       });
       return user;
     } catch(e) {
@@ -82,7 +96,61 @@ export class UserService {
     try {
       const user = await this.prisma.user.update({
         where: { id: updateUserData.id },
+        include: {
+          follows: true,
+          followedBy: true
+        },
         data: updateUserData,
+      });
+  
+      return user;
+    } catch(e) {
+      throw new HttpException('Failed to update user - does it exist?', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  public async followUser(
+    followUserInput: FollowUserInput,
+  ): Promise<User> {
+    try {
+      const user = await this.prisma.user.update({
+        where: { id: followUserInput.id },
+        include: {
+          follows: true,
+          followedBy: true
+        },
+        data: {
+          follows: {
+            connect: {
+              id: followUserInput.follows
+            }
+          }
+        }
+      });
+  
+      return user;
+    } catch(e) {
+      throw new HttpException('Failed to update user - does it exist?', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  public async unfollowUser(
+    unfollowUserInput: UnfollowUserInput,
+  ): Promise<User> {
+    try {
+      const user = await this.prisma.user.update({
+        where: { id: unfollowUserInput.id },
+        include: {
+          follows: true,
+          followedBy: true
+        },
+        data: {
+          follows: {
+            disconnect: {
+              id: unfollowUserInput.unfollows
+            }
+          }
+        },
       });
   
       return user;
@@ -99,6 +167,10 @@ export class UserService {
         where: {
           id: deleteUserData.id,
         },
+        include: {
+          follows: true,
+          followedBy: true
+        }
       });
   
       return user;

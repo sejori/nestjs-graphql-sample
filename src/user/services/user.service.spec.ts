@@ -27,6 +27,7 @@ describe('UserService', () => {
       const result = await userService.getUser({ id: mockUsers[0].id });
 
       expect(result).toBe(mockUsers[0]);
+      expect(mockPrismaService.user.findUnique).toBeCalledTimes(1);
     });
   });
 
@@ -37,9 +38,10 @@ describe('UserService', () => {
       const result = await userService.listUsers(listUsersArgs);
 
       expect(result).toEqual(mockUsers);
+      expect(mockPrismaService.user.findMany).toBeCalledTimes(1);
     });
 
-    it('should apply filter options', async () => {
+    it('should apply filter options and include follows and followedBy', async () => {
       const listUsersArgs = { 
         ids: [],
         firstNames: ['Thiago'],
@@ -54,13 +56,6 @@ describe('UserService', () => {
       await userService.listUsers(listUsersArgs as ListUsersArgs);
 
       expect(mockPrismaService.user.findMany).toBeCalledWith({
-        orderBy: [
-          {
-            email: 'desc'
-          }
-        ],
-        skip: 5,
-        take: 5,
         where: {
           OR: [
             { id: { in: [] } },
@@ -68,7 +63,18 @@ describe('UserService', () => {
             { lastName: { in: listUsersArgs.lastNames } },
             { email: { in: listUsersArgs.emails } }
           ],
-        }
+        },
+        include: {
+          follows: true,
+          followedBy: true
+        },
+        orderBy: [
+          {
+            email: 'desc'
+          }
+        ],
+        skip: 5,
+        take: 5,
       });
     });
   });
@@ -82,6 +88,7 @@ describe('UserService', () => {
       const result = await userService.createUser(createUserInput);
 
       expect(result).toBe(mockUsers[0]);
+      expect(mockPrismaService.user.create).toBeCalledTimes(1);
     });
   });
 
@@ -90,6 +97,55 @@ describe('UserService', () => {
       const result = await userService.updateUser(updateUserInput);
 
       expect(result).toBe(updatedUser);
+      expect(mockPrismaService.user.update).toBeCalledTimes(1);
+    });
+  });
+
+  describe('followUser', () => {
+    it('should utilise prisma connect API', async () => {
+      await userService.followUser({
+        id: updateUserInput.id, 
+        follows: mockUsers[1].id
+      });
+
+      expect(mockPrismaService.user.update).toBeCalledWith({
+        where: { id: updateUserInput.id },
+        include: {
+          follows: true,
+          followedBy: true
+        },
+        data: {
+          follows: {
+            connect: {
+              id: mockUsers[1].id
+            }
+          }
+        }
+      });
+    });
+  });
+
+  describe('unfollowUser', () => {
+    it('should utilise primsa (dis)connect API', async () => {
+      await userService.unfollowUser({
+        id: updateUserInput.id, 
+        unfollows: mockUsers[1].id
+      });
+
+      expect(mockPrismaService.user.update).toBeCalledWith({
+        where: { id: updateUserInput.id },
+        include: {
+          follows: true,
+          followedBy: true
+        },
+        data: {
+          follows: {
+            disconnect: {
+              id: mockUsers[1].id
+            }
+          }
+        }
+      });
     });
   });
 
@@ -100,6 +156,7 @@ describe('UserService', () => {
       const result = await userService.deleteUser(deleteUserInput);
 
       expect(result).toBe(mockUsers[0]);
+      expect(mockPrismaService.user.delete).toBeCalledTimes(1);
     });
   });
 });

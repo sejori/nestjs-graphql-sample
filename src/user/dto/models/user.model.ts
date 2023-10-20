@@ -15,6 +15,12 @@ export class User {
   @Field(() => String)
   email: UserDB['email'] = '';
 
+  @Field(() => [User])
+  followedBy?: User[] = [];
+
+  @Field(() => [User])
+  follows?: User[] = [];
+
   @Field(() => String)
   createdAt: UserDB['createdAt'];
 

@@ -10,6 +10,7 @@ The following repos and resources were used in this project's development:
 - https://docs.nestjs.com/security/authentication
 - https://blog.logrocket.com/implementing-pagination-graphql-nestjs/
 - https://github.com/nestjs/nest/issues/11602
+- https://www.prisma.io/docs/concepts/components/prisma-schema/relations/self-relations#many-to-many-self-relations
 
 Source code is written to follow patterns from official documentation as much as possible.
 
@@ -17,6 +18,7 @@ Source code is written to follow patterns from official documentation as much as
 
 ## Features
 
+ - User management, CRUD + many-to-many relations
  - Gravatar graphql query
  - authentication (kinda - just searches for email)
  - listUsers sorting and filtering
@@ -30,7 +32,6 @@ Source code is written to follow patterns from official documentation as much as
 - Monitoring & profiling with services such as Sentry and AWS X-ray
 - Optimisation of docker image size
 - Expand OpenAPI docs to cover GraphQL queries & mutations
-- Implement user-user relations, friends etc
 
 ## Local setup
 

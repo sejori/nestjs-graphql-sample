@@ -11,8 +11,8 @@ describe('GravatarModule', () => {
 
   beforeEach(async () => {
     userModule = await Test.createTestingModule({
-      imports: [UserModule]
-    }).compile(); 
+      imports: [UserModule],
+    }).compile();
   });
 
   it('should have been defined correctly with the correct imports, providers and exports', () => {

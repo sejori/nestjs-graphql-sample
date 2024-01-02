@@ -12,13 +12,13 @@ describe('AuthService', () => {
 
   beforeEach(async () => {
     mockUserService = mock<UserService>({
-      listUsers: jest.fn(() => new Promise(res => res([mockUsers[0]])))
+      listUsers: jest.fn(() => new Promise((res) => res([mockUsers[0]]))),
     });
 
     mockJwtService = mock<JwtService>({
-      sign: jest.fn(() => 'i_am_a_donut')
+      sign: jest.fn(() => 'i_am_a_donut'),
     });
-  
+
     authService = new AuthService(mockUserService, mockJwtService);
   });
 

@@ -8,8 +8,8 @@ describe('GravatarModule', () => {
 
   beforeEach(async () => {
     prismaModule = await Test.createTestingModule({
-      imports: [PrismaModule]
-    }).compile(); 
+      imports: [PrismaModule],
+    }).compile();
   });
 
   it('should have been defined correctly with the correct imports, providers and exports', () => {

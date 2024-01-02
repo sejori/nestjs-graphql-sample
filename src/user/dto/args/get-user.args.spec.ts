@@ -15,7 +15,7 @@ describe('GetUserArgs', () => {
 
   it('should validate id is string', async () => {
     const args = plainToClass(GetUserArgs, {
-      id: 5
+      id: 5,
     });
     const errors = await validate(args);
     expect(errors).toHaveLength(1);

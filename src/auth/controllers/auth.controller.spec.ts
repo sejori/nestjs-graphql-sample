@@ -11,26 +11,30 @@ describe('AuthController', () => {
 
   beforeEach(async () => {
     mockAuthService = mock<AuthService>({
-      login: jest.fn(() => new Promise(res => res({ access_token: "boleto" })))
+      login: jest.fn(
+        () => new Promise((res) => res({ access_token: 'boleto' })),
+      ),
     });
-  
+
     authController = new AuthController(mockAuthService);
   });
 
   describe('POST /login', () => {
     it('should call authService login', () => {
-      expect(authController.login({ 
-        email: mockUsers[0].email 
-      })).resolves.toHaveProperty("access_token");
+      expect(
+        authController.login({
+          email: mockUsers[0].email,
+        }),
+      ).resolves.toHaveProperty('access_token');
       expect(mockAuthService.login).toBeCalledTimes(1);
     });
   });
 
   it('should throw UnauthorizedException if no payload', async () => {
     try {
-      // @ts-ignore - allow undefined arg for test
+      // @ts-expect-error - allow undefined arg for test
       await authController.login();
-    } catch(e) {
+    } catch (e) {
       expect(e).toBeInstanceOf(UnauthorizedException);
     }
   });
@@ -39,14 +43,17 @@ describe('AuthController', () => {
     const email = '';
     try {
       await authController.login({ email });
-    } catch(e) {
+    } catch (e) {
       expect(e).toBeInstanceOf(UnauthorizedException);
     }
   });
 
   describe('GET /check-token', () => {
     it('should return valid object when successful', async () => {
-      expect(authController.checkJwtToken()).toEqual({ status: 'ok', message: 'Token is valid' });
+      expect(authController.checkJwtToken()).toEqual({
+        status: 'ok',
+        message: 'Token is valid',
+      });
     });
 
     // No test of AuthGuard in here as is tested in unit + integration / E2E tests

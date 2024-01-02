@@ -8,7 +8,7 @@ describe('UpdateUserInput', () => {
       id: 'test',
       firstName: 'test',
       lastName: 'test',
-      email: 'test@test.test'
+      email: 'test@test.test',
     });
 
     const errors = await validate(input);
@@ -20,7 +20,7 @@ describe('UpdateUserInput', () => {
       id: 'test',
       firstName: 'test',
       lastName: 'test',
-      email: 'test'
+      email: 'test',
     });
 
     const errors = await validate(input);

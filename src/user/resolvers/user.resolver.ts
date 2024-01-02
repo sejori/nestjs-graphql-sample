@@ -1,4 +1,3 @@
-
 import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -15,23 +14,17 @@ import { DeleteUserInput } from 'src/user/dto/input/delete-user.input';
 @ApiTags('v1/user')
 @Resolver(() => User)
 export class UserResolver {
-  constructor(
-    private userService: UserService
-  ) {}
-  
+  constructor(private userService: UserService) {}
+
   @UseGuards(AuthGuard)
   @Query(() => User)
-  async getUser(
-    @Args() getUserArgs: GetUserArgs
-  ): Promise<User> {
+  async getUser(@Args() getUserArgs: GetUserArgs): Promise<User> {
     return this.userService.getUser(getUserArgs);
   }
 
   @UseGuards(AuthGuard)
   @Query(() => [User])
-  async listUsers(
-    @Args() listUsersArgs: ListUsersArgs
-  ): Promise<User[]> {
+  async listUsers(@Args() listUsersArgs: ListUsersArgs): Promise<User[]> {
     return this.userService.listUsers(listUsersArgs);
   }
 

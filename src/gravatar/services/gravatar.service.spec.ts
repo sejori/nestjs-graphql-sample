@@ -14,9 +14,9 @@ describe('GravatarService', () => {
       const testHash = createHash('md5').update(testEmail).digest('hex');
       const result = await gravatarService.getUrl(testEmail);
 
-      expect(result).toStrictEqual({ 
-        url: `https://gravatar.com/avatar/${testHash}` 
-      })
+      expect(result).toStrictEqual({
+        url: `https://gravatar.com/avatar/${testHash}`,
+      });
     });
   });
 });

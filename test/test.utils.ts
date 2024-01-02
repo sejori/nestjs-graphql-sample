@@ -4,4 +4,4 @@ export const mockExports = (module: Record<string, unknown>) => {
     clone[key] = jest.fn();
   }
   return clone;
-}
+};

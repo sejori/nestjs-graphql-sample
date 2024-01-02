@@ -5,5 +5,4 @@ import { GravatarResolver } from './resolvers/gravatar.resolver';
 @Module({
   providers: [GravatarResolver, GravatarService],
 })
-
 export class GravatarModule {}

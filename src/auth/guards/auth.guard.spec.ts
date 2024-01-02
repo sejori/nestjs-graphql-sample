@@ -14,18 +14,20 @@ describe('AuthGuard', () => {
   beforeEach(async () => {
     mockJwtService = mock<JwtService>({
       sign: jest.fn(() => 'token'),
-      signAsync: jest.fn(() => new Promise(res => res('token'))),
-      verify: jest.fn(() => ({ email: 'foo@bar.com' } as any)),
-      verifyAsync: jest.fn(() => new Promise(res => res({ email: 'foo@bar.com' } as any))),
+      signAsync: jest.fn(() => new Promise((res) => res('token'))),
+      verify: jest.fn(() => ({ email: 'foo@bar.com' }) as any),
+      verifyAsync: jest.fn(
+        () => new Promise((res) => res({ email: 'foo@bar.com' } as any)),
+      ),
     });
-  
+
     authGuard = new AuthGuard(mockJwtService);
     const mockReq = {
       headers: {
-        'authorization': 'Bearer qwertyuiop'
+        authorization: 'Bearer qwertyuiop',
       },
       body: {},
-    }
+    };
 
     // REST context mocking
     httpExecutionContextNoAuth = createMock<ExecutionContext>({
@@ -34,14 +36,14 @@ describe('AuthGuard', () => {
         getRequest: () => ({
           headers: {},
           body: {},
-        })
-      })
+        }),
+      }),
     });
     httpExecutionContext = createMock<ExecutionContext>({
       getType: () => 'http',
       switchToHttp: () => ({
-        getRequest: () => mockReq
-      })
+        getRequest: () => mockReq,
+      }),
     });
     // GRAPHQL context mocking
     gqlExecutionContext = createMock<ExecutionContext>({
@@ -54,7 +56,7 @@ describe('AuthGuard', () => {
     it('should throw UnauthorizedExecution if jwt not present in contenxt req headers', async () => {
       try {
         await authGuard.canActivate(httpExecutionContextNoAuth);
-      } catch(e) {
+      } catch (e) {
         expect(e).toBeInstanceOf(UnauthorizedException);
       }
     });
@@ -63,8 +65,8 @@ describe('AuthGuard', () => {
       try {
         expect(await authGuard.canActivate(httpExecutionContext)).toBe(true);
         expect(mockJwtService.verify).toHaveBeenCalledTimes(1);
-      } catch(e) {
-        console.log(e)
+      } catch (e) {
+        console.log(e);
       }
     });
 
@@ -75,9 +77,11 @@ describe('AuthGuard', () => {
 
     it('should throw UnauthorizedException jwt is present but not authorised', async () => {
       try {
-        mockJwtService.verify.mockImplementationOnce(() => { throw new Error(); });
+        mockJwtService.verify.mockImplementationOnce(() => {
+          throw new Error();
+        });
         await authGuard.canActivate(httpExecutionContext);
-      } catch(e) {
+      } catch (e) {
         expect(e).toBeInstanceOf(UnauthorizedException);
         expect(mockJwtService.verify).toHaveBeenCalledTimes(1);
       }

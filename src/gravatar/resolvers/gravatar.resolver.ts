@@ -7,12 +7,12 @@ import { GetGravatarArgs } from 'src/gravatar/dto/get-gravatar.args';
 @ApiTags('v1/gravatar')
 @Resolver(() => Gravatar)
 export class GravatarResolver {
-  constructor(
-    private gravatarService: GravatarService
-  ) {}
+  constructor(private gravatarService: GravatarService) {}
 
   @Query(() => Gravatar)
-  async getGravatar(@Args() getGravatarArgs: GetGravatarArgs): Promise<Gravatar> {
+  async getGravatar(
+    @Args() getGravatarArgs: GetGravatarArgs,
+  ): Promise<Gravatar> {
     return this.gravatarService.getUrl(getGravatarArgs.email);
   }
 }

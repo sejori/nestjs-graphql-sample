@@ -6,7 +6,7 @@ describe('GetGravatarArgs', () => {
   it('should validate email field is provided', async () => {
     const input = plainToClass(GetGravatarArgs, {});
     const errors = await validate(input);
-    
+
     expect(errors).toHaveLength(1);
     expect(errors[0].constraints).toHaveProperty(
       'isEmail',

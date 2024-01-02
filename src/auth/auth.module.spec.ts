@@ -12,8 +12,8 @@ describe('AuthModule', () => {
 
   beforeEach(async () => {
     authModule = await Test.createTestingModule({
-      imports: [AuthModule]
-    }).compile(); 
+      imports: [AuthModule],
+    }).compile();
   });
 
   it('should have been defined correctly with the correct imports, providers and exports', () => {

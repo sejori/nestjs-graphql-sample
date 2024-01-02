@@ -11,12 +11,12 @@ describe('UserService', () => {
   beforeEach(async () => {
     mockPrismaService = createMock<PrismaService>({
       user: {
-        findUnique: jest.fn(() => new Promise(res => res(mockUsers[0]))),
-        findMany: jest.fn(() => new Promise(res => res(mockUsers))),
-        create: jest.fn(() => new Promise(res => res(mockUsers[0]))),
-        update: jest.fn(() => new Promise(res => res(updatedUser))),
-        delete: jest.fn(() => new Promise(res => res(mockUsers[0]))),
-      }
+        findUnique: jest.fn(() => new Promise((res) => res(mockUsers[0]))),
+        findMany: jest.fn(() => new Promise((res) => res(mockUsers))),
+        create: jest.fn(() => new Promise((res) => res(mockUsers[0]))),
+        update: jest.fn(() => new Promise((res) => res(updatedUser))),
+        delete: jest.fn(() => new Promise((res) => res(mockUsers[0]))),
+      },
     });
 
     userService = new UserService(mockPrismaService);
@@ -42,7 +42,7 @@ describe('UserService', () => {
     });
 
     it('should apply filter options and include follows and followedBy', async () => {
-      const listUsersArgs = { 
+      const listUsersArgs = {
         ids: [],
         firstNames: ['Thiago'],
         lastNames: ['Los'],
@@ -50,7 +50,7 @@ describe('UserService', () => {
         sortBy: 'email',
         order: 'desc',
         skip: 5,
-        limit: 5
+        limit: 5,
       };
 
       await userService.listUsers(listUsersArgs as ListUsersArgs);
@@ -61,17 +61,17 @@ describe('UserService', () => {
             { id: { in: [] } },
             { firstName: { in: listUsersArgs.firstNames } },
             { lastName: { in: listUsersArgs.lastNames } },
-            { email: { in: listUsersArgs.emails } }
+            { email: { in: listUsersArgs.emails } },
           ],
         },
         include: {
           follows: true,
-          followedBy: true
+          followedBy: true,
         },
         orderBy: [
           {
-            email: 'desc'
-          }
+            email: 'desc',
+          },
         ],
         skip: 5,
         take: 5,
@@ -104,23 +104,23 @@ describe('UserService', () => {
   describe('followUser', () => {
     it('should utilise prisma connect API', async () => {
       await userService.followUser({
-        id: updateUserInput.id, 
-        follows: mockUsers[1].id
+        id: updateUserInput.id,
+        follows: mockUsers[1].id,
       });
 
       expect(mockPrismaService.user.update).toBeCalledWith({
         where: { id: updateUserInput.id },
         include: {
           follows: true,
-          followedBy: true
+          followedBy: true,
         },
         data: {
           follows: {
             connect: {
-              id: mockUsers[1].id
-            }
-          }
-        }
+              id: mockUsers[1].id,
+            },
+          },
+        },
       });
     });
   });
@@ -128,30 +128,30 @@ describe('UserService', () => {
   describe('unfollowUser', () => {
     it('should utilise primsa (dis)connect API', async () => {
       await userService.unfollowUser({
-        id: updateUserInput.id, 
-        unfollows: mockUsers[1].id
+        id: updateUserInput.id,
+        unfollows: mockUsers[1].id,
       });
 
       expect(mockPrismaService.user.update).toBeCalledWith({
         where: { id: updateUserInput.id },
         include: {
           follows: true,
-          followedBy: true
+          followedBy: true,
         },
         data: {
           follows: {
             disconnect: {
-              id: mockUsers[1].id
-            }
-          }
-        }
+              id: mockUsers[1].id,
+            },
+          },
+        },
       });
     });
   });
 
   describe('deleteUser', () => {
     it('should delete and return a user', async () => {
-      const deleteUserInput = { id: mockUsers[0].id }
+      const deleteUserInput = { id: mockUsers[0].id };
 
       const result = await userService.deleteUser(deleteUserInput);
 

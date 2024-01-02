@@ -19,7 +19,7 @@ describe('ListUsersArgs', () => {
       sortBy: 'email',
       order: 'asc',
       skip: 0,
-      limit: 20
+      limit: 20,
     });
 
     const errors = await validate(args);
@@ -29,7 +29,7 @@ describe('ListUsersArgs', () => {
   it('should enforce range on skip and limit properties', async () => {
     const args = plainToClass(ListUsersArgs, {
       skip: -5,
-      limit: 500
+      limit: 500,
     });
 
     const errors = await validate(args);

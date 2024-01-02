@@ -7,7 +7,7 @@ export const mockUsers = [
     follows: [],
     followedBy: [],
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
   },
   {
     id: 'hello456-654olleh-hello456-654olleh',
@@ -17,23 +17,23 @@ export const mockUsers = [
     follows: [],
     followedBy: [],
     createdAt: new Date(),
-    updatedAt: new Date()
-  }
-]
+    updatedAt: new Date(),
+  },
+];
 
 export const updateUserInput = {
   id: mockUsers[0].id,
   firstName: 'Mechi',
   lastName: 'Nova',
-  email: 'i_am_a_new@email.com'
-}
+  email: 'i_am_a_new@email.com',
+};
 
 export const updatedUser = {
   ...updateUserInput,
-  follows: [ mockUsers[1] ],
+  follows: [mockUsers[1]],
   createdAt: mockUsers[0].createdAt,
-  updatedAt: new Date()
-}
+  updatedAt: new Date(),
+};
 
 export const seedUsers = [
   {
@@ -44,7 +44,7 @@ export const seedUsers = [
     follows: [],
     followedBy: [],
     createdAt: new Date('2023-09-16T08:00:00Z'),
-    updatedAt: new Date('2023-09-16T08:30:00Z')
+    updatedAt: new Date('2023-09-16T08:30:00Z'),
   },
   {
     id: 'c0ec8857-e5bf-4b0a-bcef-6fa04277460e',
@@ -54,7 +54,7 @@ export const seedUsers = [
     follows: [],
     followedBy: [],
     createdAt: new Date('2023-09-15T14:45:00Z'),
-    updatedAt: new Date('2023-09-15T15:15:00Z')
+    updatedAt: new Date('2023-09-15T15:15:00Z'),
   },
   {
     id: '2c1e5b17-4f68-4b25-9b45-787c5c16ea99',
@@ -64,7 +64,7 @@ export const seedUsers = [
     follows: [],
     followedBy: [],
     createdAt: new Date('2023-09-14T12:30:00Z'),
-    updatedAt: new Date('2023-09-14T13:00:00Z')
+    updatedAt: new Date('2023-09-14T13:00:00Z'),
   },
   {
     id: '3a7d3a0e-ec84-4a07-bd1d-4d7b31d7d61c',
@@ -74,7 +74,7 @@ export const seedUsers = [
     follows: [],
     followedBy: [],
     createdAt: new Date('2023-09-13T18:15:00Z'),
-    updatedAt: new Date('2023-09-13T18:45:00Z')
+    updatedAt: new Date('2023-09-13T18:45:00Z'),
   },
   {
     id: 'fa02de74-8240-4e08-b4eb-7d90fda4b7f1',
@@ -84,7 +84,7 @@ export const seedUsers = [
     follows: [],
     followedBy: [],
     createdAt: new Date('2023-09-12T09:30:00Z'),
-    updatedAt: new Date('2023-09-12T10:00:00Z')
+    updatedAt: new Date('2023-09-12T10:00:00Z'),
   },
   {
     id: '7d4f4f12-87cd-4c62-bc18-9e8b64d3f72f',
@@ -94,7 +94,7 @@ export const seedUsers = [
     follows: [],
     followedBy: [],
     createdAt: new Date('2023-09-11T14:30:00Z'),
-    updatedAt: new Date('2023-09-11T15:00:00Z')
+    updatedAt: new Date('2023-09-11T15:00:00Z'),
   },
   {
     id: '82e1c2e5-663d-48ed-afdd-012b2c171b10',
@@ -104,7 +104,7 @@ export const seedUsers = [
     follows: [],
     followedBy: [],
     createdAt: new Date('2023-09-10T11:45:00Z'),
-    updatedAt: new Date('2023-09-10T12:15:00Z')
+    updatedAt: new Date('2023-09-10T12:15:00Z'),
   },
   {
     id: '9a8e0a8d-2c9b-45c7-b24c-3b3b1fe09b5f',
@@ -114,7 +114,7 @@ export const seedUsers = [
     follows: [],
     followedBy: [],
     createdAt: new Date('2023-09-09T17:20:00Z'),
-    updatedAt: new Date('2023-09-09T17:50:00Z')
+    updatedAt: new Date('2023-09-09T17:50:00Z'),
   },
   {
     id: 'bca891f9-47db-4bfe-8825-67a5e8698563',
@@ -124,7 +124,7 @@ export const seedUsers = [
     follows: [],
     followedBy: [],
     createdAt: new Date('2023-09-08T10:10:00Z'),
-    updatedAt: new Date('2023-09-08T10:40:00Z')
+    updatedAt: new Date('2023-09-08T10:40:00Z'),
   },
   {
     id: '6479f394-6e6b-4939-97d3-8edf92f005a8',
@@ -134,7 +134,7 @@ export const seedUsers = [
     follows: [],
     followedBy: [],
     createdAt: new Date('2023-09-07T16:55:00Z'),
-    updatedAt: new Date('2023-09-07T17:25:00Z')
+    updatedAt: new Date('2023-09-07T17:25:00Z'),
   },
   {
     id: 'ea915a91-6b3e-4d0a-8f25-7d8ca65d24d2',
@@ -144,7 +144,7 @@ export const seedUsers = [
     follows: [],
     followedBy: [],
     createdAt: new Date('2023-09-06T12:20:00Z'),
-    updatedAt: new Date('2023-09-06T12:50:00Z')
+    updatedAt: new Date('2023-09-06T12:50:00Z'),
   },
   {
     id: 'c51db999-f0a9-415c-b0e2-6b2a57d71c1b',
@@ -154,7 +154,7 @@ export const seedUsers = [
     follows: [],
     followedBy: [],
     createdAt: new Date('2023-09-05T09:45:00Z'),
-    updatedAt: new Date('2023-09-05T10:15:00Z')
+    updatedAt: new Date('2023-09-05T10:15:00Z'),
   },
   {
     id: 'f7e7ec18-ec41-4af6-9fb7-7e2b8b9a8a19',
@@ -164,7 +164,7 @@ export const seedUsers = [
     follows: [],
     followedBy: [],
     createdAt: new Date('2023-09-04T14:30:00Z'),
-    updatedAt: new Date('2023-09-04T15:00:00Z')
+    updatedAt: new Date('2023-09-04T15:00:00Z'),
   },
   {
     id: 'd3e8e502-5a95-421b-8a5d-5818e01ff7a2',
@@ -174,6 +174,6 @@ export const seedUsers = [
     follows: [],
     followedBy: [],
     createdAt: new Date('2023-09-03T18:45:00Z'),
-    updatedAt: new Date('2023-09-03T19:15:00Z')
-  }
+    updatedAt: new Date('2023-09-03T19:15:00Z'),
+  },
 ];

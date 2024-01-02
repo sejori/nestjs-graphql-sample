@@ -1,4 +1,4 @@
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -21,16 +21,18 @@ import { AppService } from './services/app.service';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: 'src/schema.graphql',
-      context: ({ req }) => ({ req })
+      context: ({ req }) => ({ req }),
     }),
     PrismaModule,
-    ThrottlerModule.forRoot([{
-      ttl: 60000,
-      limit: 10,
-    }]),
-    UserModule
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 10,
+      },
+    ]),
+    UserModule,
   ],
   controllers: [AppController],
-  providers: [AppService]
+  providers: [AppService],
 })
 export class AppModule {}

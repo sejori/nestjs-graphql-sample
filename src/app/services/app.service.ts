@@ -4,7 +4,7 @@ import { UserService } from 'src/user/services/user.service';
 
 @Injectable()
 export class AppService {
-  constructor (private userService: UserService) {}
+  constructor(private userService: UserService) {}
 
   getHello(): string {
     return `<!DOCTYPE html>
@@ -42,12 +42,14 @@ export class AppService {
 
   public async seedDB() {
     try {
-      await Promise.all(seedUsers.map(async user => {
-        await this.userService.createUser(user);
-      }))
-    } catch(e) {
+      await Promise.all(
+        seedUsers.map(async (user) => {
+          await this.userService.createUser(user);
+        }),
+      );
+    } catch (e) {
       console.log(e);
     }
-    return `DB seeded with mock users. Try logging in with ${seedUsers[0].email}.`
+    return `DB seeded with mock users. Try logging in with ${seedUsers[0].email}.`;
   }
 }

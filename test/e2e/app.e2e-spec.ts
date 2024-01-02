@@ -1,8 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
-import {
-  FastifyAdapter
-} from '@nestjs/platform-fastify';
+import { FastifyAdapter } from '@nestjs/platform-fastify';
 import { User } from '@prisma/client';
 import * as request from 'supertest';
 
@@ -12,11 +10,11 @@ import { mockUsers } from 'test/mock.data';
 
 describe('App graphql (e2e)', () => {
   let app: INestApplication;
-  let users: User[] = []
+  let users: User[] = [];
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [AppModule]
+      imports: [AppModule],
     })
       .overrideGuard(AuthGuard)
       .useValue({ canActivate: () => true }) // Mock AuthGuard in testing
@@ -57,11 +55,13 @@ describe('App graphql (e2e)', () => {
             createUserData: {
               firstName: mockUsers[1].firstName,
               lastName: mockUsers[1].lastName,
-              email: 'i_am_not_an_email'
-            }
-          }
+              email: 'i_am_not_an_email',
+            },
+          },
         })
-        .expect((res) => res.body.errors[0].extensions.code === 'BAD_USER_INPUT');
+        .expect(
+          (res) => res.body.errors[0].extensions.code === 'BAD_USER_INPUT',
+        );
     });
 
     it('null-field validation', () => {
@@ -78,19 +78,22 @@ describe('App graphql (e2e)', () => {
           variables: {
             createUserData: {
               firstName: mockUsers[1].firstName,
-              email: mockUsers[1].email
-            }
-          }
+              email: mockUsers[1].email,
+            },
+          },
         })
-        .expect((res) => res.body.errors[0].extensions.code === 'BAD_USER_INPUT');
+        .expect(
+          (res) => res.body.errors[0].extensions.code === 'BAD_USER_INPUT',
+        );
     });
 
     it('createUser', () => {
-      return Promise.all(mockUsers.map(mockUser => {
-        return request(app.getHttpServer())
-          .post('/graphql')
-          .send({
-            query: `
+      return Promise.all(
+        mockUsers.map((mockUser) => {
+          return request(app.getHttpServer())
+            .post('/graphql')
+            .send({
+              query: `
               mutation create_user($createUserData: CreateUserInput!) {
                 createUser(createUserData: $createUserData) {
                   firstName
@@ -99,25 +102,26 @@ describe('App graphql (e2e)', () => {
                 }
               }
             `,
-            variables: {
-              createUserData: {
-                firstName: mockUser.firstName,
-                lastName: mockUser.lastName,
-                email: mockUser.email
-              }
-            }
-          })
-          .expect(200)
-          .expect({ 
-            data: {
-              createUser: {
-                firstName: mockUser.firstName,
-                lastName: mockUser.lastName,
-                email: mockUser.email
-              }
-            }
-          });
-      }));
+              variables: {
+                createUserData: {
+                  firstName: mockUser.firstName,
+                  lastName: mockUser.lastName,
+                  email: mockUser.email,
+                },
+              },
+            })
+            .expect(200)
+            .expect({
+              data: {
+                createUser: {
+                  firstName: mockUser.firstName,
+                  lastName: mockUser.lastName,
+                  email: mockUser.email,
+                },
+              },
+            });
+        }),
+      );
     });
 
     it('listUsers', () => {
@@ -138,19 +142,18 @@ describe('App graphql (e2e)', () => {
           `,
           variables: {
             ids: [''],
-            firstNames: mockUsers.map(x => x.firstName),
+            firstNames: mockUsers.map((x) => x.firstName),
             lastNames: [''],
             emails: [''],
             sortBy: 'lastName',
             order: 'desc',
-          }
+          },
         })
         .expect(200)
         .expect((res) => {
-          users = res.body.data.listUsers;        
+          users = res.body.data.listUsers;
         });
     });
-
 
     it('listUsers - with sorting and pagination', () => {
       return request(app.getHttpServer())
@@ -170,12 +173,12 @@ describe('App graphql (e2e)', () => {
           `,
           variables: {
             ids: [''],
-            firstNames: mockUsers.map(x => x.firstName),
+            firstNames: mockUsers.map((x) => x.firstName),
             lastNames: [''],
             emails: [''],
             sortBy: 'lastName',
             order: 'desc',
-          }
+          },
         })
         .expect(200)
         .expect((res) => res.body.data.listUsers.length === 2);
@@ -198,8 +201,8 @@ describe('App graphql (e2e)', () => {
             }
           `,
           variables: {
-            'id': users[0].id
-          }
+            id: users[0].id,
+          },
         })
         .expect(200)
         .expect((res) => res.body.data.getUser === users[0]);
@@ -207,7 +210,7 @@ describe('App graphql (e2e)', () => {
 
     it('updateUser', () => {
       const newEmail = 'a_different@email.com';
-  
+
       return request(app.getHttpServer())
         .post('/graphql')
         .send({
@@ -223,47 +226,49 @@ describe('App graphql (e2e)', () => {
             updateUserData: {
               id: users[0].id,
               email: newEmail,
-            }
-          }
+            },
+          },
         })
         .expect(200)
-        .expect({ 
+        .expect({
           data: {
             updateUser: {
               id: users[0].id,
-              email: newEmail
-            }
-          }
+              email: newEmail,
+            },
+          },
         });
     });
-  
+
     it('deleteUser', () => {
-      return Promise.all(users.map(user => {
-        return request(app.getHttpServer())
-          .post('/graphql')
-          .send({
-            query: `
+      return Promise.all(
+        users.map((user) => {
+          return request(app.getHttpServer())
+            .post('/graphql')
+            .send({
+              query: `
               mutation delete_user($deleteUserData: DeleteUserInput!) {
                 deleteUser(deleteUserData: $deleteUserData) {
                   id
                 }
               }
             `,
-            variables: {
-              deleteUserData: {
-                id: user.id
-              }
-            }
-          })
-          .expect(200)
-          .expect({ 
-            data: {
-              deleteUser: {
-                id: user.id
-              }
-            }
-          });
-      }));
+              variables: {
+                deleteUserData: {
+                  id: user.id,
+                },
+              },
+            })
+            .expect(200)
+            .expect({
+              data: {
+                deleteUser: {
+                  id: user.id,
+                },
+              },
+            });
+        }),
+      );
     });
   });
 });

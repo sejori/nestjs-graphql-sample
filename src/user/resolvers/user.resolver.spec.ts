@@ -10,11 +10,11 @@ describe('UserResolver', () => {
 
   beforeEach(async () => {
     mockUserService = mock<UserService>({
-      createUser: jest.fn(() => new Promise(res => res(mockUsers[0]))),
-      deleteUser: jest.fn(() => new Promise(res => res(mockUsers[0]))),
-      getUser: jest.fn(() => new Promise(res => res(mockUsers[0]))),
-      listUsers: jest.fn(() => new Promise(res => res(mockUsers))),
-      updateUser: jest.fn(() => new Promise(res => res(updatedUser)))
+      createUser: jest.fn(() => new Promise((res) => res(mockUsers[0]))),
+      deleteUser: jest.fn(() => new Promise((res) => res(mockUsers[0]))),
+      getUser: jest.fn(() => new Promise((res) => res(mockUsers[0]))),
+      listUsers: jest.fn(() => new Promise((res) => res(mockUsers))),
+      updateUser: jest.fn(() => new Promise((res) => res(updatedUser))),
     });
     userResolver = new UserResolver(mockUserService);
   });
@@ -60,7 +60,7 @@ describe('UserResolver', () => {
 
   describe('deleteUser', () => {
     it('should delete and return a user', async () => {
-      const deleteUserInput = { id: mockUsers[0].id }
+      const deleteUserInput = { id: mockUsers[0].id };
       const result = await userResolver.deleteUser(deleteUserInput);
 
       expect(result).toBe(mockUsers[0]);

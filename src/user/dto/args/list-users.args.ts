@@ -1,5 +1,5 @@
 import { ArgsType, Int, Field } from '@nestjs/graphql';
-import { Max, Min } from 'class-validator'
+import { Max, Min } from 'class-validator';
 
 @ArgsType()
 export class ListUsersArgs {

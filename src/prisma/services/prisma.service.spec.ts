@@ -10,7 +10,7 @@ describe('PrismaService', () => {
   });
 
   it('should extend PrismaClient', () => {
-    expect(PrismaService.prototype instanceof PrismaClient)
+    expect(PrismaService.prototype instanceof PrismaClient);
   });
 
   describe('onModuleInit', () => {

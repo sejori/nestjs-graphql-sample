@@ -11,11 +11,11 @@ import { AuthController } from 'src/auth/controllers/auth.controller';
     UserModule,
     JwtModule.register({
       global: true,
-      signOptions: { expiresIn: '60m' }
+      signOptions: { expiresIn: '60m' },
     }),
-    GqlExecutionContext
+    GqlExecutionContext,
   ],
   controllers: [AuthController],
-  providers: [AuthService]
+  providers: [AuthService],
 })
 export class AuthModule {}

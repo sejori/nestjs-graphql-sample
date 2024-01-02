@@ -17,8 +17,8 @@ describe('AppModule', () => {
 
   beforeEach(async () => {
     appModule = await Test.createTestingModule({
-      imports: [AppModule]
-    }).compile(); 
+      imports: [AppModule],
+    }).compile();
   });
 
   it('should have been defined correctly with the correct imports, providers and exports', () => {

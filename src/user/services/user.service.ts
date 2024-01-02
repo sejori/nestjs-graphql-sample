@@ -14,65 +14,68 @@ import { UnfollowUserInput } from '../dto/input/unfollow-user.input';
 
 @Injectable()
 export class UserService {
-  constructor(
-    private prisma: PrismaService,
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
   public async getUser(getUserArgs: GetUserArgs): Promise<User> {
     try {
-      return await this.prisma.user.findUnique({ 
-        where: { 
-          id: getUserArgs.id 
+      return await this.prisma.user.findUnique({
+        where: {
+          id: getUserArgs.id,
         },
         include: {
           follows: true,
-          followedBy: true
-        }
+          followedBy: true,
+        },
       });
-    } catch(e) {
+    } catch (e) {
       // Logger service can be used here for cloud logs if needed - skipped for now
-      throw new HttpException('Failed to get user', HttpStatus.SERVICE_UNAVAILABLE);
+      throw new HttpException(
+        'Failed to get user',
+        HttpStatus.SERVICE_UNAVAILABLE,
+      );
     }
   }
 
   public async listUsers(listUsersArgs: ListUsersArgs): Promise<User[]> {
     try {
-      const { ids, firstNames, lastNames, emails } = listUsersArgs
-      const filters = ids || firstNames || lastNames || emails 
-        ? {
-          OR: [
-            { id: { in: listUsersArgs.ids } },
-            { firstName: { in: listUsersArgs.firstNames } },
-            { lastName: { in: listUsersArgs.lastNames } },
-            { email: { in: listUsersArgs.emails } },
-          ],
-        }
-        : {}
+      const { ids, firstNames, lastNames, emails } = listUsersArgs;
+      const filters =
+        ids || firstNames || lastNames || emails
+          ? {
+              OR: [
+                { id: { in: listUsersArgs.ids } },
+                { firstName: { in: listUsersArgs.firstNames } },
+                { lastName: { in: listUsersArgs.lastNames } },
+                { email: { in: listUsersArgs.emails } },
+              ],
+            }
+          : {};
 
       return await this.prisma.user.findMany({
         where: filters,
         include: {
           follows: true,
-          followedBy: true
+          followedBy: true,
         },
         orderBy: listUsersArgs.sortBy
-        ? [
-          {
-            [listUsersArgs.sortBy]: listUsersArgs.order || 'asc'
-          }
-        ]
-        : [],
+          ? [
+              {
+                [listUsersArgs.sortBy]: listUsersArgs.order || 'asc',
+              },
+            ]
+          : [],
         skip: listUsersArgs.skip,
-        take: listUsersArgs.limit
+        take: listUsersArgs.limit,
       });
-    } catch(e) {
-      throw new HttpException('Failed to get users', HttpStatus.SERVICE_UNAVAILABLE);
+    } catch (e) {
+      throw new HttpException(
+        'Failed to get users',
+        HttpStatus.SERVICE_UNAVAILABLE,
+      );
     }
   }
 
-  public async createUser(
-    createUserData: CreateUserInput,
-  ): Promise<User> {
+  public async createUser(createUserData: CreateUserInput): Promise<User> {
     try {
       const user = await this.prisma.user.create({
         data: {
@@ -81,56 +84,61 @@ export class UserService {
         },
         include: {
           follows: true,
-          followedBy: true
+          followedBy: true,
         },
       });
       return user;
-    } catch(e) {
-      throw new HttpException('Failed to create user - does it already exist?', HttpStatus.BAD_REQUEST);
+    } catch (e) {
+      throw new HttpException(
+        'Failed to create user - does it already exist?',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
-  public async updateUser(
-    updateUserData: UpdateUserInput,
-  ): Promise<User> {
+  public async updateUser(updateUserData: UpdateUserInput): Promise<User> {
     try {
       const user = await this.prisma.user.update({
         where: { id: updateUserData.id },
         include: {
           follows: true,
-          followedBy: true
+          followedBy: true,
         },
         data: updateUserData,
       });
-  
+
       return user;
-    } catch(e) {
-      throw new HttpException('Failed to update user - does it exist?', HttpStatus.BAD_REQUEST);
+    } catch (e) {
+      throw new HttpException(
+        'Failed to update user - does it exist?',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
-  public async followUser(
-    followUserInput: FollowUserInput,
-  ): Promise<User> {
+  public async followUser(followUserInput: FollowUserInput): Promise<User> {
     try {
       const user = await this.prisma.user.update({
         where: { id: followUserInput.id },
         include: {
           follows: true,
-          followedBy: true
+          followedBy: true,
         },
         data: {
           follows: {
             connect: {
-              id: followUserInput.follows
-            }
-          }
-        }
+              id: followUserInput.follows,
+            },
+          },
+        },
       });
-  
+
       return user;
-    } catch(e) {
-      throw new HttpException('Failed to update user - does it exist?', HttpStatus.BAD_REQUEST);
+    } catch (e) {
+      throw new HttpException(
+        'Failed to update user - does it exist?',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -142,26 +150,27 @@ export class UserService {
         where: { id: unfollowUserInput.id },
         include: {
           follows: true,
-          followedBy: true
+          followedBy: true,
         },
         data: {
           follows: {
             disconnect: {
-              id: unfollowUserInput.unfollows
-            }
-          }
+              id: unfollowUserInput.unfollows,
+            },
+          },
         },
       });
-  
+
       return user;
-    } catch(e) {
-      throw new HttpException('Failed to update user - does it exist?', HttpStatus.BAD_REQUEST);
+    } catch (e) {
+      throw new HttpException(
+        'Failed to update user - does it exist?',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
-  public async deleteUser(
-    deleteUserData: DeleteUserInput,
-  ): Promise<User> {
+  public async deleteUser(deleteUserData: DeleteUserInput): Promise<User> {
     try {
       const user = await this.prisma.user.delete({
         where: {
@@ -169,13 +178,16 @@ export class UserService {
         },
         include: {
           follows: true,
-          followedBy: true
-        }
+          followedBy: true,
+        },
       });
-  
+
       return user;
-    } catch(e) {
-      throw new HttpException('Failed to delete user - does it already exist?', HttpStatus.BAD_REQUEST);
+    } catch (e) {
+      throw new HttpException(
+        'Failed to delete user - does it already exist?',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 }

@@ -5,17 +5,15 @@ import {
   UseGuards,
   Get,
   UnauthorizedException,
-} from '@nestjs/common'
-import { ApiTags, ApiHeader, ApiBody } from '@nestjs/swagger'
-import { AuthService } from 'src/auth/services/auth.service'
-import { AuthGuard } from 'src/auth/guards/auth.guard'
+} from '@nestjs/common';
+import { ApiTags, ApiHeader, ApiBody } from '@nestjs/swagger';
+import { AuthService } from 'src/auth/services/auth.service';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post('login')
   @ApiBody({
@@ -28,10 +26,10 @@ export class AuthController {
           format: 'binary',
         },
       },
-    }
+    },
   })
   async login(@Body() body: { email: string }) {
-    if (!body || !body.email) throw new UnauthorizedException()
+    if (!body || !body.email) throw new UnauthorizedException();
     return await this.authService.login(body.email);
   }
 
@@ -42,6 +40,6 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get('check-token')
   checkJwtToken() {
-    return { status: 'ok', message: 'Token is valid' }
+    return { status: 'ok', message: 'Token is valid' };
   }
 }

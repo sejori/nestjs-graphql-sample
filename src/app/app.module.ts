@@ -1,7 +1,7 @@
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { GraphQLModule } from '@nestjs/graphql';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { GraphQLModule } from '@nestjs/graphql';
+import { MercuriusDriver, MercuriusDriverConfig } from '@nestjs/mercurius';
 import { ThrottlerModule } from '@nestjs/throttler';
 
 import { AuthModule } from 'src/auth/auth.module';
@@ -18,10 +18,11 @@ import { AppService } from './services/app.service';
     AuthModule,
     ConfigModule.forRoot(),
     GravatarModule,
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
+    GraphQLModule.forRoot<MercuriusDriverConfig>({
+      driver: MercuriusDriver,
       autoSchemaFile: 'src/schema.graphql',
       context: ({ req }) => ({ req }),
+      graphiql: true,
     }),
     PrismaModule,
     ThrottlerModule.forRoot([

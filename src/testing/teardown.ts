@@ -1,6 +1,6 @@
 import { mockUsers } from './mock.data';
 
-export default async () => {
+export default async function () {
   try {
     await Promise.all(
       mockUsers.map((user) => global.userService.deleteUser({ id: user.id })),
@@ -10,4 +10,5 @@ export default async () => {
   }
 
   global.app.close();
-};
+  console.log('Testing teardown complete!');
+}

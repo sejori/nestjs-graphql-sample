@@ -21,9 +21,9 @@ export class User {
   @Field(() => [User])
   follows?: User[] = [];
 
-  @Field(() => String)
+  @Field(() => Date)
   createdAt: UserDB['createdAt'];
 
-  @Field(() => String)
+  @Field(() => Date)
   updatedAt: UserDB['updatedAt'];
 }

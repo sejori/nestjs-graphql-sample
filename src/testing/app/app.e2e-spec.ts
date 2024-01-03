@@ -1,15 +1,45 @@
+import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing';
+import { FastifyAdapter } from '@nestjs/platform-fastify';
+import { GraphQLClient } from 'graphql-request';
 import * as request from 'supertest';
-import { mockUsers } from '../mock.data';
+import { createGraphQLClient } from '../utils/gql.utils';
 import { queries, mutations } from '../../generated/gql';
+import { mockUsers } from '../mock.data';
+import { AppModule } from '../../modules/app/app.module';
+import { AuthGuard } from '../../modules/auth/guards/auth.guard';
 
 describe('App (e2e)', () => {
+  let app: INestApplication;
+  let client: GraphQLClient;
+
+  beforeAll(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      imports: [AppModule],
+    })
+      .overrideGuard(AuthGuard)
+      .useValue({ canActivate: () => true }) // Mock AuthGuard in testing
+      .compile();
+
+    app = module.createNestApplication(new FastifyAdapter());
+    app.useGlobalPipes(new ValidationPipe());
+
+    await app.listen(7777);
+
+    client = createGraphQLClient(app);
+  });
+
+  afterAll(() => {
+    app.close();
+  });
+
   it('App be defined', () => {
-    expect(global.app).toBeDefined();
-    expect(global.client).toBeDefined();
+    expect(app).toBeDefined();
+    expect(client).toBeDefined();
   });
 
   it('/ (GET)', () => {
-    return request(global.app.getHttpServer())
+    return request(app.getHttpServer())
       .get('/')
       .expect(200)
       .expect(async (res) => {
@@ -19,7 +49,7 @@ describe('App (e2e)', () => {
 
   describe('/graphql', () => {
     it('email validation', async () => {
-      const data = await global.client.request(mutations.createUser, {
+      const data = await client.request(mutations.createUser, {
         createUserData: {
           firstName: mockUsers[1].firstName,
           lastName: mockUsers[1].lastName,
@@ -27,7 +57,6 @@ describe('App (e2e)', () => {
         },
       });
 
-      console.log(data);
       expect(data).toBe('BAD_USER_INPUT');
 
       // return request(app.getHttpServer())
@@ -114,7 +143,7 @@ describe('App (e2e)', () => {
     // });
 
     it('listUsers', async () => {
-      const data = await global.client.request(queries.listUsers, {
+      const data = await client.request(queries.listUsers, {
         listUsersArgs: {
           ids: [''],
           firstNames: mockUsers.map((x) => x.firstName),
@@ -125,12 +154,13 @@ describe('App (e2e)', () => {
         },
       });
 
-      console.log(data);
       expect(data).toEqual({
-        users: mockUsers.map((x) => ({
+        listUsers: mockUsers.map((x) => ({
           ...x,
           follows: [],
           followedBy: [],
+          createdAt: expect.any(String),
+          updatedAt: expect.any(String),
         })),
       });
 

@@ -89,6 +89,7 @@ export class UserService {
       });
       return user;
     } catch (e) {
+      console.log(e);
       throw new HttpException(
         'Failed to create user - does it already exist?',
         HttpStatus.BAD_REQUEST,

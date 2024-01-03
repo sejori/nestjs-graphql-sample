@@ -33,7 +33,12 @@ export class UserResolver {
   async createUser(
     @Args('createUserData') createUserData: CreateUserInput,
   ): Promise<User> {
-    return this.userService.createUser(createUserData);
+    console.log('here');
+    try {
+      return this.userService.createUser(createUserData);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   @UseGuards(AuthGuard)

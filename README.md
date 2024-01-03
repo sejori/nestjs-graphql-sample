@@ -12,6 +12,7 @@ The following repos and resources were used in this project's development:
 - https://blog.logrocket.com/implementing-pagination-graphql-nestjs/
 - https://github.com/nestjs/nest/issues/11602
 - https://www.prisma.io/docs/concepts/components/prisma-schema/relations/self-relations#many-to-many-self-relations
+- https://levelup.gitconnected.com/how-i-save-a-few-hours-each-week-on-testing-graphql-in-nest-js-typescript-1afd8ceeacf7
 
 Source code is written to follow patterns from official documentation as much as possible.
 

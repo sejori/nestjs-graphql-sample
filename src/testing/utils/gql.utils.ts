@@ -7,7 +7,6 @@ export const createGraphQLClient = (
   app: INestApplication,
   headers?: Record<string, string>,
 ) => {
-  // can set headers here for different auth strategies etc
   return new GraphQLClient('/graphql', {
     fetch: supertestFetch(app),
     headers,

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { seedUsers } from 'src/testing/mock.data';
-import { UserService } from 'src/modules/user/services/user.service';
+import { seedUsers } from '../../../testing/mock.data';
+import { UserService } from '../../../modules/user/services/user.service';
 
 @Injectable()
 export class AppService {
@@ -32,7 +32,7 @@ export class AppService {
             </li>
             <li>GET <a href='/graphql'><code>/graphql</code></a> to enter playground</li>
             <li>Set Authorization header to 'Bearer [token]'</li>
-            <li>Read <code>/src/schema.graphql</code></li>
+            <li>Read <code>/../../schema.graphql</code></li>
             <li>Happy mutating :^)</li>
           </ol>
         </body>

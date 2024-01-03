@@ -1,6 +1,6 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { createHash } from 'crypto';
-import { Gravatar } from 'src/modules/gravatar/dto/gravatar.model';
+import { Gravatar } from '../dto/gravatar.model';
 
 @Injectable()
 export class GravatarService {

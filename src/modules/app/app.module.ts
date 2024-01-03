@@ -4,10 +4,10 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { MercuriusDriver, MercuriusDriverConfig } from '@nestjs/mercurius';
 import { ThrottlerModule } from '@nestjs/throttler';
 
-import { AuthModule } from 'src/modules/auth/auth.module';
-import { GravatarModule } from 'src/modules/gravatar/gravatar.module';
-import { PrismaModule } from 'src/modules/prisma/prisma.module';
-import { UserModule } from 'src/modules/user/user.module';
+import { AuthModule } from '../auth/auth.module';
+import { GravatarModule } from '../gravatar/gravatar.module';
+import { PrismaModule } from '../prisma/prisma.module';
+import { UserModule } from '../user/user.module';
 
 import { AppController } from './controllers/app.controller';
 import { AppService } from './services/app.service';
@@ -20,7 +20,7 @@ import { AppService } from './services/app.service';
     GravatarModule,
     GraphQLModule.forRoot<MercuriusDriverConfig>({
       driver: MercuriusDriver,
-      autoSchemaFile: 'src/generated/schema.graphql',
+      autoSchemaFile: '../../generated/schema.graphql',
       context: ({ req }) => ({ req }),
       graphiql: true,
     }),

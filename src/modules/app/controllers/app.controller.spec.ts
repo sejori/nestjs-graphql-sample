@@ -1,6 +1,6 @@
 import { mock, MockProxy } from 'jest-mock-extended';
 import { AppController } from './app.controller';
-import { AppService } from 'src/modules/app/services/app.service';
+import { AppService } from '../../app/services/app.service';
 
 describe('AppController', () => {
   let appController: AppController;

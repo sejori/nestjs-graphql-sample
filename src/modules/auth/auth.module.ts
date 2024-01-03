@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { GqlExecutionContext } from '@nestjs/graphql';
 
-import { UserModule } from 'src/modules/user/user.module';
-import { AuthService } from 'src/modules/auth/services/auth.service';
-import { AuthController } from 'src/modules/auth/controllers/auth.controller';
+import { UserModule } from '../user/user.module';
+import { AuthService } from '../auth/services/auth.service';
+import { AuthController } from '../auth/controllers/auth.controller';
 
 @Module({
   imports: [

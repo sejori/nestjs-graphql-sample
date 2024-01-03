@@ -1,5 +1,9 @@
-import { UserService } from 'src/modules/user/services/user.service';
-import { mockUsers, updateUserInput, updatedUser } from 'src/testing/mock.data';
+import { UserService } from '../services/user.service';
+import {
+  mockUsers,
+  updateUserInput,
+  updatedUser,
+} from '../../../testing/mock.data';
 
 import { UserResolver } from './user.resolver';
 import { mock } from 'jest-mock-extended';

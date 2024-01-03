@@ -1,8 +1,8 @@
 import { mock, MockProxy } from 'jest-mock-extended';
 import { JwtService } from '@nestjs/jwt';
-import { mockUsers } from 'src/testing/mock.data';
+import { mockUsers } from '../../../testing/mock.data';
 
-import { UserService } from 'src/modules/user/services/user.service';
+import { UserService } from '../../user/services/user.service';
 import { AuthService } from './auth.service';
 
 describe('AuthService', () => {

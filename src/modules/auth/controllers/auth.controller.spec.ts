@@ -1,6 +1,6 @@
 import { mock, MockProxy } from 'jest-mock-extended';
 import { UnauthorizedException } from '@nestjs/common';
-import { mockUsers } from 'src/testing/mock.data';
+import { mockUsers } from '../../../testing/mock.data';
 
 import { AuthController } from './auth.controller';
 import { AuthService } from '../services/auth.service';

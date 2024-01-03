@@ -1,8 +1,8 @@
 import { mock, MockProxy } from 'jest-mock-extended';
 import { AppService } from './app.service';
-import { UserService } from 'src/modules/user/services/user.service';
+import { UserService } from '../../../modules/user/services/user.service';
 
-import { mockUsers, updatedUser, seedUsers } from 'src/testing/mock.data';
+import { mockUsers, updatedUser, seedUsers } from '../../../testing/mock.data';
 
 describe('AppService', () => {
   let appService: AppService;

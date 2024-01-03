@@ -1,5 +1,9 @@
-import { mockUsers, updateUserInput, updatedUser } from 'src/testing/mock.data';
-import { PrismaService } from 'src/modules/prisma/services/prisma.service';
+import {
+  mockUsers,
+  updateUserInput,
+  updatedUser,
+} from '../../../testing/mock.data';
+import { PrismaService } from '../../prisma/services/prisma.service';
 import { UserService } from './user.service';
 import { createMock } from '@golevelup/ts-jest';
 import { ListUsersArgs } from '../dto/args/list-users.args';

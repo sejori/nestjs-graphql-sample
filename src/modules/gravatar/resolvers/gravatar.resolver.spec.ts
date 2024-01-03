@@ -1,5 +1,5 @@
 import { mock } from 'jest-mock-extended';
-import { GravatarService } from 'src/modules/gravatar/services/gravatar.service';
+import { GravatarService } from '../services/gravatar.service';
 import { GravatarResolver } from './gravatar.resolver';
 
 describe('GravatarResolver', () => {

@@ -1,8 +1,8 @@
 import { ApiTags } from '@nestjs/swagger';
 import { Resolver, Query, Args } from '@nestjs/graphql';
-import { GravatarService } from 'src/modules/gravatar/services/gravatar.service';
-import { Gravatar } from 'src/modules/gravatar/dto/gravatar.model';
-import { GetGravatarArgs } from 'src/modules/gravatar/dto/get-gravatar.args';
+import { GravatarService } from '../services/gravatar.service';
+import { Gravatar } from '../dto/gravatar.model';
+import { GetGravatarArgs } from '../dto/get-gravatar.args';
 
 @ApiTags('v1/gravatar')
 @Resolver(() => Gravatar)

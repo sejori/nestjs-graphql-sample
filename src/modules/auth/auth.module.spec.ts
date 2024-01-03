@@ -5,7 +5,7 @@ import { AuthModule } from './auth.module';
 import { AuthService } from './services/auth.service';
 import { AuthController } from './controllers/auth.controller';
 
-import { UserModule } from 'src/modules/user/user.module';
+import { UserModule } from '../user/user.module';
 
 describe('AuthModule', () => {
   let authModule: TestingModule;

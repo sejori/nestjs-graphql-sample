@@ -7,10 +7,10 @@ import { AppModule } from './app.module';
 import { AppService } from './services/app.service';
 import { AppController } from './controllers/app.controller';
 
-import { AuthModule } from 'src/modules/auth/auth.module';
-import { GravatarModule } from 'src/modules/gravatar/gravatar.module';
-import { PrismaModule } from 'src/modules/prisma/prisma.module';
-import { UserModule } from 'src/modules/user/user.module';
+import { AuthModule } from '../auth/auth.module';
+import { GravatarModule } from '../gravatar/gravatar.module';
+import { PrismaModule } from '../prisma/prisma.module';
+import { UserModule } from '../user/user.module';
 
 describe('AppModule', () => {
   let appModule: TestingModule;

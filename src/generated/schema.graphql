@@ -1,0 +1,49 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""user"""
+type User {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  email: String!
+  followedBy: [User!]!
+  follows: [User!]!
+  createdAt: String!
+  updatedAt: String!
+}
+
+"""gravatar"""
+type Gravatar {
+  url: String!
+}
+
+type Query {
+  getUser(id: String!): User!
+  listUsers(ids: [String!], firstNames: [String!], lastNames: [String!], emails: [String!], sortBy: String, order: String, skip: Int = 0, limit: Int = 20): [User!]!
+  getGravatar(email: String!): Gravatar!
+}
+
+type Mutation {
+  createUser(createUserData: CreateUserInput!): User!
+  updateUser(updateUserData: UpdateUserInput!): User!
+  deleteUser(deleteUserData: DeleteUserInput!): User!
+}
+
+input CreateUserInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+}
+
+input UpdateUserInput {
+  id: String!
+  firstName: String
+  lastName: String
+  email: String
+}
+
+input DeleteUserInput {
+  id: String!
+}

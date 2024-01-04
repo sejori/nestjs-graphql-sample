@@ -1,4 +1,4 @@
-import { INestApplication } from '@nestjs/common';
+import { Server } from 'http';
 import { agent } from 'supertest';
 
 export type GraphQLClientRequest = <T>(
@@ -24,10 +24,10 @@ export class GraphQLClient {
   supertestAgent: ReturnType<typeof agent>;
 
   constructor(
-    app: INestApplication,
+    app: URL | string | Server,
     private headers = {},
   ) {
-    this.supertestAgent = agent(app.getHttpServer());
+    this.supertestAgent = agent(app);
   }
 
   query: GraphQLClientRequest = (

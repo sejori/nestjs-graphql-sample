@@ -25,7 +25,7 @@ describe('App (e2e)', () => {
 
     await app.listen(7777);
 
-    client = new GraphQLClient(app);
+    client = new GraphQLClient(app.getHttpServer());
   });
 
   afterAll(() => {

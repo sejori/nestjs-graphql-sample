@@ -4,13 +4,15 @@
 
 **Stack:** NestJS (Node.js), GraphQL, Prisma
 
-The following repos and resources were used in this project's development: 
+The following repos and resources were used in this project's development:
+
 - https://github.com/onur-ozkan/feednext/
 - https://github.com/shkim04/find-your-wc.git
 - https://docs.nestjs.com/security/authentication
 - https://blog.logrocket.com/implementing-pagination-graphql-nestjs/
 - https://github.com/nestjs/nest/issues/11602
 - https://www.prisma.io/docs/concepts/components/prisma-schema/relations/self-relations#many-to-many-self-relations
+- https://levelup.gitconnected.com/how-i-save-a-few-hours-each-week-on-testing-graphql-in-nest-js-typescript-1afd8ceeacf7
 
 Source code is written to follow patterns from official documentation as much as possible.
 
@@ -18,13 +20,13 @@ Source code is written to follow patterns from official documentation as much as
 
 ## Features
 
- - User management, CRUD + many-to-many relations
- - Gravatar graphql query
- - authentication (kinda - just searches for email)
- - listUsers sorting and filtering
- - docker for deployments + testing
- - ~100% code coverage with unit, integration and E2E tests
- - GitHub actions for CI/CD
+- User management, CRUD + many-to-many relations
+- Gravatar graphql query
+- authentication (kinda - just searches for email)
+- listUsers sorting and filtering
+- docker for deployments + testing
+- ~100% code coverage with unit, integration and E2E tests
+- GitHub actions for CI/CD
 
 ## Future features 😌
 
@@ -40,13 +42,14 @@ Source code is written to follow patterns from official documentation as much as
 1. run `$ docker compose up`
 2. head to [http://localhost:3001/](http://localhost:3001/)
 
+(rebuild dev image with `$ docker build . --no-cache --target dev` if changing deps)
+
 ### Native process
 
-1. install dotenv-cli `$ yarn global add dotenv-cli`
-2. setup a postgres db ([https://railway.app](https://railway.app) or tool of choice)
-3. replace the db url in `.env.local` with your db
-4. run `yarn prisma:migrate-dev`
-5. run `yarn start:dev`, then head to [http://localhost:3000/](http://localhost:3000/)
+1. setup a postgres db ([https://railway.app](https://railway.app) or tool of choice)
+2. replace the db url in `.env.local` with your db
+3. run `pnpm prisma:migrate-dev`
+4. run `pnpm start:dev`, then head to [http://localhost:3000/](http://localhost:3000/)
 
 (**note**: don't commmit your db credentials!)
 
@@ -56,16 +59,16 @@ Source code is written to follow patterns from official documentation as much as
 
 You will need to acquire a token for making requests/queries/mutations.
 
-The email authentication available via `/auth/login` serves as a basic stateless (JWT) auth system, however it is clearly insecure. Local auth with hashed passwords was not implemented because passwords were not on the user entity in the spec. 
+The email authentication available via `/auth/login` serves as a basic stateless (JWT) auth system, however it is clearly insecure. Local auth with hashed passwords was not implemented because passwords were not on the user entity in the spec.
 
-**Note:** to make this application production-ready, local authentication (passwords), magic email links or OAuth2.0 would need to be implemented, see `/src/auth/auth.service.ts`. 
+**Note:** to make this application production-ready, local authentication (passwords), magic email links or OAuth2.0 would need to be implemented, see `/src/auth/auth.service.ts`.
 
 ```js
 const response = await fetch('http://localhost:3000/auth/login', {
   method: 'POST',
   body: JSON.stringify({
-    email: 'diana.marquez@example.com'
-  })
+    email: 'diana.marquez@example.com',
+  }),
 });
 
 const { access_token } = await response.json();
@@ -85,13 +88,13 @@ For schema details see `src/schema.graphql`.
 
 The GraphQL queries and mutations are accessed by making an HTTP request with the POST method to `/graphql`.
 
-The request body should contain a query object, for example: 
+The request body should contain a query object, for example:
 
 ```js
 const response = await fetch('http://localhost:3000/graphql', {
   method: 'POST',
   headers: {
-    Authorization: 'Bearer [token]'
+    Authorization: 'Bearer [token]',
   },
   body: JSON.stringify({
     query: `
@@ -109,10 +112,10 @@ const response = await fetch('http://localhost:3000/graphql', {
     `,
     variables: {
       id: 'aa05343b-2e34-4db1-89fd-463884805f6e',
-      email: 'sebringrose@gmail.com'
-    }
-  })
-})
+      email: 'sebringrose@gmail.com',
+    },
+  }),
+});
 ```
 
 Other than `getUser` and `getGravatar`, the following GraphQL operations are available:
@@ -149,7 +152,7 @@ mutation create_user($createUserData: CreateUserInput!) {
 }
 ```
 
-#### updateUser, e.g: 
+#### updateUser, e.g:
 
 ```
 mutation upate_user($updateUserData: UpdateUserInput!) {
@@ -171,29 +174,3 @@ mutation delete_user($deleteUserData: DeleteUserInput!) {
   }
 }
 ```
-
-#### Mercurius
-
-Mercurius graphql driver was implemented but subsequently reverted as it doesn't provide a playground interface like Apollo. In a live application I would suggest an app module config such as:
-
-```js
-@Module({
-  imports: [
-    process.env.ENVIRONMENT === 'prod'
-      ? GraphQLModule.forRoot<MercuriusDriverConfig>({
-        driver: MercuriusDriver,
-        autoSchemaFile: 'src/schema.graphql',
-        context: ({ req }) => ({ req })
-      })
-      : GraphQLModule.forRoot<ApolloDriverConfig>({
-        driver: ApolloDriver,
-        autoSchemaFile: 'src/schema.graphql',
-        context: ({ req }) => ({ req })
-      }),
-    ...
-  ],
-  ...
-})
-```
-
-This is debatable because it does add dependency bloat to the project. However, this could be circumvented by adding Apollo deps to `devDependencies` in `package.json`.

@@ -18,13 +18,12 @@ services:
       timeout: 5s
       retries: 5
 
-
   app:
     image: nestjs-graphql-app
     build:
       context: .
       dockerfile: Dockerfile
-      target: "dev"
+      target: 'dev'
     container_name: nestjs-graphql-app
     ports:
       - '3001:3000'

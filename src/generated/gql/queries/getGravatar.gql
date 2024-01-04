@@ -1,0 +1,5 @@
+query getGravatar($email: String!){
+    getGravatar(email: $email){
+        url
+    }
+}

@@ -1,29 +1,30 @@
 # Base image
 FROM node:18 as base
 
+RUN npm install -g pnpm
+
 WORKDIR /app
 
 COPY package*.json ./
 
-RUN yarn 
+RUN pnpm i 
 
 COPY . .
 
-RUN yarn prisma:generate
+RUN pnpm prisma:generate
 
-RUN yarn build
+RUN pnpm build
+
 
 # Dev image
 FROM base as dev
 
-RUN yarn global add dotenv-cli
+CMD [ "pnpm", "start:dev" ]
 
-CMD [ "yarn", "start:dev" ]
 
 # Prod image
 FROM base as prod
 
-# TODO: You can add a step to prune dependencies here if necessary
-RUN yarn install --production && yarn cache clean
+RUN pnpm prune --prod
 
-CMD [ "yarn", "start:prod" ]
+CMD [ "pnpm", "start:prod" ]

@@ -9,8 +9,6 @@ export type GraphQLClientRequest = <T>(
     headers: Record<string, string>;
   },
 ) => Promise<{
-  text: () => Promise<string>;
-  json: () => Promise<T>;
   headers: Headers;
   status: number;
   body: {
@@ -26,7 +24,7 @@ export class GraphQLClient {
   supertestAgent: ReturnType<typeof agent>;
 
   constructor(
-    private app: INestApplication,
+    app: INestApplication,
     private headers = {},
   ) {
     this.supertestAgent = agent(app.getHttpServer());
@@ -51,8 +49,6 @@ export class GraphQLClient {
       })
       .then((response) => {
         return {
-          text: () => Promise.resolve(response.text),
-          json: () => Promise.resolve(response.body),
           headers: new Headers(response.headers),
           ok: !response?.body?.errors,
           body: response.body,

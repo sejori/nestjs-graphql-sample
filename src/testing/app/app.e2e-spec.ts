@@ -157,6 +157,7 @@ describe('App (e2e)', () => {
           updatedAt: expect.any(String),
         })),
       });
+      // expect(response.status).toBe(200);
 
       // return request(app.getHttpServer())
       //   .post('/graphql')

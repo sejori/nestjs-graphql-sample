@@ -1,9 +1,8 @@
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { FastifyAdapter } from '@nestjs/platform-fastify';
-import { GraphQLClient } from 'graphql-request';
 import * as request from 'supertest';
-import { createGraphQLClient } from '../utils/gql.utils';
+import { GraphQLClient } from '../utils/gql.utils';
 import { queries, mutations } from '../../generated/gql';
 import { mockUsers } from '../mock.data';
 import { AppModule } from '../../modules/app/app.module';
@@ -26,16 +25,11 @@ describe('App (e2e)', () => {
 
     await app.listen(7777);
 
-    client = createGraphQLClient(app);
+    client = new GraphQLClient(app);
   });
 
   afterAll(() => {
     app.close();
-  });
-
-  it('App be defined', () => {
-    expect(app).toBeDefined();
-    expect(client).toBeDefined();
   });
 
   it('/ (GET)', () => {
@@ -49,7 +43,7 @@ describe('App (e2e)', () => {
 
   describe('/graphql', () => {
     it('email validation', async () => {
-      const data = await client.request(mutations.createUser, {
+      const response = await client.query(mutations.createUser, {
         createUserData: {
           firstName: mockUsers[1].firstName,
           lastName: mockUsers[1].lastName,
@@ -57,7 +51,7 @@ describe('App (e2e)', () => {
         },
       });
 
-      expect(data).toBe('BAD_USER_INPUT');
+      expect(response.errors[0].message).toBe('Bad Request Exception');
 
       // return request(app.getHttpServer())
       //   .post('/graphql')
@@ -143,7 +137,7 @@ describe('App (e2e)', () => {
     // });
 
     it('listUsers', async () => {
-      const data = await client.request(queries.listUsers, {
+      const response = await client.query(queries.listUsers, {
         listUsersArgs: {
           ids: [''],
           firstNames: mockUsers.map((x) => x.firstName),
@@ -154,7 +148,7 @@ describe('App (e2e)', () => {
         },
       });
 
-      expect(data).toEqual({
+      expect(response.data).toEqual({
         listUsers: mockUsers.map((x) => ({
           ...x,
           follows: [],

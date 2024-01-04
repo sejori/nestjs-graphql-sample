@@ -142,9 +142,6 @@ devDependencies:
   gql-generator:
     specifier: ^1.0.19
     version: 1.0.19
-  graphql-request:
-    specifier: ^6.1.0
-    version: 6.1.0(graphql@16.8.1)
   jest:
     specifier: ^29.5.0
     version: 29.7.0(@types/node@20.10.6)(ts-node@10.9.2)
